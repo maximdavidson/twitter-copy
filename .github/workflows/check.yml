@@ -1,0 +1,54 @@
+name: Check
+
+on: push
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: yarn install
+      - name: Prettier
+        run: yarn format
+
+  build:
+    needs: [lint]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+
+  # test:
+  #   needs: [build]
+  #   strategy:
+  #     matrix:
+  #       version: [18]
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{matrix.version}}
+  #     - name: Install dependencies
+  #       run: yarn install
+  #     - name: Test
+  #       run: yarn test

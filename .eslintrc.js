@@ -8,7 +8,7 @@ module.exports = {
     'prettier',
     'plugin:prettier/recommended',
   ],
-  plugins: ['react', '@typescript-eslint', 'jsx-a11y'],
+  plugins: ['react', '@typescript-eslint', 'jsx-a11y', 'simple-import-sort'],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
