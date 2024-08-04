@@ -20,6 +20,16 @@ module.exports = {
     react: {
       version: 'detect',
     },
+    'import/resolver': {
+      alias: {
+        map: [
+          ['components', './src/components'],
+          ['pages', './src/pages'],
+          ['assets', './src/assets'],
+        ],
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      },
+    },
   },
   rules: {
     'react/react-in-jsx-scope': 'off',

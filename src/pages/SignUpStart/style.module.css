@@ -1,0 +1,79 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 41px;
+}
+
+.image_wrapper img {
+  height: 100vh;
+  width: auto;
+  object-fit: cover;
+}
+
+.text_wrapper {
+  margin-top: 100px;
+}
+
+.title {
+  font-size: 64px;
+  font-weight: 900;
+}
+
+.subtitle {
+  font-size: 32px;
+  font-weight: 900;
+}
+
+.btn_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 21px;
+}
+
+.button {
+  width: 403px;
+  height: 62px;
+  background: none;
+  border-radius: 40px;
+  border: 1px solid rgba(204, 204, 204);
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgba(241, 241, 241);
+}
+
+.button:active {
+  position: relative;
+  top: 3px;
+}
+
+.police_text {
+  padding-top: 21px;
+  padding-bottom: 11px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.log_text {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.link {
+  color: rgba(29, 161, 242);
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

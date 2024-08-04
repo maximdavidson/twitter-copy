@@ -3,3 +3,14 @@
 html {
   font-family: 'Roboto', sans-serif;
 }
+
+body {
+  max-width: 1920px;
+  margin: 0 auto;
+  color: rgba(0, 0, 0, 1);
+  background: rgba(255, 255, 255, 1);
+}
+
+a {
+  text-decoration: none;
+}
