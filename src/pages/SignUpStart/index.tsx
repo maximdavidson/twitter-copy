@@ -2,6 +2,7 @@ import s from './style.module.css';
 import logo from 'assets/back-twitter.png';
 import bird from 'assets/twitter-logo.png';
 import google from 'assets/google-icon.png';
+import { Link } from 'react-router-dom';
 
 export const SignUpStart = () => {
   return (
@@ -18,7 +19,9 @@ export const SignUpStart = () => {
             <button className={s.button}>
               <img src={google} alt="Google icon" className={s.icon} /> Sign up with Google
             </button>
-            <button className={s.button}>Sign up with email</button>
+            <Link to="/signup" className={s.button}>
+              Sign up with email
+            </Link>
           </div>
           <p className={s.police_text}>
             By signing up you agree to the
@@ -37,9 +40,9 @@ export const SignUpStart = () => {
           </p>
           <p className={s.log_text}>
             Already have an account?
-            <a href="/login" className={s.link}>
+            <Link to="/login" className={s.link}>
               Log in
-            </a>
+            </Link>
           </p>
         </div>
       </div>
