@@ -1,12 +1,15 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, FormEvent } from 'react';
 import s from './style.module.css';
 import bird from 'assets/twitter-logo.png';
-import { validateSignUp } from '../../validation'; // Импорт функции валидации
+import { useNavigate } from 'react-router-dom';
+import { validateSignUp } from '../../validation';
+import { auth, createUserWithEmailAndPassword } from '../../database';
 
 interface FormData {
   name: string;
   phone: string;
   email: string;
+  password: string;
   month: string;
   day: string;
   year: string;
@@ -16,6 +19,7 @@ interface FormErrors {
   name?: string;
   phone?: string;
   email?: string;
+  password?: string;
   month?: string;
   day?: string;
   year?: string;
@@ -26,12 +30,15 @@ export const SignUp: FC = () => {
     name: '',
     phone: '',
     email: '',
+    password: '',
     month: '',
     day: '',
     year: '',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -55,7 +62,7 @@ export const SignUp: FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const newErrors: FormErrors = {};
 
@@ -65,7 +72,15 @@ export const SignUp: FC = () => {
     });
 
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted successfully', formData);
+      try {
+        setIsSubmitting(true);
+        await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+        navigate('/login');
+      } catch (error) {
+        console.error('Error registering user', error);
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       setErrors(newErrors);
     }
@@ -108,6 +123,16 @@ export const SignUp: FC = () => {
           onBlur={handleBlur}
         />
         {errors.email && <p className={s.error}>{errors.email}</p>}
+        <input
+          type="password"
+          placeholder="Password"
+          className={s.input}
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {errors.password && <p className={s.error}>{errors.password}</p>}
         <p className={s.subtitle}>Date of birth</p>
         <p className={s.text}>
           Facilisi sem pulvinar velit nunc, gravida scelerisque amet nibh sit. Quis bibendum ante phasellus
@@ -183,8 +208,8 @@ export const SignUp: FC = () => {
             {errors.year && <p className={s.error}>{errors.year}</p>}
           </div>
         </div>
-        <button type="submit" className={s.button}>
-          Next
+        <button type="submit" className={s.button} disabled={isSubmitting}>
+          {isSubmitting ? 'Registering...' : 'Next'}
         </button>
       </form>
     </div>

@@ -1,8 +1,10 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, FormEvent } from 'react';
 import s from './style.module.css';
 import bird from 'assets/twitter-logo.png';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { validateLogin } from '../../validation';
+import { auth, signInWithEmailAndPassword } from '../../database';
 
 interface FormData {
   phoneOrEmail: string;
@@ -21,6 +23,8 @@ export const Login: FC = () => {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,7 +48,7 @@ export const Login: FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const newErrors: FormErrors = {};
 
@@ -54,7 +58,20 @@ export const Login: FC = () => {
     });
 
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted successfully', formData);
+      try {
+        setIsSubmitting(true);
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          formData.phoneOrEmail,
+          formData.password,
+        );
+        const user = userCredential.user;
+        navigate('/hello', { replace: true, state: { name: user.displayName || 'User' } });
+      } catch (error) {
+        console.error('Error logging in user', error);
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       setErrors(newErrors);
     }
@@ -85,8 +102,8 @@ export const Login: FC = () => {
           onBlur={handleBlur}
         />
         {errors.password && <p className={s.error}>{errors.password}</p>}
-        <button type="submit" className={s.button}>
-          Log In
+        <button type="submit" className={s.button} disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in...' : 'Log In'}
         </button>
         <Link to="/signup" className={s.link}>
           Sign up to Twitter

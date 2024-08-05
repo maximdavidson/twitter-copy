@@ -1,7 +1,3 @@
-interface ValidationErrors {
-  [key: string]: string | undefined;
-}
-
 export const validateLogin = (name: string, value: string): string | undefined => {
   switch (name) {
     case 'phoneOrEmail':
@@ -39,6 +35,9 @@ export const validateSignUp = (name: string, value: string): string | undefined 
       if (!value) return 'Email is required';
       if (!/\S+@\S+\.\S+/.test(value)) return 'Email is invalid';
       break;
+    case 'password':
+      if (!value) return 'Password is required';
+      if (value.length < 6) return 'Password must be at least 6 characters long';
     case 'month':
     case 'day':
     case 'year':
