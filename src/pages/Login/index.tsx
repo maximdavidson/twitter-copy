@@ -1,20 +1,97 @@
+import React, { useState, FC } from 'react';
 import s from './style.module.css';
 import bird from 'assets/twitter-logo.png';
 import { Link } from 'react-router-dom';
+import { validateLogin } from '../../validation';
 
-export const Login = () => {
+interface FormData {
+  phoneOrEmail: string;
+  password: string;
+}
+
+interface FormErrors {
+  phoneOrEmail?: string;
+  password?: string;
+}
+
+export const Login: FC = () => {
+  const [formData, setFormData] = useState<FormData>({
+    phoneOrEmail: '',
+    password: '',
+  });
+
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    setErrors({
+      ...errors,
+      [name]: validateLogin(name, value),
+    });
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setErrors({
+      ...errors,
+      [name]: validateLogin(name, value),
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: FormErrors = {};
+
+    Object.keys(formData).forEach((key) => {
+      const error = validateLogin(key, formData[key as keyof FormData]);
+      if (error) newErrors[key as keyof FormErrors] = error;
+    });
+
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Form submitted successfully', formData);
+    } else {
+      setErrors(newErrors);
+    }
+  };
+
   return (
     <div className={s.container}>
-      <div className={s.wrapper}>
+      <form className={s.wrapper} onSubmit={handleSubmit}>
         <img src={bird} alt="Twitter Bird" className={s.image} />
         <p className={s.title}>Log in to Twitter</p>
-        <input type="text" placeholder="Phone number, email address" className={s.input} />
-        <input type="password" placeholder="Password" className={s.input} />
-        <button className={s.button}>Log In</button>
+        <input
+          type="text"
+          name="phoneOrEmail"
+          placeholder="Phone number or email address"
+          className={s.input}
+          value={formData.phoneOrEmail}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {errors.phoneOrEmail && <p className={s.error}>{errors.phoneOrEmail}</p>}
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          className={s.input}
+          value={formData.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {errors.password && <p className={s.error}>{errors.password}</p>}
+        <button type="submit" className={s.button}>
+          Log In
+        </button>
         <Link to="/signup" className={s.link}>
           Sign up to Twitter
         </Link>
-      </div>
+      </form>
     </div>
   );
 };

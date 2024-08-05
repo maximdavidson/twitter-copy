@@ -9,6 +9,7 @@ export default defineConfig({
       components: resolve(__dirname, 'src/components'),
       pages: resolve(__dirname, 'src/pages'),
       assets: resolve(__dirname, 'src/assets'),
+      validation: resolve(__dirname, 'src/validation'),
     },
   },
 });

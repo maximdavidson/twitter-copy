@@ -64,3 +64,9 @@
 .link:hover {
   text-decoration: underline;
 }
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -1px;
+}
