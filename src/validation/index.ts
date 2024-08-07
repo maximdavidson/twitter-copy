@@ -27,10 +27,6 @@ export const validateSignUp = (name: string, value: string): string | undefined 
       if (!/^[a-zA-Z\s]+$/.test(value) || value.length < 2)
         return 'Name must contain only letters and spaces.';
       break;
-    case 'phone':
-      if (!value) return 'Phone is required';
-      if (!/^\+?\d+$/.test(value)) return 'Phone must be numeric and can include +';
-      break;
     case 'email':
       if (!value) return 'Email is required';
       if (!/\S+@\S+\.\S+/.test(value)) return 'Email is invalid';
@@ -38,6 +34,7 @@ export const validateSignUp = (name: string, value: string): string | undefined 
     case 'password':
       if (!value) return 'Password is required';
       if (value.length < 6) return 'Password must be at least 6 characters long';
+      break;
     case 'month':
     case 'day':
     case 'year':

@@ -27,6 +27,8 @@ module.exports = {
           ['pages', './src/pages'],
           ['assets', './src/assets'],
           ['validation', './src/validation'],
+          ['hooks', './src/hooks'],
+          ['utils', './src/utils'],
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
       },

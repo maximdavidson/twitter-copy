@@ -70,3 +70,50 @@
   font-size: 12px;
   margin-top: -1px;
 }
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .wrapper {
+    margin-top: 20px;
+    width: 100%;
+    max-width: none;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .image {
+    width: 40px;
+    height: auto;
+    padding-bottom: 10px;
+  }
+
+  .title {
+    font-size: 28px;
+    padding-bottom: 8px;
+  }
+
+  .input {
+    width: 95%;
+    height: 40px;
+    padding: 12px;
+    margin: 10px 0;
+  }
+
+  .button {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    margin-top: 12px;
+  }
+
+  .link {
+    padding-top: 15px;
+  }
+
+  .error {
+    margin-top: 5px;
+  }
+}

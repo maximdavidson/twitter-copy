@@ -10,6 +10,8 @@ export default defineConfig({
       pages: resolve(__dirname, 'src/pages'),
       assets: resolve(__dirname, 'src/assets'),
       validation: resolve(__dirname, 'src/validation'),
+      hooks: resolve(__dirname, 'src/hooks'),
+      utils: resolve(__dirname, 'src/utils'),
     },
   },
 });

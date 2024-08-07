@@ -1,10 +1,26 @@
+import { useNavigate } from 'react-router-dom';
 import s from './style.module.css';
 import logo from 'assets/back-twitter.png';
 import bird from 'assets/twitter-logo.png';
 import google from 'assets/google-icon.png';
 import { Link } from 'react-router-dom';
+import { auth, signInWithPopup, googleProvider } from '../../database';
+import { Footer } from './components/Footer';
+import { PolicyText } from './components/PolicyText';
 
 export const SignUpStart = () => {
+  const navigate = useNavigate();
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      navigate('/hello', { replace: true, state: { name: user.displayName || 'User' } });
+    } catch (error) {
+      console.error('Error signing in with Google', error);
+    }
+  };
+
   return (
     <>
       <div className={s.wrapper}>
@@ -16,55 +32,17 @@ export const SignUpStart = () => {
           <h1 className={s.title}>Happening now</h1>
           <h3 className={s.subtitle}>Join Twitter today</h3>
           <div className={s.btn_wrapper}>
-            <button className={s.button}>
+            <button className={s.button} onClick={handleGoogleSignIn}>
               <img src={google} alt="Google icon" className={s.icon} /> Sign up with Google
             </button>
             <Link to="/signup" className={s.button}>
               Sign up with email
             </Link>
           </div>
-          <p className={s.police_text}>
-            By signing up you agree to the
-            <a href="/terms" className={s.link}>
-              Terms of Service
-            </a>
-            and
-            <a href="/privacy" className={s.link}>
-              Privacy <br /> Policy
-            </a>
-            , including
-            <a href="/cookies" className={s.link}>
-              Cookie Use
-            </a>
-            .
-          </p>
-          <p className={s.log_text}>
-            Already have an account?
-            <Link to="/login" className={s.link}>
-              Log in
-            </Link>
-          </p>
+          <PolicyText />
         </div>
       </div>
-      <footer className={s.footer}>
-        <a href="#!">About</a>
-        <a href="#!">Help Center</a>
-        <a href="#!">Terms of Service</a>
-        <a href="#!">Privacy Policy</a>
-        <a href="#!">Cookie Policy</a>
-        <a href="#!">Ads info</a>
-        <a href="#!">Blog</a>
-        <a href="#!">Status</a>
-        <a href="#!">Carres</a>
-        <a href="#!">Brand Resources</a>
-        <a href="#!">Advertsing</a>
-        <a href="#!">Marketing</a>
-        <a href="#!">Twitter for Business</a>
-        <a href="#!">Developers</a>
-        <a href="#!">Directory</a>
-        <a href="#!">Settings</a>
-        <a href="#!">© 2021 Twitter, Inc.</a>
-      </footer>
+      <Footer />
     </>
   );
 };
