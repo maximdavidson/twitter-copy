@@ -1,0 +1,15 @@
+/* style.module.css */
+.container {
+  display: grid;
+  grid-template-columns: 200px 1fr; /* Навигация фиксированной ширины, основной контент занимает оставшееся пространство */
+  gap: 100px;
+}
+
+.navigation {
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.content {
+  padding: 20px;
+}

@@ -23,12 +23,12 @@ module.exports = {
     'import/resolver': {
       alias: {
         map: [
-          ['components', './src/components'],
-          ['pages', './src/pages'],
-          ['assets', './src/assets'],
-          ['validation', './src/validation'],
-          ['hooks', './src/hooks'],
-          ['utils', './src/utils'],
+          ['@components', './src/components'],
+          ['@pages', './src/pages'],
+          ['@assets', './src/assets'],
+          ['@validation', './src/validation'],
+          ['@hooks', './src/hooks'],
+          ['@utils', './src/utils'],
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
       },

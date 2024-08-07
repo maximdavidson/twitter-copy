@@ -1,4 +1,4 @@
-import s from 'pages/SignUpStart/style.module.css';
+import s from '@pages/SignUpStart/style.module.css';
 import { Link } from 'react-router-dom';
 
 export const PolicyText = () => (

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import s from './style.module.css';
-import bird from 'assets/twitter-logo.png';
+import bird from '@assets/twitter-logo.png';
 import { useNavigate, Link } from 'react-router-dom';
 import { validateLogin } from '../../validation';
 import { auth, signInWithEmailAndPassword } from '../../database';
@@ -27,7 +27,9 @@ export const Login: FC = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.phoneOrEmail, data.password);
       const user = userCredential.user;
-      navigate('/hello', { replace: true, state: { name: user.displayName || 'User' } });
+      console.log('Logged in user:', user);
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error logging in user', error);
     }

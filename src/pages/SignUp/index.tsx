@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import s from './style.module.css';
-import bird from 'assets/twitter-logo.png';
+import bird from '@assets/twitter-logo.png';
 import { useNavigate, Link } from 'react-router-dom';
 import { validateSignUp } from '../../validation';
 import { auth, createUserWithEmailAndPassword } from '../../database';
@@ -35,10 +35,12 @@ export const SignUp: FC = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
+      console.log('Logged in user:', user);
       await updateProfile(user, {
         displayName: data.name,
       });
-      navigate('/hello', { replace: true, state: { name: user.displayName || 'User' } });
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error registering user', error);
     }

@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import s from './style.module.css';
-import logo from 'assets/back-twitter.png';
-import bird from 'assets/twitter-logo.png';
-import google from 'assets/google-icon.png';
+import logo from '@assets/back-twitter.png';
+import bird from '@assets/twitter-logo.png';
+import google from '@assets/google-icon.png';
 import { Link } from 'react-router-dom';
 import { auth, signInWithPopup, googleProvider } from '../../database';
 import { Footer } from './components/Footer';
@@ -15,7 +15,7 @@ export const SignUpStart = () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      navigate('/hello', { replace: true, state: { name: user.displayName || 'User' } });
+      navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error signing in with Google', error);
     }

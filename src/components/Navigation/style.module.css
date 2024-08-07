@@ -1,0 +1,14 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin-top: 31px;
+  margin-left: 170px;
+}
+
+.container img {
+  padding-bottom: 19px;
+}
+
+.btn {
+}
