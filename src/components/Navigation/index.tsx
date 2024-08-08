@@ -7,6 +7,7 @@ import message from '@assets/messages.png';
 import more from '@assets/more.png';
 import notification from '@assets/notification.png';
 import profile from '@assets/profile.png';
+import person from '@assets/person.png';
 import s from './style.module.css';
 
 export const Navigation = () => {
@@ -50,7 +51,7 @@ export const Navigation = () => {
       <button className={s.btn}>Tweet</button>
       <div className={s.wrapper}>
         <div className={s.profile}>
-          <img src={profile} alt="User Profile" className={s.profilePic} />
+          <img src={person} alt="Person" className={s.profilePic} />
           <div>
             <p className={s.userName}>Bobur</p>
             <p className={s.userHandle}>@bobur_mavlonov</p>
