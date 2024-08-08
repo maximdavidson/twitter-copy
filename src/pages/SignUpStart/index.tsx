@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import s from './style.module.css';
-import logo from '@assets/back-twitter.png';
+import logo from '@assets/back-twitter.webp';
 import bird from '@assets/twitter-logo.png';
 import google from '@assets/google-icon.png';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,7 @@ export const SignUpStart = () => {
     <>
       <div className={s.wrapper}>
         <div className={s.image_wrapper}>
-          <img src={logo} alt="Back Twitter logo" />
+          <img src={logo} alt="Back Twitter logo" loading="lazy" />
         </div>
         <div className={s.text_wrapper}>
           <img className={s.image} src={bird} alt="Twitter Bird" />
