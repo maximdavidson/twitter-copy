@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { Navigation } from '../../components/Navigation';
 import { UserSpace } from '../UserSpace';
-import s from './style.module.css';
+import style from './style.module.css';
 
 export const Profile: FC = () => {
   return (
-    <div className={s.container}>
+    <div className={style.container}>
       <Navigation />
-      <div className={s.content}>
+      <div className={style.content}>
         <UserSpace />
       </div>
     </div>
