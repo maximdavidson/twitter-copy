@@ -2,13 +2,92 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
-  margin-top: 31px;
-  margin-left: 170px;
+  margin-left: 80px;
+  margin-bottom: 100px;
 }
 
-.container img {
-  padding-bottom: 19px;
+.logo {
+  width: 40px;
+  margin: 19px 0;
+}
+
+.nav {
+  width: 100%;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.navItem:hover {
+  background-color: rgba(232, 245, 254);
+  border-radius: 6px;
+}
+
+.icon {
+  margin-right: 20px;
 }
 
 .btn {
+  width: 90%;
+  padding: 15px 0;
+  margin: 10px 0;
+  background-color: rgba(29, 155, 240, 1);
+  color: rgba(255, 255, 255);
+  border: none;
+  border-radius: 27px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 90%;
+}
+
+.btn:active {
+  position: relative;
+  top: 3px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 76px;
+}
+
+.profile {
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.profilePic {
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.userName {
+  font-weight: 600;
+  font-style: 16px;
+  margin: 0;
+}
+
+.userHandle {
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 400;
+  font-size: 16px;
+  margin: 0;
+}
+
+.logout {
+  background-color: rgba(179, 184, 187, 1);
+  color: rgba(255, 255, 255, 1);
 }

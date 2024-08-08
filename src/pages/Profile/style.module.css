@@ -1,8 +1,7 @@
-/* style.module.css */
 .container {
   display: grid;
-  grid-template-columns: 200px 1fr; /* Навигация фиксированной ширины, основной контент занимает оставшееся пространство */
-  gap: 100px;
+  grid-template-columns: 200px 1fr;
+  gap: 116px;
 }
 
 .navigation {
