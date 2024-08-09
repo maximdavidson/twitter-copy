@@ -8,6 +8,7 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAU3xiBKNKJh-HX23YKgEL8HytUDc225tE',
@@ -20,6 +21,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
@@ -31,6 +33,7 @@ export {
   googleProvider,
   onAuthStateChanged,
   updateProfile,
+  db,
 };
 
 // const firebaseConfig = {

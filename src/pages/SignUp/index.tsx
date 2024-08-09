@@ -9,6 +9,7 @@ import { updateProfile } from 'firebase/auth';
 import { InfoText } from './components/InfoText';
 import { DateSelect } from './components/DateSelect';
 import { Loader } from '@/components/Loader';
+import { createUserProfile } from '@/utils/createUserProfile';
 
 interface FormData {
   name: string;
@@ -42,14 +43,13 @@ export const SignUp: FC = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
-      console.log('Registered user:', user);
-      await updateProfile(user, {
-        displayName: data.name,
-      });
+      await updateProfile(user, { displayName: data.name });
+      await createUserProfile(user);
       localStorage.setItem('user', JSON.stringify(user));
+      console.log('Navigating to /login');
       navigate('/login', { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
-      console.error('Error registering user', error);
+      console.error('Error registering user:', error);
     } finally {
       setLoading(false);
     }
