@@ -1,4 +1,4 @@
-import s from '@pages/SignUpStart/style.module.css';
+import s from '@/pages/SignUpStart/style.module.css';
 
 export const Footer = () => (
   <footer className={s.footer}>

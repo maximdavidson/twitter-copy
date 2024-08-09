@@ -1,18 +1,22 @@
-import { fileURLToPath } from 'url';
-import { defineConfig } from 'vite';
+import path from 'path';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import { config } from 'dotenv';
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: [
-      { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
-      { find: '@components', replacement: fileURLToPath(new URL('./src/components', import.meta.url)) },
-      { find: '@pages', replacement: fileURLToPath(new URL('./src/pages', import.meta.url)) },
-      { find: '@assets', replacement: fileURLToPath(new URL('./src/assets', import.meta.url)) },
-      { find: '@validation', replacement: fileURLToPath(new URL('./src/validation', import.meta.url)) },
-      { find: '@hooks', replacement: fileURLToPath(new URL('./src/hooks', import.meta.url)) },
-      { find: '@utils', replacement: fileURLToPath(new URL('./src/utils', import.meta.url)) },
-    ],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@validation': path.resolve(__dirname, './src/validation'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+    },
+  },
+  define: {
+    'process.env': process.env,
   },
 });

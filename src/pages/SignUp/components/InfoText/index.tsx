@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import s from '../../../../pages/SignUp/style.module.css';
+import s from '@/pages/SignUp/style.module.css';
 
 export const InfoText: FC = () => (
   <p className={s.text}>

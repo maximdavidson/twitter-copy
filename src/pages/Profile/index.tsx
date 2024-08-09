@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Navigation } from '../../components/Navigation';
+import { Navigation } from '@/components/Navigation';
 import { UserSpace } from '../UserSpace';
 import style from './style.module.css';
 

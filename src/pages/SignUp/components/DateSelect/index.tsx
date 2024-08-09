@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Controller } from 'react-hook-form';
-import s from '../../../../pages/SignUp/style.module.css';
-import { validateSignUp } from '../../../../validation';
+import s from '@/pages/SignUp/style.module.css';
+import { validateSignUp } from '@/validation';
 
 interface DateSelectProps {
   control: any;

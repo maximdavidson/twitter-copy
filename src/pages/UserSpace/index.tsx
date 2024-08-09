@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { auth, onAuthStateChanged, updateProfile as firebaseUpdateProfile } from '../../database';
-import { Loader } from '../../components/Loader';
+import { auth, onAuthStateChanged, updateProfile as firebaseUpdateProfile } from '@/database';
+import { Loader } from '@/components/Loader';
 import style from './style.module.css';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
-import { ProfileEditModal } from '../../components/ProfileEditModal';
+import { ProfileEditModal } from '@/components/ProfileEditModal';
 
 interface LocationState {
   name?: string;

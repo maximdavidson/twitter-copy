@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import s from './style.module.css';
 import bird from '@assets/twitter-logo.png';
 import { useNavigate, Link } from 'react-router-dom';
-import { validateSignUp } from '../../validation';
-import { auth, createUserWithEmailAndPassword } from '../../database';
+import { validateSignUp } from '@/validation';
+import { auth, createUserWithEmailAndPassword } from '@/database';
 import { updateProfile } from 'firebase/auth';
 import { InfoText } from './components/InfoText';
 import { DateSelect } from './components/DateSelect';
-import { Loader } from '../../components/Loader';
+import { Loader } from '@/components/Loader';
 
 interface FormData {
   name: string;

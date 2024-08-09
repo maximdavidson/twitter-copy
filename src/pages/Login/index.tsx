@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import s from './style.module.css';
 import bird from '@assets/twitter-logo.png';
 import { useNavigate, Link } from 'react-router-dom';
-import { validateLogin } from '../../validation';
-import { auth, signInWithEmailAndPassword } from '../../database';
-import { Loader } from '../../components/Loader';
+import { validateLogin } from '@/validation';
+import { auth, signInWithEmailAndPassword } from '@/database';
+import { Loader } from '@/components/Loader';
 
 interface FormData {
   phoneOrEmail: string;

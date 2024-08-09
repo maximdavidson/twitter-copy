@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import s from './style.module.css';
-import logo from '@assets/back-twitter.webp';
-import bird from '@assets/twitter-logo.png';
-import google from '@assets/google-icon.png';
+import style from './style.module.css';
+import logo from '@/assets/back-twitter.webp';
+import bird from '@/assets/twitter-logo.png';
+import google from '@/assets/google-icon.png';
 import { Link } from 'react-router-dom';
-import { auth, signInWithPopup, googleProvider } from '../../database';
+import { auth, signInWithPopup, googleProvider } from '@/database';
 import { Footer } from './components/Footer';
 import { PolicyText } from './components/PolicyText';
 
@@ -23,19 +23,19 @@ export const SignUpStart = () => {
 
   return (
     <>
-      <div className={s.wrapper}>
-        <div className={s.image_wrapper}>
+      <div className={style.wrapper}>
+        <div className={style.image_wrapper}>
           <img src={logo} alt="Back Twitter logo" loading="lazy" />
         </div>
-        <div className={s.text_wrapper}>
-          <img className={s.image} src={bird} alt="Twitter Bird" />
-          <h1 className={s.title}>Happening now</h1>
-          <h3 className={s.subtitle}>Join Twitter today</h3>
-          <div className={s.btn_wrapper}>
-            <button className={s.button} onClick={handleGoogleSignIn}>
-              <img src={google} alt="Google icon" className={s.icon} /> Sign up with Google
+        <div className={style.text_wrapper}>
+          <img className={style.image} src={bird} alt="Twitter Bird" />
+          <h1 className={style.title}>Happening now</h1>
+          <h3 className={style.subtitle}>Join Twitter today</h3>
+          <div className={style.btn_wrapper}>
+            <button className={style.button} onClick={handleGoogleSignIn}>
+              <img src={google} alt="Google icon" className={style.icon} /> Sign up with Google
             </button>
-            <Link to="/signup" className={s.button}>
+            <Link to="/signup" className={style.button}>
               Sign up with email
             </Link>
           </div>

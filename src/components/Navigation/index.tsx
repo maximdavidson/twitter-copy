@@ -1,13 +1,13 @@
-import bird from '@assets/twitter-logo.png';
-import bookmarks from '@assets/bookmarks.png';
-import explore from '@assets/explore.png';
-import home from '@assets/home.png';
-import list from '@assets/lists.png';
-import message from '@assets/messages.png';
-import more from '@assets/more.png';
-import notification from '@assets/notification.png';
-import profile from '@assets/profile.png';
-import person from '@assets/person.png';
+import bird from '@/assets/twitter-logo.png';
+import bookmarks from '@/assets/bookmarks.png';
+import explore from '@/assets/explore.png';
+import home from '@/assets/home.png';
+import list from '@/assets/lists.png';
+import message from '@/assets/messages.png';
+import more from '@/assets/more.png';
+import notification from '@/assets/notification.png';
+import profile from '@/assets/profile.png';
+import person from '@/assets/person.png';
 import s from './style.module.css';
 
 export const Navigation = () => {
