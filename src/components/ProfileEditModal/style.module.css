@@ -25,7 +25,7 @@ label {
 
 input,
 textarea {
-  width: 100%;
+  width: 95%;
   padding: 8px;
   margin-top: 5px;
   border-radius: 4px;
@@ -52,4 +52,11 @@ button {
 
 button:hover {
   opacity: 0.8;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px; /* Чтобы текст не налезал на поле ввода */
+  display: block; /* Убедитесь, что ошибки отображаются в блоке */
 }

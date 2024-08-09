@@ -6,6 +6,7 @@ import style from './style.module.css';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
 import { ProfileEditModal } from '@/components/ProfileEditModal';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 interface LocationState {
   name?: string;
