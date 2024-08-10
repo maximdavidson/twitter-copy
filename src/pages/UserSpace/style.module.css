@@ -5,6 +5,7 @@
 .name {
   font-weight: 700;
   margin-bottom: 6px;
+  margin-top: 10px;
 }
 
 .count {
@@ -19,9 +20,39 @@
   margin-bottom: 85px;
 }
 
+.background_label {
+  cursor: pointer;
+}
+
+.background_input {
+  display: none;
+}
+
+.background_container {
+  width: 1000px;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
 .background {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+.avatar_label {
+  cursor: pointer;
+}
+
+.avatar_input {
+  display: none;
 }
 
 .avatar {
@@ -29,7 +60,42 @@
   top: 80%;
   left: 1%;
   width: 150px;
+  border-radius: 50%;
+  cursor: pointer;
 }
+
+/* .avatar_label {
+  cursor: pointer;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.avatar_input {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: none;
+}
+
+.avatar_container {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  top: -40%;
+}
+
+.avatar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 50%;
+} */
 
 .info {
   margin-top: 23px;
