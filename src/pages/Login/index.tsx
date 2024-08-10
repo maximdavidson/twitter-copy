@@ -33,7 +33,6 @@ export const Login: FC = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.phoneOrEmail, data.password);
       const user = userCredential.user;
-      console.log('Logged in user:', user);
       localStorage.setItem('user', JSON.stringify(user));
       navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {

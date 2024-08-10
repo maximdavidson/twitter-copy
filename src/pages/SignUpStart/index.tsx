@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom';
 import { auth, signInWithPopup, googleProvider } from '@/database';
 import { Footer } from './components/Footer';
 import { PolicyText } from './components/PolicyText';
+import { createUserProfile } from '@/utils/createUserProfile';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/database';
 
 export const SignUpStart = () => {
   const navigate = useNavigate();
@@ -15,6 +18,14 @@ export const SignUpStart = () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
+
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await createUserProfile(user);
+      }
+
       navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error signing in with Google', error);

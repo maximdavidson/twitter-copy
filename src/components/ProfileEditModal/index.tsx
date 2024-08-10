@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent } from 'react';
+import { FC, useState } from 'react';
 import style from './style.module.css';
 import { validateProfile } from '@/validation';
 
@@ -26,12 +26,6 @@ export const ProfileEditModal: FC<ProfileEditModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   const handleSave = () => {
     const nameError = validateProfile('name', name);
     const nicknameError = validateProfile('nickname', nickname);
@@ -54,13 +48,11 @@ export const ProfileEditModal: FC<ProfileEditModalProps> = ({
     (name: string, setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setter(e.target.value);
-
-      // Clear errors for the specific field when user starts typing
       setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
     };
 
   return (
-    <div className={style.overlay} onClick={handleOverlayClick}>
+    <div className={style.overlay}>
       <div className={style.modal}>
         <h2>Edit Profile</h2>
         <label>
@@ -84,8 +76,12 @@ export const ProfileEditModal: FC<ProfileEditModalProps> = ({
           {errors.info && <span className={style.error}>{errors.info}</span>}
         </label>
         <div className={style.buttons}>
-          <button onClick={handleSave}>Save</button>
-          <button onClick={onClose}>Cancel</button>
+          <button className={style.btn_save} onClick={handleSave}>
+            Save
+          </button>
+          <button className={style.btn_cancel} onClick={onClose}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

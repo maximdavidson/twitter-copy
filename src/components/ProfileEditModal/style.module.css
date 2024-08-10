@@ -12,10 +12,10 @@
 }
 
 .modal {
-  background: white;
+  background: rgba(255, 255, 255);
   padding: 20px;
   border-radius: 8px;
-  width: 400px;
+  width: 600px;
 }
 
 label {
@@ -44,10 +44,20 @@ textarea {
 
 button {
   margin-left: 10px;
-  padding: 10px 15px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 15px;
+  color: rgb(110, 110, 110);
+}
+
+.btn_save:hover {
+  background-color: rgba(179, 255, 160, 0.5);
+}
+
+.btn_cancel:hover {
+  background-color: rgba(255, 163, 160, 0.5);
 }
 
 button:hover {
@@ -57,6 +67,6 @@ button:hover {
 .error {
   color: red;
   font-size: 12px;
-  margin-top: 4px; /* Чтобы текст не налезал на поле ввода */
-  display: block; /* Убедитесь, что ошибки отображаются в блоке */
+  margin-top: 4px;
+  display: block;
 }

@@ -6,7 +6,7 @@ import style from './style.module.css';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
 import { ProfileEditModal } from '@/components/ProfileEditModal';
-import { User } from 'firebase/auth'; // Импортируйте тип User из firebase/auth
+import { User } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 interface LocationState {
@@ -21,17 +21,17 @@ export const UserSpace: FC = () => {
   const [userInfo, setUserInfo] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const state = location.state as LocationState;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
       if (user) {
-        // Загрузите данные из Firestore, если это необходимо
         const userRef = doc(db, 'users', user.uid);
         const docSnap = await getDoc(userRef);
         const userData = docSnap.data();
-        
+
         setUserName(user.displayName || 'User');
         setUserNickname(userData?.nickname || '');
         setUserInfo(userData?.info || '');
@@ -40,7 +40,7 @@ export const UserSpace: FC = () => {
       }
       setIsLoading(false);
     });
-  
+
     return () => unsubscribe();
   }, [navigate]);
 
@@ -50,6 +50,8 @@ export const UserSpace: FC = () => {
 
   const handleSaveProfile = async (name: string, nickname: string, info: string) => {
     if (auth.currentUser) {
+      setIsSaving(true);
+
       try {
         await firebaseUpdateProfile(auth.currentUser, { displayName: name });
 
@@ -68,8 +70,16 @@ export const UserSpace: FC = () => {
         setUserName(name);
         setUserNickname(nickname);
         setUserInfo(info);
+
+        const user = auth.currentUser;
+        if (user) {
+          await user.reload();
+          setUserName(user.displayName || name);
+        }
       } catch (error) {
         console.error('Error updating profile:', error);
+      } finally {
+        setIsSaving(false);
       }
     }
   };
@@ -78,7 +88,7 @@ export const UserSpace: FC = () => {
     setIsModalOpen(false);
   };
 
-  if (isLoading) {
+  if (isLoading || isSaving) {
     return <Loader />;
   }
 

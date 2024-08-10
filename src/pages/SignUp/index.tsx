@@ -46,7 +46,6 @@ export const SignUp: FC = () => {
       await updateProfile(user, { displayName: data.name });
       await createUserProfile(user);
       localStorage.setItem('user', JSON.stringify(user));
-      console.log('Navigating to /login');
       navigate('/login', { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error registering user:', error);
