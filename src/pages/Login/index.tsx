@@ -23,6 +23,7 @@ export const Login: FC = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const validatePhoneOrEmail = (value: string) => validateLogin('phoneOrEmail', value);
@@ -30,6 +31,7 @@ export const Login: FC = () => {
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
+    setErrorMessage(null);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.phoneOrEmail, data.password);
       const user = userCredential.user;
@@ -37,6 +39,7 @@ export const Login: FC = () => {
       navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error logging in user', error);
+      setErrorMessage('Invalid email or password. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -64,6 +67,7 @@ export const Login: FC = () => {
           autoComplete="current-password"
         />
         {errors.password && <p className={s.error}>{errors.password.message}</p>}
+        {errorMessage && <p className={s.error}>{errorMessage}</p>}
         <button type="submit" className={s.button} disabled={loading}>
           Log In
         </button>

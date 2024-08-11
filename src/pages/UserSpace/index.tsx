@@ -1,7 +1,7 @@
 import { useState, useEffect, FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { db, auth, onAuthStateChanged, updateProfile as firebaseUpdateProfile } from '@/database';
+import { db, auth, onAuthStateChanged } from '@/database';
 import { Loader } from '@/components/Loader';
 import { ProfileEditModal } from '@/components/ProfileEditModal';
 import { RootState } from '@/store';
@@ -10,8 +10,10 @@ import style from './style.module.css';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
 import { User } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { doc, getDoc } from 'firebase/firestore';
+import { updateProfile } from '@/utils/updateProfile';
+import { updateAvatar } from '@/utils/updateAvatar';
+import { updateBackground } from '@/utils/updateBackground';
 
 interface LocationState {
   name?: string;
@@ -43,6 +45,7 @@ export const UserSpace: FC = () => {
         dispatch(setUserName(user.displayName || 'User'));
         dispatch(setUserNickname(userData?.nickname || ''));
         dispatch(setAvatarUrl(userData?.avatar || person));
+
         setUserInfo(userData?.info || '');
         setLocalAvatarUrl(userData?.avatar || person);
         setBackgroundUrl(userData?.background || background);
@@ -60,61 +63,25 @@ export const UserSpace: FC = () => {
   };
 
   const handleSaveProfile = async (name: string, nickname: string, info: string) => {
-    if (auth.currentUser) {
-      setIsSaving(true);
-
-      try {
-        await firebaseUpdateProfile(auth.currentUser, { displayName: name });
-
-        const userRef = doc(db, 'users', auth.currentUser.uid);
-        await setDoc(
-          userRef,
-          {
-            displayName: name,
-            email: auth.currentUser.email || '',
-            nickname: nickname,
-            info: info,
-          },
-          { merge: true },
-        );
-
-        dispatch(setUserName(name));
-        dispatch(setUserNickname(nickname));
+    setIsSaving(true);
+    try {
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, name, nickname, info, dispatch);
         setUserInfo(info);
-
-        const user = auth.currentUser;
-        if (user) {
-          await user.reload();
-          dispatch(setUserName(user.displayName || name));
-        }
-      } catch (error) {
-        console.error('Error updating profile:', error);
-      } finally {
-        setIsSaving(false);
       }
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      const storage = getStorage();
-      const storageRef = ref(storage, `avatars/${auth.currentUser?.uid}`);
-
       setIsSaving(true);
-
       try {
-        await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(storageRef);
-
         if (auth.currentUser) {
-          const userRef = doc(db, 'users', auth.currentUser.uid);
-          await setDoc(userRef, { avatar: downloadURL }, { merge: true });
-
-          setLocalAvatarUrl(downloadURL);
+          await updateAvatar(auth.currentUser, file, setLocalAvatarUrl);
         }
-      } catch (error) {
-        console.error('Error uploading avatar:', error);
       } finally {
         setIsSaving(false);
       }
@@ -124,23 +91,11 @@ export const UserSpace: FC = () => {
   const handleBackgroundChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      const storage = getStorage();
-      const storageRef = ref(storage, `backgrounds/${auth.currentUser?.uid}`);
-
       setIsSaving(true);
-
       try {
-        await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(storageRef);
-
         if (auth.currentUser) {
-          const userRef = doc(db, 'users', auth.currentUser.uid);
-          await setDoc(userRef, { background: downloadURL }, { merge: true });
-
-          setBackgroundUrl(downloadURL);
+          await updateBackground(auth.currentUser, file, setBackgroundUrl);
         }
-      } catch (error) {
-        console.error('Error uploading background:', error);
       } finally {
         setIsSaving(false);
       }
