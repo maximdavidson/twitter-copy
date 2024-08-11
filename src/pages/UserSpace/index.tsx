@@ -1,11 +1,14 @@
 import { useState, useEffect, FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { db, auth, onAuthStateChanged, updateProfile as firebaseUpdateProfile } from '@/database';
 import { Loader } from '@/components/Loader';
+import { ProfileEditModal } from '@/components/ProfileEditModal';
+import { RootState } from '@/store';
+import { setAvatarUrl, setUser, setUserName, setUserNickname } from '@/store/userSlice';
 import style from './style.module.css';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
-import { ProfileEditModal } from '@/components/ProfileEditModal';
 import { User } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -17,10 +20,11 @@ interface LocationState {
 export const UserSpace: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [userName, setUserName] = useState<string | null>(null);
-  const [userNickname, setUserNickname] = useState<string>('');
+  const dispatch = useDispatch();
+
+  const { userName, userNickname } = useSelector((state: RootState) => state.user);
   const [userInfo, setUserInfo] = useState<string>('');
-  const [avatarUrl, setAvatarUrl] = useState<string>(person);
+  const [localAvatarUrl, setLocalAvatarUrl] = useState<string>(person);
   const [backgroundUrl, setBackgroundUrl] = useState<string>(background);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,10 +39,12 @@ export const UserSpace: FC = () => {
         const docSnap = await getDoc(userRef);
         const userData = docSnap.data();
 
-        setUserName(user.displayName || 'User');
-        setUserNickname(userData?.nickname || '');
+        dispatch(setUser(user));
+        dispatch(setUserName(user.displayName || 'User'));
+        dispatch(setUserNickname(userData?.nickname || ''));
+        dispatch(setAvatarUrl(userData?.avatar || person));
         setUserInfo(userData?.info || '');
-        setAvatarUrl(userData?.avatar || person);
+        setLocalAvatarUrl(userData?.avatar || person);
         setBackgroundUrl(userData?.background || background);
       } else {
         navigate('/login');
@@ -47,7 +53,7 @@ export const UserSpace: FC = () => {
     });
 
     return () => unsubscribe();
-  }, [navigate]);
+  }, [dispatch, navigate]);
 
   const handleEditProfile = () => {
     setIsModalOpen(true);
@@ -72,14 +78,14 @@ export const UserSpace: FC = () => {
           { merge: true },
         );
 
-        setUserName(name);
-        setUserNickname(nickname);
+        dispatch(setUserName(name));
+        dispatch(setUserNickname(nickname));
         setUserInfo(info);
 
         const user = auth.currentUser;
         if (user) {
           await user.reload();
-          setUserName(user.displayName || name);
+          dispatch(setUserName(user.displayName || name));
         }
       } catch (error) {
         console.error('Error updating profile:', error);
@@ -105,7 +111,7 @@ export const UserSpace: FC = () => {
           const userRef = doc(db, 'users', auth.currentUser.uid);
           await setDoc(userRef, { avatar: downloadURL }, { merge: true });
 
-          setAvatarUrl(downloadURL);
+          setLocalAvatarUrl(downloadURL);
         }
       } catch (error) {
         console.error('Error uploading avatar:', error);
@@ -168,7 +174,7 @@ export const UserSpace: FC = () => {
           <label className={style.avatar_label}>
             <input type="file" onChange={handleAvatarChange} className={style.avatar_input} />
             <div className={style.avatar_container}>
-              <img className={style.avatar} src={avatarUrl} alt="Avatar" />
+              <img className={style.avatar} src={localAvatarUrl} alt="Avatar" />
             </div>
           </label>
         </div>

@@ -1,3 +1,7 @@
+import { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { Link } from 'react-router-dom';
 import bird from '@/assets/twitter-logo.png';
 import bookmarks from '@/assets/bookmarks.png';
 import explore from '@/assets/explore.png';
@@ -10,7 +14,9 @@ import profile from '@/assets/profile.png';
 import person from '@/assets/person.png';
 import s from './style.module.css';
 
-export const Navigation = () => {
+export const Navigation: FC = () => {
+  const { userName, userNickname, avatarUrl } = useSelector((state: RootState) => state.user);
+
   return (
     <div className={s.container}>
       <img src={bird} alt="Twitter Bird" className={s.logo} />
@@ -51,13 +57,15 @@ export const Navigation = () => {
       <button className={s.btn}>Tweet</button>
       <div className={s.wrapper}>
         <div className={s.profile}>
-          <img src={person} alt="Person" className={s.profilePic} />
+          <img src={avatarUrl || person} alt="Avatar" className={s.avatar} />
           <div>
-            <p className={s.userName}>Bobur</p>
-            <p className={s.userNick}>@bobur_mavlonov</p>
+            <p className={s.userName}>{userName}</p>
+            <p className={s.userNick}>{userNickname}</p>
           </div>
         </div>
-        <button className={`${s.logout} ${s.btn}`}>Log out</button>
+        <Link to="/" className={`${s.logout} ${s.btn}`}>
+          Log out
+        </Link>
       </div>
     </div>
   );
