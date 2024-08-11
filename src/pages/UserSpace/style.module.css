@@ -29,7 +29,7 @@
 }
 
 .background_container {
-  width: 1000px;
+  width: 910px;
   height: 300px;
   overflow: hidden;
   position: relative;
@@ -55,47 +55,31 @@
   display: none;
 }
 
-.avatar {
-  position: absolute;
-  top: 80%;
-  left: 1%;
-  width: 150px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-/* .avatar_label {
-  cursor: pointer;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-}
-
-.avatar_input {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  display: none;
-}
-
 .avatar_container {
   width: 150px;
   height: 150px;
   border-radius: 50%;
   overflow: hidden;
-  top: -40%;
+  position: absolute;
+  bottom: -75px;
+  left: 10%;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .avatar {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
   border-radius: 50%;
-} */
+  cursor: pointer;
+}
+
+.background_label:hover .background,
+.avatar_label:hover .avatar {
+  filter: brightness(60%);
+}
 
 .info {
   margin-top: 23px;

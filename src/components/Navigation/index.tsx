@@ -54,7 +54,7 @@ export const Navigation = () => {
           <img src={person} alt="Person" className={s.profilePic} />
           <div>
             <p className={s.userName}>Bobur</p>
-            <p className={s.userHandle}>@bobur_mavlonov</p>
+            <p className={s.userNick}>@bobur_mavlonov</p>
           </div>
         </div>
         <button className={`${s.logout} ${s.btn}`}>Log out</button>
