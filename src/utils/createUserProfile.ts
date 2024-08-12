@@ -14,6 +14,7 @@ export const createUserProfile = async (user: User) => {
       info: '',
       avatar: '',
       background: '',
+      tweets: [],
     });
   } catch (error) {
     console.error('Error creating user profile in Firestore:', error);

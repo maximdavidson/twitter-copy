@@ -1,0 +1,76 @@
+.wrapper {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container_input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 530px;
+  border: 1px solid #e1e8ed;
+  border-radius: 30px;
+  padding: 10px 15px;
+  background-color: #f5f8fa;
+}
+
+.image {
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  color: #14171a;
+  background-color: transparent;
+}
+
+.input::placeholder {
+  color: #657786;
+}
+
+.container_change {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.imageLabel {
+  display: inline-block;
+}
+
+.imageSelected {
+  background-color: rgb(133, 228, 134); /* Измените цвет на желаемый */
+  border-radius: 50%; /* Если необходимо */
+  padding: 5px; /* Если необходимо, чтобы добавить пространство для фона */
+}
+
+.btn {
+  width: 90px;
+  height: 36px;
+  background-color: rgba(29, 155, 240, 1);
+  color: rgba(255, 255, 255);
+  border: none;
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background-color: rgba(29, 155, 240, 0.9);
+}
