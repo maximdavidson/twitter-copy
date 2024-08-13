@@ -4,17 +4,21 @@ import { UserSpace } from '@/components/UserSpace';
 import style from './style.module.css';
 import { NewTweetInput } from '@/components/NewTweetInput';
 import { TweetList } from '@/components/TweetList';
+import { SearchTweets } from '@/components/Search';
 
 export const Profile: FC = () => {
   return (
     <div className={style.container}>
-      <div>
+      <div className={style.navigation}>
         <Navigation />
       </div>
-      <div className={style.content}>
+      <div className={style.profile}>
         <UserSpace />
         <NewTweetInput />
         <TweetList />
+      </div>
+      <div className={style.search}>
+        <SearchTweets />
       </div>
     </div>
   );

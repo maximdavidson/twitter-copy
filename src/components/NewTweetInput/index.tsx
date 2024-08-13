@@ -1,7 +1,7 @@
 import React, { useState, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { addTweetToFirestore } from '@/services/tweetService';
+import { addTweetToFirestore } from '@/services/addTweet';
 import style from './style.module.css';
 import person from '@assets/person.png';
 import galary from '@assets/changePic.png';
@@ -10,15 +10,15 @@ export const NewTweetInput: FC = () => {
   const { avatarUrl, user } = useSelector((state: RootState) => state.user);
   const [tweetText, setTweetText] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageSelected, setImageSelected] = useState(false); // Состояние для отслеживания выбора изображения
+  const [imageSelected, setImageSelected] = useState(false);
 
   const handleTweet = async () => {
     if (tweetText.trim() && user?.uid) {
       try {
         await addTweetToFirestore(user.uid, tweetText, imageFile);
-        setTweetText(''); // очищаем поле ввода после отправки
-        setImageFile(null); // очищаем выбранное изображение после отправки
-        setImageSelected(false); // сбрасываем состояние выбора изображения
+        setTweetText('');
+        setImageFile(null);
+        setImageSelected(false);
       } catch (error) {
         console.error('Error posting tweet:', error);
       }
@@ -28,9 +28,9 @@ export const NewTweetInput: FC = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImageFile(e.target.files[0]);
-      setImageSelected(true); // Устанавливаем состояние в true, когда изображение выбрано
+      setImageSelected(true);
     } else {
-      setImageSelected(false); // Сбрасываем состояние, если файл не выбран
+      setImageSelected(false);
     }
   };
 
@@ -48,11 +48,7 @@ export const NewTweetInput: FC = () => {
       </div>
       <div className={style.container_change}>
         <label htmlFor="imageUpload" className={style.imageLabel}>
-          <img
-            src={galary}
-            alt="gallery"
-            className={imageSelected ? style.imageSelected : ''} // Применяем стиль при выборе изображения
-          />
+          <img src={galary} alt="gallery" className={imageSelected ? style.imageSelected : ''} />
         </label>
         <input
           id="imageUpload"

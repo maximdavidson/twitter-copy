@@ -1,5 +1,5 @@
 .tweetList {
-  max-width: 900px;
+  max-width: 810px;
   display: flex;
   flex-direction: column;
 }
@@ -47,7 +47,7 @@
 
 .userNickname {
   color: #888;
-  margin-right: auto;
+  margin-right: 25px;
 }
 
 .timestamp {
@@ -109,9 +109,4 @@
   height: 20px;
   cursor: pointer;
   margin-right: 5px;
-}
-
-.likeIcon.active {
-  filter: brightness(0) saturate(100%) invert(41%) sepia(97%) saturate(4589%) hue-rotate(328deg)
-    brightness(96%) contrast(104%); /* Пример стилизации для активной иконки */
 }

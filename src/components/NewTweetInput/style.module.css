@@ -9,10 +9,10 @@
   align-items: center;
   width: 100%;
   max-width: 530px;
-  border: 1px solid #e1e8ed;
+  border: 1px solid rgba(225, 232, 237, 1);
   border-radius: 30px;
   padding: 10px 15px;
-  background-color: #f5f8fa;
+  background-color: rgba(245, 248, 250, 1);
 }
 
 .image {
@@ -28,12 +28,12 @@
   border: none;
   outline: none;
   font-size: 18px;
-  color: #14171a;
+  color: rgba(20, 23, 26, 1);
   background-color: transparent;
 }
 
 .input::placeholder {
-  color: #657786;
+  color: rgba(101, 119, 134, 1);
 }
 
 .container_change {
@@ -51,9 +51,9 @@
 }
 
 .imageSelected {
-  background-color: rgb(133, 228, 134); /* Измените цвет на желаемый */
-  border-radius: 50%; /* Если необходимо */
-  padding: 5px; /* Если необходимо, чтобы добавить пространство для фона */
+  background-color: rgb(133, 228, 134);
+  border-radius: 50%;
+  padding: 5px;
 }
 
 .btn {

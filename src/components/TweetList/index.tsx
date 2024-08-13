@@ -10,14 +10,14 @@ import more from '@assets/moreintweet.png';
 import line from '@assets/line.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
-import { deleteTweetFromFirestore } from '@/services/tweetService';
+import { deleteTweetFromFirestore } from '@/services/addTweet';
 
 interface Tweet {
   text: string;
   imageUrl?: string;
   timestamp: any;
   likes: number;
-  likedBy: string[]; // Массив UID'ов пользователей, которые лайкнули твит
+  likedBy: string[];
 }
 
 interface UserProfile {
@@ -42,7 +42,7 @@ export const TweetList: FC = () => {
       try {
         const tweetToDelete = tweets[tweetIndex];
         await deleteTweetFromFirestore(user.uid, tweetToDelete);
-        setShowMenu(null); // Закрыть меню после удаления
+        setShowMenu(null);
       } catch (error) {
         console.error('Error deleting tweet:', error);
       }
@@ -53,8 +53,6 @@ export const TweetList: FC = () => {
     if (user?.uid) {
       const tweet = tweets[index];
       const userRef = doc(db, 'users', user.uid);
-
-      // Если массив likedBy отсутствует, создаем пустой массив
       const likedBy = Array.isArray(tweet.likedBy) ? tweet.likedBy : [];
 
       const alreadyLiked = likedBy.includes(user.uid);
@@ -144,7 +142,7 @@ export const TweetList: FC = () => {
                 className={style.likeIcon}
                 src={
                   Array.isArray(tweet.likedBy) && tweet.likedBy.includes(user?.uid || '') ? activelike : like
-                } // Активная иконка если пользователь уже лайкнул
+                }
                 alt="like"
                 onClick={() => handleLike(index)}
               />

@@ -1,5 +1,5 @@
 .container {
-  max-width: 910px;
+  max-width: 810px;
 }
 
 .name {
@@ -29,8 +29,8 @@
 }
 
 .background_container {
-  width: 910px;
-  height: 300px;
+  width: 810px;
+  height: 260px;
   overflow: hidden;
   position: relative;
 }
