@@ -1,8 +1,10 @@
 import { db, storage } from '@/database';
-import { doc, updateDoc, arrayUnion, Timestamp, arrayRemove } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, Timestamp, arrayRemove, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Tweet {
+  id: string;
   text: string;
   imageUrl?: string;
   timestamp: Timestamp;
@@ -25,6 +27,7 @@ export const addTweetToFirestore = async (userId: string, text: string, imageFil
   try {
     const imageUrl = imageFile ? await uploadImage(userId, imageFile) : '';
     const newTweet: Tweet = {
+      id: uuidv4(),
       text,
       imageUrl,
       timestamp: Timestamp.now(),
@@ -37,9 +40,18 @@ export const addTweetToFirestore = async (userId: string, text: string, imageFil
   }
 };
 
-export const deleteTweetFromFirestore = async (userId: string, tweet: Tweet) => {
+export const deleteTweetFromFirestore = async (userId: string, tweetId: string) => {
   try {
-    await updateUserTweets(userId, { tweets: arrayRemove(tweet) });
+    const userRef = doc(db, 'users', userId);
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+      const tweets = data.tweets || [];
+      const tweetToRemove = tweets.find((tweet: Tweet) => tweet.id === tweetId);
+      if (tweetToRemove) {
+        await updateUserTweets(userId, { tweets: arrayRemove(tweetToRemove) });
+      }
+    }
   } catch (error) {
     console.error('Error deleting tweet from Firestore:', error);
   }

@@ -13,6 +13,7 @@ import activelike from '@assets/ActiveLike.png';
 import { deleteTweetFromFirestore } from '@/services/addTweet';
 
 interface Tweet {
+  id: string;
   text: string;
   imageUrl?: string;
   timestamp: any;
@@ -37,11 +38,10 @@ export const TweetList: FC = () => {
     setShowMenu(showMenu === index ? null : index);
   };
 
-  const handleDeleteTweet = async (tweetIndex: number) => {
+  const handleDeleteTweet = async (tweetId: string) => {
     if (user?.uid) {
       try {
-        const tweetToDelete = tweets[tweetIndex];
-        await deleteTweetFromFirestore(user.uid, tweetToDelete);
+        await deleteTweetFromFirestore(user.uid, tweetId);
         setShowMenu(null);
       } catch (error) {
         console.error('Error deleting tweet:', error);
@@ -83,7 +83,8 @@ export const TweetList: FC = () => {
         const unsubscribe = onSnapshot(userRef, (doc) => {
           if (doc.exists()) {
             const data = doc.data();
-            setTweets(data.tweets || []);
+            const fetchedTweets = data.tweets || [];
+            setTweets(fetchedTweets.reverse()); // Переворачиваем порядок твитов
             setProfile({
               displayName: data.displayName || '',
               nickname: data.nickname || '',
@@ -110,11 +111,11 @@ export const TweetList: FC = () => {
     <div className={style.tweetList}>
       <div className={style.title_wrap}>
         <p className={style.title}>Tweets</p>
-        <img src={line} />
+        <img src={line} alt="line" />
       </div>
       {tweets.length > 0 ? (
         tweets.map((tweet, index) => (
-          <div key={index} className={style.tweet}>
+          <div key={tweet.id} className={style.tweet}>
             <div className={style.tweetHeader}>
               <div className={style.avatar_container}>
                 <img className={style.avatar} src={profile?.avatar || person} alt="avatar" />
@@ -128,7 +129,7 @@ export const TweetList: FC = () => {
                 <img className={style.more} src={more} alt="more" />
                 {showMenu === index && (
                   <div className={style.menu}>
-                    <span className={style.menuItem} onClick={() => handleDeleteTweet(index)}>
+                    <span className={style.menuItem} onClick={() => handleDeleteTweet(tweet.id)}>
                       Delete
                     </span>
                   </div>

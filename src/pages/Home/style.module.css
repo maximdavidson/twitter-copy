@@ -1,0 +1,18 @@
+.container {
+  display: grid;
+  grid-template-columns: 360px 2fr 240px;
+  gap: 20px;
+  padding: 20px;
+}
+
+.navigation {
+  grid-column: 1;
+}
+
+.profile {
+  grid-column: 2;
+}
+
+.search {
+  grid-column: 3;
+}

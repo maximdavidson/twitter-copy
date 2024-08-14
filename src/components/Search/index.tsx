@@ -1,4 +1,5 @@
 import { useState, FC, ChangeEvent, MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import style from './style.module.css';
 import search from '@assets/search.png';
 import { searchTweets } from '@/services/searchTweets';
@@ -13,6 +14,7 @@ export const SearchTweets: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [results, setResults] = useState<UserResult[]>([]);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -38,7 +40,13 @@ export const SearchTweets: FC = () => {
     }
   };
 
-  const showNotFound = searchPerformed && searchTerm.trim() !== '' && results.length === 0;
+  const handleResultClick = () => {
+    navigate('/home');
+  };
+
+  const checkNotFound = () => {
+    return searchPerformed && searchTerm.trim() !== '' && results.length === 0;
+  };
 
   return (
     <div className={style.container}>
@@ -57,7 +65,7 @@ export const SearchTweets: FC = () => {
       {results.length > 0 && (
         <div className={style.resultsContainer}>
           {results.map((user, index) => (
-            <div key={index} className={style.resultItem}>
+            <div key={index} className={style.resultItem} onClick={handleResultClick}>
               <img src={user.avatar} alt="avatar" className={style.avatar} />
               <div className={style.userInfo}>
                 <span className={style.displayName}>{user.displayName}</span>
@@ -67,7 +75,7 @@ export const SearchTweets: FC = () => {
           ))}
         </div>
       )}
-      {showNotFound && <div className={style.notFound}>No results found</div>}
+      {checkNotFound() && <div className={style.notFound}>No results found</div>}
     </div>
   );
 };
