@@ -1,6 +1,6 @@
 import { useEffect, useState, FC } from 'react';
 import { db } from '@/database';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, Timestamp } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import style from './style.module.css';
@@ -16,7 +16,7 @@ interface Tweet {
   id: string;
   text: string;
   imageUrl?: string;
-  timestamp: any;
+  timestamp: any; // Убедитесь, что это Timestamp или другой поддерживаемый формат
   likes: number;
   likedBy: string[];
 }
@@ -26,6 +26,19 @@ interface UserProfile {
   nickname: string;
   avatar: string;
 }
+
+const convertToDate = (timestamp: any) => {
+  if (timestamp instanceof Timestamp) {
+    return timestamp.toDate();
+  } else if (typeof timestamp === 'string') {
+    return new Date(timestamp);
+  } else if (typeof timestamp === 'number') {
+    return new Date(timestamp);
+  } else {
+    console.error('Unsupported timestamp format:', timestamp);
+    return new Date(); // Вернуть текущее время как резервный вариант
+  }
+};
 
 export const TweetList: FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -65,7 +78,7 @@ export const TweetList: FC = () => {
 
       try {
         await updateDoc(userRef, {
-          tweets: [...tweets.slice(0, index), updatedTweet, ...tweets.slice(index + 1)],
+          tweets: tweets.map((t, i) => (i === index ? updatedTweet : t)),
         });
       } catch (error) {
         console.error('Error liking/unliking tweet:', error);
@@ -84,7 +97,7 @@ export const TweetList: FC = () => {
           if (doc.exists()) {
             const data = doc.data();
             const fetchedTweets = data.tweets || [];
-            setTweets(fetchedTweets.reverse()); // Переворачиваем порядок твитов
+            setTweets(fetchedTweets); // Обновляем состояние без изменения порядка
             setProfile({
               displayName: data.displayName || '',
               nickname: data.nickname || '',
@@ -123,7 +136,7 @@ export const TweetList: FC = () => {
               <div className={style.tweetInfo}>
                 <span className={style.userName}>{profile?.displayName}</span>
                 <span className={style.userNickname}>{profile?.nickname}</span>
-                <span className={style.timestamp}>{tweet.timestamp.toDate().toLocaleDateString()}</span>
+                <span className={style.timestamp}>{convertToDate(tweet.timestamp).toLocaleDateString()}</span>
               </div>
               <div className={style.more_container} onClick={() => toggleMenu(index)}>
                 <img className={style.more} src={more} alt="more" />

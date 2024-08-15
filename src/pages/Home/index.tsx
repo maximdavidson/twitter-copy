@@ -1,17 +1,48 @@
 import { FC } from 'react';
-import { Navigation } from '@/components/Navigation';
+import { useLocation } from 'react-router-dom';
 import style from './style.module.css';
-import { SearchingResult } from '@/components/TweetSearchResult';
+import { Navigation } from '@/components/Navigation';
+import { TweetSearchResult } from '@/components/TweetSearchResult';
 import { SearchTweets } from '@/components/Search';
+import { HomeHeader } from '@/components/HomeHeader';
+import firebase from 'firebase/compat/app';
+
+interface Tweet {
+  id: string;
+  text: string;
+  imageUrl?: string;
+  timestamp: firebase.firestore.Timestamp;
+  likes: number;
+  likedBy: string[];
+}
+
+interface UserProfile {
+  displayName: string;
+  nickname: string;
+  avatar?: string;
+}
 
 export const Home: FC = () => {
+  const location = useLocation();
+  const { profile, tweets }: { profile: UserProfile; tweets: Tweet[] } = location.state || {
+    profile: null,
+    tweets: [],
+  };
+
+  const handleLikeTweet = (index: number) => {
+    // Логика лайка твита
+  };
+
   return (
     <div className={style.container}>
       <div className={style.navigation}>
         <Navigation />
       </div>
       <div className={style.profile}>
-        <SearchingResult />
+        <HomeHeader />
+        {profile && tweets && (
+          <TweetSearchResult tweets={tweets} profile={profile} onLikeTweet={handleLikeTweet} />
+        )}
       </div>
       <div className={style.search}>
         <SearchTweets />

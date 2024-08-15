@@ -1,27 +1,74 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
 import style from './style.module.css';
-import exit from '@/assets/exit-arrow.png';
-import switchOff from '@/assets/switchOff.png';
+import person from '@assets/person.png';
+import more from '@assets/moreintweet.png';
+import like from '@assets/like.png';
+import activelike from '@assets/ActiveLike.png';
+import { useNavigate } from 'react-router-dom';
 
-export const SearchingResult: FC = () => {
+interface Tweet {
+  id: string;
+  text: string;
+  imageUrl?: string;
+  timestamp: any;
+  likes: number;
+  likedBy: string[];
+}
+
+interface UserProfile {
+  displayName: string;
+  nickname: string;
+  avatar?: string;
+}
+
+interface TweetSearchResultProps {
+  tweets: Tweet[];
+  profile: UserProfile;
+  onLikeTweet: (index: number) => void;
+}
+
+export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets, profile, onLikeTweet }) => {
   const navigate = useNavigate();
 
-  const handleArrowClick = () => {
-    navigate('/profile');
-  };
-
   return (
-    <header className={style.container}>
-      <div className={style.wrapper}>
-        <div className={style.wrap} onClick={handleArrowClick}>
-          <img className={style.arrow} src={exit} alt="Exit Arrow" />
-          <p className={style.title}>Home</p>
-        </div>
-        <div className={style.switch}>
-          <img src={switchOff} alt="Switch Off" />
-        </div>
-      </div>
-    </header>
+    <div className={style.tweetList}>
+      {tweets.length > 0 ? (
+        tweets.map((tweet, index) => (
+          <div key={tweet.id} className={style.tweet}>
+            <div className={style.tweetHeader}>
+              <div className={style.avatar_container} onClick={() => navigate('/profile')}>
+                <img className={style.avatar} src={profile.avatar || person} alt="avatar" />
+              </div>
+              <div className={style.tweetInfo}>
+                <span className={style.userName}>{profile.displayName}</span>
+                <span className={style.userNickname}>{profile.nickname}</span>
+                <span className={style.timestamp}>
+                  {tweet.timestamp instanceof Date
+                    ? tweet.timestamp.toLocaleDateString()
+                    : new Date(tweet.timestamp.seconds * 1000).toLocaleDateString()}
+                </span>
+              </div>
+              <div className={style.more_container}>
+                <img className={style.more} src={more} alt="more" />
+              </div>
+            </div>
+            <p>{tweet.text}</p>
+            {tweet.imageUrl && <img src={tweet.imageUrl} alt="tweet" className={style.tweetImage} />}
+            <div className={style.likes_container} onClick={() => onLikeTweet(index)}>
+              <img
+                className={style.likeIcon}
+                src={
+                  Array.isArray(tweet.likedBy) && tweet.likedBy.includes(profile.nickname) ? activelike : like
+                }
+                alt="like"
+              />
+              <span>{tweet.likes}</span>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p>No tweets found</p>
+      )}
+    </div>
   );
 };
