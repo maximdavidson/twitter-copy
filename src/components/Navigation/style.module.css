@@ -94,3 +94,13 @@
   color: rgba(255, 255, 255, 1);
   text-align: center;
 }
+
+[data-theme='dark'] .btn {
+  background-color: rgb(11, 92, 146);
+}
+[data-theme='dark'] .logout {
+  background-color: rgb(97, 99, 100);
+}
+[data-theme='light'] .logout {
+  color: rgb(245, 245, 245);
+}

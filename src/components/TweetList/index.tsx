@@ -1,4 +1,4 @@
-import { useEffect, useState, FC } from 'react';
+import { useEffect, useState, FC, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import person from '@assets/person.png';
@@ -9,7 +9,7 @@ import activelike from '@assets/ActiveLike.png';
 import { Loader } from '@/components/Loader';
 import { db } from '@/database';
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
-import { deleteTweetFromFirestore } from '@/services/addTweet';
+import { deleteTweetFromFirestore } from '@/utils/addTweet';
 import { convertToDate } from '@/utils/convertToDate';
 import { Tweet, UserProfile } from '@/types';
 import style from './style.module.css';
@@ -20,6 +20,7 @@ export const TweetList: FC = () => {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [showMenu, setShowMenu] = useState<number | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const toggleMenu = (index: number) => {
     setShowMenu(showMenu === index ? null : index);
@@ -85,6 +86,19 @@ export const TweetList: FC = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   if (loading) {
     return <Loader />;
   }
@@ -107,7 +121,11 @@ export const TweetList: FC = () => {
                 <span className={style.userNickname}>{profile?.nickname}</span>
                 <span className={style.timestamp}>{convertToDate(tweet.timestamp).toLocaleDateString()}</span>
               </div>
-              <div className={style.more_container} onClick={() => toggleMenu(index)}>
+              <div
+                className={style.more_container}
+                onClick={() => toggleMenu(index)}
+                ref={index === showMenu ? menuRef : null}
+              >
                 <img className={style.more} src={more} alt="more" />
                 {showMenu === index && (
                   <div className={style.menu}>

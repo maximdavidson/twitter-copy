@@ -17,9 +17,9 @@
 .tweet {
   margin-bottom: 20px;
   padding-left: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(221, 221, 221, 0.8);
   border-radius: 8px;
-  background-color: #eae9e96c;
+  background-color: rgba(234, 233, 233, 0.42);
 }
 
 .tweetHeader {
@@ -46,12 +46,12 @@
 }
 
 .userNickname {
-  color: #888;
+  color: rgba(136, 136, 136, 1);
   margin-right: 25px;
 }
 
 .timestamp {
-  color: #888;
+  color: rgba(136, 136, 136, 1);
 }
 
 .tweet img {
@@ -77,19 +77,25 @@
 }
 
 .menu {
+  background-color: rgba(136, 136, 136, 1);
+  padding: 10px 60px 40px 10px;
   position: absolute;
-  top: -19px;
+  top: 30px;
   right: 30px;
   z-index: 1;
+  border-radius: 8px;
 }
 
 .menuItem {
-  padding: 20px;
+  font-size: 18px;
+  color: rgb(224, 224, 224);
   cursor: pointer;
+  padding: 4px 80px 4px 3px;
+  border-radius: 8px;
 }
 
 .menuItem:hover {
-  color: red;
+  background: rgba(193, 193, 193, 0.332);
 }
 
 .likes_container {
@@ -105,4 +111,20 @@
   height: 20px;
   cursor: pointer;
   margin-right: 5px;
+}
+
+[data-theme='dark'] .tweet {
+  background-color: rgb(72, 72, 72);
+}
+[data-theme='light'] .tweet {
+  background-color: rgb(237, 236, 236);
+}
+[data-theme='dark'] .userName {
+  color: rgb(192, 192, 192);
+}
+[data-theme='dark'] .userNickname {
+  color: rgb(192, 192, 192);
+}
+[data-theme='dark'] .timestamp {
+  color: rgb(179, 177, 177);
 }

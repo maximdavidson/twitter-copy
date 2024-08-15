@@ -16,7 +16,10 @@
       "@assets/*": ["./src/assets/*"],
       "@validation/*": ["./src/validation/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@types/*": ["./src/types/*"],
+      "@services/*": ["./src/services/*"],
+      "@database/*": ["./src/database/*"]
     }
   },
   "include": ["vite.config.ts"]

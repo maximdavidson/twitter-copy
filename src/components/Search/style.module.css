@@ -44,13 +44,18 @@
   justify-content: center;
 }
 
+.title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
 .resultsContainer {
   margin-top: 50px;
   display: flex;
   flex-direction: column;
   gap: 25px;
   background: #dfdfdf7e;
-  padding-top: 20px;
+  padding-top: 2px;
   padding-bottom: 20px;
   padding-left: 15px;
   padding-right: 10px;
@@ -78,6 +83,39 @@
 }
 
 .userInfo {
+  font-weight: 500;
   display: flex;
   flex-direction: column;
+}
+
+[data-theme='dark'] .input {
+  background-color: rgb(197, 196, 196);
+}
+
+[data-theme='dark'] .notFound {
+  color: rgb(197, 196, 196);
+}
+[data-theme='dark'] .userInfo {
+  color: rgb(224, 222, 222);
+}
+[data-theme='light'] .userInfo {
+  color: rgb(67, 66, 66);
+}
+[data-theme='light'] .title {
+  color: rgb(63, 63, 63);
+}
+
+[data-theme='dark'] .resultsContainer {
+  background-color: rgb(105, 105, 105);
+}
+[data-theme='light'] .resultsContainer {
+  background-color: rgb(215, 215, 215);
+}
+
+[data-theme='dark'] .resultItem {
+  background-color: rgb(137, 137, 137);
+}
+
+[data-theme='dark'] .resultItem:hover {
+  background-color: rgb(188, 188, 188);
 }

@@ -2,15 +2,7 @@ import { db, storage } from '@/database';
 import { doc, updateDoc, arrayUnion, Timestamp, arrayRemove, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
-
-interface Tweet {
-  id: string;
-  text: string;
-  imageUrl?: string;
-  timestamp: Timestamp;
-  likes: number;
-  likedBy: string[];
-}
+import { Tweet } from '@/types';
 
 const uploadImage = async (userId: string, imageFile: File): Promise<string> => {
   const storageRef = ref(storage, `tweets/${userId}/${Date.now()}_${imageFile.name}`);

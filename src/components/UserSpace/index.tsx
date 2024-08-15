@@ -1,20 +1,20 @@
-import { useState, useEffect, FC } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { User } from 'firebase/auth';
 import { db, auth, onAuthStateChanged } from '@/database';
+import { doc, getDoc } from 'firebase/firestore';
 import { Loader } from '@/components/Loader';
 import { ProfileEditModal } from '@/components/ProfileEditModal';
 import { RootState } from '@/store';
 import { setAvatarUrl, setUser, setUserName, setUserNickname } from '@/store/userSlice';
-import style from './style.module.css';
-import background from '@assets/profile-back.webp';
-import person from '@assets/person.png';
-import { User } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
 import { updateProfile } from '@/utils/updateProfile';
 import { updateAvatar } from '@/utils/updateAvatar';
 import { updateBackground } from '@/utils/updateBackground';
 import { getUserTweetCount } from '@/utils/getUserTweetCount';
+import background from '@assets/profile-back.webp';
+import person from '@assets/person.png';
+import style from './style.module.css';
 
 interface LocationState {
   name?: string;

@@ -90,6 +90,7 @@ export const SearchTweets: FC = () => {
       </div>
       {results.length > 0 && (
         <div className={style.resultsContainer}>
+          <h3 className={style.title}>Search results</h3>
           {results.map((result, index) => (
             <div
               key={index}

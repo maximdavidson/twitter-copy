@@ -33,6 +33,7 @@
   height: 260px;
   overflow: hidden;
   position: relative;
+  border-radius: 18px;
 }
 
 .background {
@@ -103,4 +104,8 @@
 .btn_edit:active {
   position: relative;
   top: 3px;
+}
+
+[data-theme='dark'] .btn_edit {
+  background-color: rgb(197, 196, 196);
 }
