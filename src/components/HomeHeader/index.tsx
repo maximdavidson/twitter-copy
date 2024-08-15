@@ -4,7 +4,7 @@ import style from './style.module.css';
 import exit from '@/assets/exit-arrow.png';
 import switchOff from '@/assets/switchOff.png';
 
-export const SearchingResult: FC = () => {
+export const HomeHeader: FC = () => {
   const navigate = useNavigate();
 
   const handleArrowClick = () => {

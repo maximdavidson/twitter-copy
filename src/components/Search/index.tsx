@@ -1,18 +1,35 @@
-import { useState, FC, ChangeEvent, MouseEvent } from 'react';
+// components/SearchTweets.tsx
+import { FC, useState, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './style.module.css';
 import search from '@assets/search.png';
-import { searchTweets } from '@/services/searchTweets';
+import { db } from '@/database';
+import { collection, getDocs } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
 
-interface UserResult {
+interface Tweet {
+  id: string;
+  text: string;
+  imageUrl?: string;
+  timestamp: firebase.firestore.Timestamp;
+  likes: number;
+  likedBy: string[];
+}
+
+interface UserProfile {
   displayName: string;
   nickname: string;
-  avatar: string;
+  avatar?: string;
+}
+
+interface SearchResult {
+  profile: UserProfile;
+  tweets: Tweet[];
 }
 
 export const SearchTweets: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [results, setResults] = useState<UserResult[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -32,7 +49,31 @@ export const SearchTweets: FC = () => {
       return;
     }
     try {
-      const searchResults = await searchTweets(searchTerm);
+      const usersCollection = collection(db, 'users');
+      const usersSnapshot = await getDocs(usersCollection);
+
+      const searchResults: SearchResult[] = [];
+
+      usersSnapshot.forEach((doc) => {
+        const userData = doc.data();
+        const tweets = userData.tweets || [];
+
+        const matchingTweets = tweets.filter((tweet: any) =>
+          tweet.text.toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+
+        if (matchingTweets.length > 0) {
+          searchResults.push({
+            profile: {
+              displayName: userData.displayName || '',
+              nickname: userData.nickname || '',
+              avatar: userData.avatar || '',
+            },
+            tweets: matchingTweets,
+          });
+        }
+      });
+
       setResults(searchResults);
       setSearchPerformed(true);
     } catch (error) {
@@ -40,8 +81,8 @@ export const SearchTweets: FC = () => {
     }
   };
 
-  const handleResultClick = () => {
-    navigate('/home');
+  const handleResultClick = (profile: UserProfile, tweets: Tweet[]) => {
+    navigate('/home', { state: { profile, tweets } });
   };
 
   const checkNotFound = () => {
@@ -64,12 +105,16 @@ export const SearchTweets: FC = () => {
       </div>
       {results.length > 0 && (
         <div className={style.resultsContainer}>
-          {results.map((user, index) => (
-            <div key={index} className={style.resultItem} onClick={handleResultClick}>
-              <img src={user.avatar} alt="avatar" className={style.avatar} />
+          {results.map((result, index) => (
+            <div
+              key={index}
+              className={style.resultItem}
+              onClick={() => handleResultClick(result.profile, result.tweets)}
+            >
+              <img src={result.profile.avatar} alt="avatar" className={style.avatar} />
               <div className={style.userInfo}>
-                <span className={style.displayName}>{user.displayName}</span>
-                <span className={style.nickname}>{user.nickname}</span>
+                <span className={style.displayName}>{result.profile.displayName}</span>
+                <span className={style.nickname}>{result.profile.nickname}</span>
               </div>
             </div>
           ))}

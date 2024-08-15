@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.wrap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  margin-top: -15px;
+}
+
+.arrow {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.arrow:hover {
+  transform: translateX(5px);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+}
