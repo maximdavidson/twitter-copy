@@ -5,21 +5,7 @@ import more from '@assets/moreintweet.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
 import { useNavigate } from 'react-router-dom';
-
-interface Tweet {
-  id: string;
-  text: string;
-  imageUrl?: string;
-  timestamp: any;
-  likes: number;
-  likedBy: string[];
-}
-
-interface UserProfile {
-  displayName: string;
-  nickname: string;
-  avatar?: string;
-}
+import { Tweet, UserProfile } from '@/types';
 
 interface TweetSearchResultProps {
   tweets: Tweet[];

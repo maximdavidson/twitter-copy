@@ -14,6 +14,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { updateProfile } from '@/utils/updateProfile';
 import { updateAvatar } from '@/utils/updateAvatar';
 import { updateBackground } from '@/utils/updateBackground';
+import { getUserTweetCount } from '@/utils/getUserTweetCount';
 
 interface LocationState {
   name?: string;
@@ -28,6 +29,7 @@ export const UserSpace: FC = () => {
   const [userInfo, setUserInfo] = useState<string>('');
   const [localAvatarUrl, setLocalAvatarUrl] = useState<string>(person);
   const [backgroundUrl, setBackgroundUrl] = useState<string>(background);
+  const [tweetCount, setTweetCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -49,6 +51,10 @@ export const UserSpace: FC = () => {
         setUserInfo(userData?.info || '');
         setLocalAvatarUrl(userData?.avatar || person);
         setBackgroundUrl(userData?.background || background);
+
+        const count = await getUserTweetCount(user.uid, (count) => {
+          setTweetCount(count);
+        });
       } else {
         navigate('/login');
       }
@@ -118,7 +124,7 @@ export const UserSpace: FC = () => {
       />
       <div>
         <h3 className={style.name}>{state?.name || userName}</h3>
-        <p className={style.count}>tweets count</p>
+        <p className={style.count}>{tweetCount} tweets</p>
         <div className={style.wrapper}>
           <label className={style.background_label}>
             <input type="file" onChange={handleBackgroundChange} className={style.background_input} />

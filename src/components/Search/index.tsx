@@ -5,22 +5,7 @@ import style from './style.module.css';
 import search from '@assets/search.png';
 import { db } from '@/database';
 import { collection, getDocs } from 'firebase/firestore';
-import firebase from 'firebase/compat/app';
-
-interface Tweet {
-  id: string;
-  text: string;
-  imageUrl?: string;
-  timestamp: firebase.firestore.Timestamp;
-  likes: number;
-  likedBy: string[];
-}
-
-interface UserProfile {
-  displayName: string;
-  nickname: string;
-  avatar?: string;
-}
+import { Tweet, UserProfile } from '@/types';
 
 interface SearchResult {
   profile: UserProfile;

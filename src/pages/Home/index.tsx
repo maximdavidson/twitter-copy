@@ -5,22 +5,7 @@ import { Navigation } from '@/components/Navigation';
 import { TweetSearchResult } from '@/components/TweetSearchResult';
 import { SearchTweets } from '@/components/Search';
 import { HomeHeader } from '@/components/HomeHeader';
-import firebase from 'firebase/compat/app';
-
-interface Tweet {
-  id: string;
-  text: string;
-  imageUrl?: string;
-  timestamp: firebase.firestore.Timestamp;
-  likes: number;
-  likedBy: string[];
-}
-
-interface UserProfile {
-  displayName: string;
-  nickname: string;
-  avatar?: string;
-}
+import { Tweet, UserProfile } from '@/types';
 
 export const Home: FC = () => {
   const location = useLocation();
@@ -29,7 +14,7 @@ export const Home: FC = () => {
     tweets: [],
   };
 
-  const handleLikeTweet = (index: number) => {
+  const handleLikeTweet = () => {
     // Логика лайка твита
   };
 

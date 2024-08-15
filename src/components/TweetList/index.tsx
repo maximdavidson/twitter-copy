@@ -1,44 +1,18 @@
 import { useEffect, useState, FC } from 'react';
-import { db } from '@/database';
-import { doc, onSnapshot, updateDoc, Timestamp } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import style from './style.module.css';
-import { Loader } from '@/components/Loader';
 import person from '@assets/person.png';
 import more from '@assets/moreintweet.png';
 import line from '@assets/line.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
+import { Loader } from '@/components/Loader';
+import { db } from '@/database';
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { deleteTweetFromFirestore } from '@/services/addTweet';
-
-interface Tweet {
-  id: string;
-  text: string;
-  imageUrl?: string;
-  timestamp: any; // Убедитесь, что это Timestamp или другой поддерживаемый формат
-  likes: number;
-  likedBy: string[];
-}
-
-interface UserProfile {
-  displayName: string;
-  nickname: string;
-  avatar: string;
-}
-
-const convertToDate = (timestamp: any) => {
-  if (timestamp instanceof Timestamp) {
-    return timestamp.toDate();
-  } else if (typeof timestamp === 'string') {
-    return new Date(timestamp);
-  } else if (typeof timestamp === 'number') {
-    return new Date(timestamp);
-  } else {
-    console.error('Unsupported timestamp format:', timestamp);
-    return new Date(); // Вернуть текущее время как резервный вариант
-  }
-};
+import { convertToDate } from '@/utils/convertToDate';
+import { Tweet, UserProfile } from '@/types';
+import style from './style.module.css';
 
 export const TweetList: FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -89,31 +63,26 @@ export const TweetList: FC = () => {
   };
 
   useEffect(() => {
-    const fetchTweetsAndProfile = () => {
-      if (user?.uid) {
-        const userRef = doc(db, 'users', user.uid);
+    if (user?.uid) {
+      const userRef = doc(db, 'users', user.uid);
 
-        const unsubscribe = onSnapshot(userRef, (doc) => {
-          if (doc.exists()) {
-            const data = doc.data();
-            const fetchedTweets = data.tweets || [];
-            setTweets(fetchedTweets); // Обновляем состояние без изменения порядка
-            setProfile({
-              displayName: data.displayName || '',
-              nickname: data.nickname || '',
-              avatar: data.avatar || '',
-            });
-          } else {
-            setTweets([]);
-          }
-          setLoading(false);
-        });
+      const unsubscribe = onSnapshot(userRef, (doc) => {
+        if (doc.exists()) {
+          const data = doc.data();
+          setTweets(data.tweets || []);
+          setProfile({
+            displayName: data.displayName || '',
+            nickname: data.nickname || '',
+            avatar: data.avatar || '',
+          });
+        } else {
+          setTweets([]);
+        }
+        setLoading(false);
+      });
 
-        return () => unsubscribe();
-      }
-    };
-
-    fetchTweetsAndProfile();
+      return () => unsubscribe();
+    }
   }, [user]);
 
   if (loading) {
