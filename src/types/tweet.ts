@@ -5,4 +5,5 @@ export interface Tweet {
   timestamp: any;
   likes: number;
   likedBy: string[];
+  userId: string;
 }

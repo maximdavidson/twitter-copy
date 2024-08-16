@@ -25,6 +25,7 @@ export const addTweetToFirestore = async (userId: string, text: string, imageFil
       timestamp: Timestamp.now(),
       likes: 0,
       likedBy: [],
+      userId: '',
     };
     await updateUserTweets(userId, { tweets: arrayUnion(newTweet) });
   } catch (error) {

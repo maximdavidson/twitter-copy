@@ -27,7 +27,7 @@ export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets, profile,
               </div>
               <div className={style.tweetInfo}>
                 <span className={style.userName}>{profile.displayName}</span>
-                <span className={style.userNickname}>{profile.nickname}</span>
+                <span className={style.userNickname}>{profile.telegram}</span>
                 <span className={style.timestamp}>
                   {tweet.timestamp instanceof Date
                     ? tweet.timestamp.toLocaleDateString()
@@ -44,7 +44,7 @@ export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets, profile,
               <img
                 className={style.likeIcon}
                 src={
-                  Array.isArray(tweet.likedBy) && tweet.likedBy.includes(profile.nickname) ? activelike : like
+                  Array.isArray(tweet.likedBy) && tweet.likedBy.includes(profile.telegram) ? activelike : like
                 }
                 alt="like"
               />

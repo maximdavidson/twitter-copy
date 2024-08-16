@@ -73,8 +73,9 @@ export const TweetList: FC = () => {
           setTweets(data.tweets || []);
           setProfile({
             displayName: data.displayName || '',
-            nickname: data.nickname || '',
+            telegram: data.telegram || '',
             avatar: data.avatar || '',
+            gender: '',
           });
         } else {
           setTweets([]);
@@ -118,7 +119,7 @@ export const TweetList: FC = () => {
               </div>
               <div className={style.tweetInfo}>
                 <span className={style.userName}>{profile?.displayName}</span>
-                <span className={style.userNickname}>{profile?.nickname}</span>
+                <span className={style.userNickname}>{profile?.telegram}</span>
                 <span className={style.timestamp}>{convertToDate(tweet.timestamp).toLocaleDateString()}</span>
               </div>
               <div

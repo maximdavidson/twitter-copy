@@ -7,7 +7,8 @@ import { SignUpStart } from './pages/SignUpStart';
 import { SignUp } from './pages/SignUp';
 import { Login } from './pages/Login';
 import { Profile } from './pages/Profile';
-import { Home } from './pages/Home';
+import { HomeResult } from './pages/HomeResult';
+import { HomeMain } from './pages/HomeMain';
 import { fetchUserTheme } from './utils/updateUserTheme';
 import './App.css';
 
@@ -45,7 +46,8 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/homeresult" element={<HomeResult />} />
+        <Route path="/homemain" element={<HomeMain />} />
       </Routes>
     </Router>
   );

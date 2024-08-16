@@ -1,6 +1,6 @@
 export interface UserProfile {
   displayName: string;
-  telegram: string;
+  telegram?: string;
   avatar: string;
-  gender: string;
+  gender?: string;
 }

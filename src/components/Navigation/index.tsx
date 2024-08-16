@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import bird from '@/assets/twitter-logo.png';
 import bookmarks from '@/assets/bookmarks.png';
 import explore from '@/assets/explore.png';
@@ -18,6 +18,7 @@ import { TweetModal } from './components/Modal';
 export const Navigation: FC = () => {
   const { userName, userTelegram, avatarUrl } = useSelector((state: RootState) => state.user);
   const [isTweetModalOpen, setIsTweetModalOpen] = useState(false);
+  const location = useLocation();
 
   const openTweetModal = () => setIsTweetModalOpen(true);
   const closeTweetModal = () => setIsTweetModalOpen(false);
@@ -26,38 +27,44 @@ export const Navigation: FC = () => {
     <div className={s.container}>
       <img src={bird} alt="Twitter Bird" className={s.logo} />
       <nav className={s.nav}>
-        <a href="#!" className={s.navItem}>
+        <Link to="/homemain" className={`${s.navItem} ${location.pathname === '/homemain' ? s.active : ''}`}>
           <img src={home} alt="Home" className={s.icon} />
           Home
-        </a>
-        <a href="#!" className={s.navItem}>
+        </Link>
+        <Link to="/explore" className={`${s.navItem} ${location.pathname === '/explore' ? s.active : ''}`}>
           <img src={explore} alt="Explore" className={s.icon} />
           Explore
-        </a>
-        <a href="#!" className={s.navItem}>
+        </Link>
+        <Link
+          to="/notifications"
+          className={`${s.navItem} ${location.pathname === '/notifications' ? s.active : ''}`}
+        >
           <img src={notification} alt="Notification" className={s.icon} />
           Notification
-        </a>
-        <a href="#!" className={s.navItem}>
+        </Link>
+        <Link to="/messages" className={`${s.navItem} ${location.pathname === '/messages' ? s.active : ''}`}>
           <img src={message} alt="Messages" className={s.icon} />
           Messages
-        </a>
-        <a href="#!" className={s.navItem}>
+        </Link>
+        <Link
+          to="/bookmarks"
+          className={`${s.navItem} ${location.pathname === '/bookmarks' ? s.active : ''}`}
+        >
           <img src={bookmarks} alt="Bookmarks" className={s.icon} />
           Bookmarks
-        </a>
-        <a href="#!" className={s.navItem}>
+        </Link>
+        <Link to="/lists" className={`${s.navItem} ${location.pathname === '/lists' ? s.active : ''}`}>
           <img src={list} alt="Lists" className={s.icon} />
           Lists
-        </a>
-        <a href="#!" className={s.navItem}>
+        </Link>
+        <Link to="/profile" className={`${s.navItem} ${location.pathname === '/profile' ? s.active : ''}`}>
           <img src={profile} alt="Profile" className={s.icon} />
           Profile
-        </a>
-        <a href="#!" className={s.navItem}>
+        </Link>
+        <Link to="/more" className={`${s.navItem} ${location.pathname === '/more' ? s.active : ''}`}>
           <img src={more} alt="More" className={s.icon} />
           More
-        </a>
+        </Link>
       </nav>
       <button className={s.btn} onClick={openTweetModal}>
         Tweet

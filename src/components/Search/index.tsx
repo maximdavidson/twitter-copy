@@ -51,8 +51,9 @@ export const SearchTweets: FC = () => {
           searchResults.push({
             profile: {
               displayName: userData.displayName || '',
-              nickname: userData.nickname || '',
+              telegram: userData.telegram || '',
               avatar: userData.avatar || '',
+              gender: '',
             },
             tweets: matchingTweets,
           });
@@ -67,7 +68,7 @@ export const SearchTweets: FC = () => {
   };
 
   const handleResultClick = (profile: UserProfile, tweets: Tweet[]) => {
-    navigate('/home', { state: { profile, tweets } });
+    navigate('/homeresult', { state: { profile, tweets } });
   };
 
   const checkNotFound = () => {
@@ -100,7 +101,7 @@ export const SearchTweets: FC = () => {
               <img src={result.profile.avatar} alt="avatar" className={style.avatar} />
               <div className={style.userInfo}>
                 <span className={style.displayName}>{result.profile.displayName}</span>
-                <span className={style.nickname}>{result.profile.nickname}</span>
+                <span className={style.nickname}>{result.profile.telegram}</span>
               </div>
             </div>
           ))}

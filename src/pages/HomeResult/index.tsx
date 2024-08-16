@@ -7,7 +7,7 @@ import { SearchTweets } from '@/components/Search';
 import { HomeHeader } from '@/components/HomeHeader';
 import { Tweet, UserProfile } from '@/types';
 
-export const Home: FC = () => {
+export const HomeResult: FC = () => {
   const location = useLocation();
   const { profile, tweets }: { profile: UserProfile; tweets: Tweet[] } = location.state || {
     profile: null,
