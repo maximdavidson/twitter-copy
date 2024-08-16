@@ -4,14 +4,16 @@ import { User } from 'firebase/auth';
 export interface UserState {
   user: User | null;
   userName: string | null;
-  userNickname: string;
+  userTelegram: string;
+  gender: string;
   avatarUrl: string;
 }
 
 const initialState: UserState = {
   user: null,
   userName: null,
-  userNickname: '',
+  userTelegram: '',
+  gender: '',
   avatarUrl: '',
 };
 
@@ -25,8 +27,11 @@ const userSlice = createSlice({
     setUserName(state, action: PayloadAction<string>) {
       state.userName = action.payload;
     },
-    setUserNickname(state, action: PayloadAction<string>) {
-      state.userNickname = action.payload;
+    setUserTelegram(state, action: PayloadAction<string>) {
+      state.userTelegram = action.payload;
+    },
+    setGender(state, action: PayloadAction<string>) {
+      state.gender = action.payload;
     },
     setAvatarUrl(state, action: PayloadAction<string>) {
       state.avatarUrl = action.payload;
@@ -34,6 +39,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, setUserName, setUserNickname, setAvatarUrl } = userSlice.actions;
+export const { setUser, setUserName, setUserTelegram, setGender, setAvatarUrl } = userSlice.actions;
 
 export default userSlice.reducer;

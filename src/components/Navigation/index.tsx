@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { Link } from 'react-router-dom';
@@ -13,9 +13,14 @@ import notification from '@/assets/notification.png';
 import profile from '@/assets/profile.png';
 import person from '@/assets/person.png';
 import s from './style.module.css';
+import { TweetModal } from './components/Modal';
 
 export const Navigation: FC = () => {
-  const { userName, userNickname, avatarUrl } = useSelector((state: RootState) => state.user);
+  const { userName, userTelegram, avatarUrl } = useSelector((state: RootState) => state.user);
+  const [isTweetModalOpen, setIsTweetModalOpen] = useState(false);
+
+  const openTweetModal = () => setIsTweetModalOpen(true);
+  const closeTweetModal = () => setIsTweetModalOpen(false);
 
   return (
     <div className={s.container}>
@@ -54,13 +59,16 @@ export const Navigation: FC = () => {
           More
         </a>
       </nav>
-      <button className={s.btn}>Tweet</button>
+      <button className={s.btn} onClick={openTweetModal}>
+        Tweet
+      </button>
+      <TweetModal isOpen={isTweetModalOpen} onClose={closeTweetModal} />
       <div className={s.wrapper}>
         <div className={s.profile}>
           <img src={avatarUrl || person} alt="Avatar" className={s.avatar} />
           <div>
             <p className={s.userName}>{userName}</p>
-            <p className={s.userNick}>{userNickname}</p>
+            <p className={s.userTelega}>{userTelegram}</p>
           </div>
         </div>
         <Link to="/" className={`${s.logout} ${s.btn}`}>

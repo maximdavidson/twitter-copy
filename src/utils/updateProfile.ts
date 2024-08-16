@@ -2,12 +2,13 @@ import { User } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { db, updateProfile as firebaseUpdateProfile } from '@/database';
 import { AppDispatch } from '@/store';
-import { setUserName, setUserNickname } from '@/store/userSlice';
+import { setUserName, setUserTelegram } from '@/store/userSlice';
 
 export const updateProfile = async (
   user: User,
   name: string,
-  nickname: string,
+  telegram: string,
+  gender: string,
   info: string,
   dispatch: AppDispatch,
 ) => {
@@ -20,14 +21,15 @@ export const updateProfile = async (
       {
         displayName: name,
         email: user.email || '',
-        nickname: nickname,
+        telegram: telegram,
+        gender: gender,
         info: info,
       },
       { merge: true },
     );
 
     dispatch(setUserName(name));
-    dispatch(setUserNickname(nickname));
+    dispatch(setUserTelegram(telegram));
   } catch (error) {
     console.error('Error updating profile:', error);
   }

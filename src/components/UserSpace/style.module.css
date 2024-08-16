@@ -15,6 +15,11 @@
   margin-top: 0;
 }
 
+.main {
+  display: flex;
+  justify-content: space-between;
+}
+
 .wrapper {
   position: relative;
   margin-bottom: 85px;
@@ -82,8 +87,38 @@
   filter: brightness(60%);
 }
 
+.gender {
+  padding-top: -30px;
+  opacity: 60%;
+  margin: 0;
+  padding-bottom: 2px;
+}
+
+.user_input {
+  max-width: 650px;
+  padding-top: 10px;
+  overflow: hidden;
+}
+
 .info {
-  margin-top: 23px;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  padding-right: 40px;
+  padding-left: 15px;
+  border: 1px solid rgba(221, 221, 221, 0.8);
+  border-radius: 8px;
+  background-color: rgba(234, 233, 233, 0.42);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  box-sizing: border-box;
+}
+
+[data-theme='dark'] .info {
+  background-color: rgb(72, 72, 72);
+}
+[data-theme='light'] .info {
+  background-color: rgba(234, 233, 233, 0.42);
 }
 
 .btn_edit {

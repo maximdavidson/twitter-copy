@@ -5,9 +5,10 @@ import { validateProfile } from '@/validation';
 interface ProfileEditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (name: string, nickname: string, info: string) => void;
+  onSave: (name: string, telegram: string, gender: string, info: string) => void;
   currentName: string;
-  currentNickname: string;
+  currentTelegram: string;
+  currentGender: string;
   currentInfo: string;
 }
 
@@ -16,11 +17,13 @@ export const ProfileEditModal: FC<ProfileEditModalProps> = ({
   onClose,
   onSave,
   currentName,
-  currentNickname,
+  currentTelegram,
+  currentGender,
   currentInfo,
 }) => {
   const [name, setName] = useState(currentName);
-  const [nickname, setNickname] = useState(currentNickname);
+  const [telegram, setTelegram] = useState(currentTelegram);
+  const [gender, setGender] = useState(currentGender);
   const [info, setInfo] = useState(currentInfo);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -28,19 +31,19 @@ export const ProfileEditModal: FC<ProfileEditModalProps> = ({
 
   const handleSave = () => {
     const nameError = validateProfile('name', name);
-    const nicknameError = validateProfile('nickname', nickname);
+    const telegramError = validateProfile('telegram', telegram);
     const infoError = validateProfile('info', info);
 
-    if (nameError || nicknameError || infoError) {
+    if (nameError || telegramError || infoError) {
       setErrors({
         name: nameError || '',
-        nickname: nicknameError || '',
+        telegram: telegramError || '',
         info: infoError || '',
       });
       return;
     }
 
-    onSave(name, nickname, info);
+    onSave(name, telegram, gender, info);
     onClose();
   };
 
@@ -61,14 +64,18 @@ export const ProfileEditModal: FC<ProfileEditModalProps> = ({
           {errors.name && <span className={style.error}>{errors.name}</span>}
         </label>
         <label>
-          Nickname:
+          Telegram:
           <input
             type="text"
-            value={nickname}
-            onChange={handleChange('nickname', setNickname)}
-            placeholder="@nickname"
+            value={telegram}
+            onChange={handleChange('telegram', setTelegram)}
+            placeholder="@telegram"
           />
-          {errors.nickname && <span className={style.error}>{errors.nickname}</span>}
+          {errors.telegram && <span className={style.error}>{errors.telegram}</span>}
+        </label>
+        <label>
+          Gender:
+          <input type="text" value={gender} onChange={handleChange('gender', setGender)} />
         </label>
         <label>
           Info:

@@ -7,7 +7,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { Loader } from '@/components/Loader';
 import { ProfileEditModal } from '@/components/ProfileEditModal';
 import { RootState } from '@/store';
-import { setAvatarUrl, setUser, setUserName, setUserNickname } from '@/store/userSlice';
+import { setAvatarUrl, setUser, setUserName, setUserTelegram, setGender } from '@/store/userSlice';
 import { updateProfile } from '@/utils/updateProfile';
 import { updateAvatar } from '@/utils/updateAvatar';
 import { updateBackground } from '@/utils/updateBackground';
@@ -25,7 +25,7 @@ export const UserSpace: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const { userName, userNickname } = useSelector((state: RootState) => state.user);
+  const { userName, userTelegram, gender } = useSelector((state: RootState) => state.user);
   const [userInfo, setUserInfo] = useState<string>('');
   const [localAvatarUrl, setLocalAvatarUrl] = useState<string>(person);
   const [backgroundUrl, setBackgroundUrl] = useState<string>(background);
@@ -45,16 +45,15 @@ export const UserSpace: FC = () => {
 
         dispatch(setUser(user));
         dispatch(setUserName(user.displayName || 'User'));
-        dispatch(setUserNickname(userData?.nickname || ''));
+        dispatch(setUserTelegram(userData?.telegram || ''));
         dispatch(setAvatarUrl(userData?.avatar || person));
+        dispatch(setGender(userData?.gender || ''));
 
         setUserInfo(userData?.info || '');
         setLocalAvatarUrl(userData?.avatar || person);
         setBackgroundUrl(userData?.background || background);
 
-        const count = await getUserTweetCount(user.uid, (count) => {
-          setTweetCount(count);
-        });
+        await getUserTweetCount(user.uid, setTweetCount);
       } else {
         navigate('/login');
       }
@@ -68,15 +67,20 @@ export const UserSpace: FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleSaveProfile = async (name: string, nickname: string, info: string) => {
+  const handleSaveProfile = async (name: string, telegram: string, gender: string, info: string) => {
     setIsSaving(true);
     try {
       if (auth.currentUser) {
-        await updateProfile(auth.currentUser, name, nickname, info, dispatch);
+        await updateProfile(auth.currentUser, name, telegram, gender, info, dispatch);
+
+        dispatch(setUserName(name));
+        dispatch(setUserTelegram(telegram));
+        dispatch(setGender(gender));
         setUserInfo(info);
       }
     } finally {
       setIsSaving(false);
+      setIsModalOpen(false);
     }
   };
 
@@ -119,7 +123,8 @@ export const UserSpace: FC = () => {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveProfile}
         currentName={userName || ''}
-        currentNickname={userNickname}
+        currentTelegram={userTelegram}
+        currentGender={gender || ''}
         currentInfo={userInfo}
       />
       <div>
@@ -139,14 +144,21 @@ export const UserSpace: FC = () => {
             </div>
           </label>
         </div>
-        <h2 className={style.name}>{state?.name || userName}</h2>
-        <p className={`${style.email} ${style.count}`}>{userNickname}</p>
-        <p className={style.info}>{userInfo}</p>
-      </div>
-      <div>
-        <button className={style.btn_edit} onClick={handleEditProfile}>
-          Edit Profile
-        </button>
+        <div className={style.main}>
+          <div className={style.userInfo}>
+            <h2 className={style.name}>{state?.name || userName}</h2>
+            <p className={style.gender}>{gender || ''}</p>
+            <p className={`${style.telegram} ${style.count}`}>{userTelegram}</p>
+            <div className={style.user_input}>
+              <p className={style.info}>{userInfo}</p>
+            </div>
+          </div>
+          <div>
+            <button className={style.btn_edit} onClick={handleEditProfile}>
+              Edit Profile
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

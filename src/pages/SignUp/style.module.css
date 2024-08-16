@@ -107,6 +107,14 @@
   padding-top: 20px;
 }
 
+[data-theme='light'] .link {
+  color: rgba(29, 161, 242);
+}
+
+[data-theme='dark'] .link {
+  color: rgba(29, 161, 242);
+}
+
 .link:hover {
   text-decoration: underline;
 }

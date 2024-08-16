@@ -49,8 +49,29 @@
   padding: 0;
 }
 
-.button:hover {
+[data-theme='light'] .button {
+  color: rgba(0, 0, 0, 1);
+}
+
+[data-theme='dark'] .button {
+  color: rgb(236, 234, 234);
+}
+
+[data-theme='light'] .button:hover {
   background-color: rgba(241, 241, 241);
+}
+
+[data-theme='dark'] .button:hover {
+  background-color: rgba(241, 241, 241);
+  color: rgb(46, 46, 46);
+}
+
+[data-theme='light'] .link {
+  color: rgba(29, 161, 242);
+}
+
+[data-theme='dark'] .link {
+  color: rgba(29, 161, 242);
 }
 
 .button:active {

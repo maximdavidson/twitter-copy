@@ -44,10 +44,13 @@ export const validateProfile = (name: string, value: string): string | undefined
     case 'name':
       if (!value) return 'Name is required';
       break;
-    case 'nickname':
-      if (!value) return 'Nickname is required';
-      if (!/^[a-zA-Z0-9_@]+$/.test(value)) return 'Nickname must be in English';
-      if (!value.startsWith('@')) return 'Nickname must start with @';
+    case 'telegram':
+      if (!value) return 'telegram is required';
+      if (!/^[a-zA-Z0-9_@]+$/.test(value)) return 'telegram must be in English';
+      if (!value.startsWith('@')) return 'telegram must start with @';
+      break;
+    case 'info':
+      if (value.length > 300) return 'Info must be at least 300 characters long';
       break;
   }
   return undefined;
