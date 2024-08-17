@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import bigline from '@/assets/BigLine.png';
 import { Navigation } from '@/components/Navigation';
 import { SearchTweets } from '@/components/Search';
@@ -8,6 +8,12 @@ import { AllUsersTweets } from '@/components/AllUsersTweets';
 import style from './style.module.css';
 
 export const HomeMain: FC = () => {
+  const [refreshTweets, setRefreshTweets] = useState(false);
+
+  const handleTweetAdded = () => {
+    setRefreshTweets(!refreshTweets);
+  };
+
   return (
     <div className={style.container}>
       <div className={style.navigation}>
@@ -15,11 +21,10 @@ export const HomeMain: FC = () => {
       </div>
       <div className={style.profile}>
         <HomeHeader />
-        <NewTweetInput />
+        <NewTweetInput onTweetAdded={handleTweetAdded} />
         <img className={style.bigline} src={bigline} alt="bigline" />
         <div className={style.main}>
-          <p>Вот тут отображать все посты пользователей</p>
-          <AllUsersTweets />
+          <AllUsersTweets key={refreshTweets.toString()} />
         </div>
       </div>
       <div className={style.search}>

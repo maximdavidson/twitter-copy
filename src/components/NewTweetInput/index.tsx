@@ -6,7 +6,11 @@ import style from './style.module.css';
 import person from '@assets/person.png';
 import galary from '@assets/changePic.png';
 
-export const NewTweetInput: FC = () => {
+interface NewTweetInputProps {
+  onTweetAdded?: () => void;
+}
+
+export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
   const { avatarUrl, user } = useSelector((state: RootState) => state.user);
   const [tweetText, setTweetText] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -19,6 +23,9 @@ export const NewTweetInput: FC = () => {
         setTweetText('');
         setImageFile(null);
         setImageSelected(false);
+        if (onTweetAdded) {
+          onTweetAdded();
+        }
       } catch (error) {
         console.error('Error posting tweet:', error);
       }
