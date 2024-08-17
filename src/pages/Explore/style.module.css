@@ -25,3 +25,16 @@
     padding: 0px;
   }
 }
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    display: grid;
+    grid-template-columns: 0px 1fr 10px;
+    gap: 10px;
+    padding: 0px;
+  }
+  .search {
+    grid-column: 2;
+    margin-bottom: 150px;
+  }
+}

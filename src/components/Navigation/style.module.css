@@ -159,6 +159,45 @@
   }
 }
 @media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    margin-left: 0;
+  }
+  .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: rgba(118, 118, 118, 0.9);
+    z-index: 3;
+  }
+
+  .navItem {
+    flex: 1;
+    justify-content: center;
+    padding: 15px;
+  }
+
+  .navItem span {
+    display: none;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .tweet_btn {
+    display: none;
+  }
+
+  .wrapper {
+    display: none;
+  }
+
+  .not {
+    display: none;
+  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
 }
