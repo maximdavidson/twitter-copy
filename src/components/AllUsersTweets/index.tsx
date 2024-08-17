@@ -1,8 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { db } from '@/database';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { Tweet, UserProfile } from '@/types';
 import person from '@assets/person.png';
+import like from '@assets/like.png';
+import activelike from '@assets/ActiveLike.png';
 import { Loader } from '../Loader';
 import style from './style.module.css';
 
@@ -21,10 +23,11 @@ export const AllUsersTweets: FC = () => {
 
         usersSnapshot.forEach((doc) => {
           const userData = doc.data() as UserProfile & { tweets: Tweet[] };
-          const { displayName, avatar = person, tweets = [] } = userData;
+          const { displayName, avatar = person, telegram, tweets = [] } = userData;
 
           profilesData[doc.id] = {
             displayName,
+            telegram, // Добавляем telegram в профиль
             avatar,
           };
 
@@ -47,6 +50,39 @@ export const AllUsersTweets: FC = () => {
     fetchTweets();
   }, []);
 
+  const handleLike = async (tweetId: string, userId: string) => {
+    try {
+      const userRef = doc(db, 'users', userId);
+      const tweetIndex = tweets.findIndex((tweet) => tweet.id === tweetId);
+      const tweet = tweets[tweetIndex];
+
+      if (!tweet || !userId) return;
+
+      const alreadyLiked = tweet.likedBy.includes(userId);
+      const updatedLikes = alreadyLiked ? tweet.likes - 1 : tweet.likes + 1;
+      const updatedLikedBy = alreadyLiked
+        ? tweet.likedBy.filter((uid) => uid !== userId)
+        : [...tweet.likedBy, userId];
+
+      const updatedTweet = {
+        ...tweet,
+        likes: updatedLikes,
+        likedBy: updatedLikedBy,
+      };
+
+      const updatedTweets = [...tweets];
+      updatedTweets[tweetIndex] = updatedTweet;
+
+      await updateDoc(userRef, {
+        tweets: updatedTweets,
+      });
+
+      setTweets(updatedTweets);
+    } catch (error) {
+      console.error('Error liking/unliking tweet:', error);
+    }
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -57,6 +93,7 @@ export const AllUsersTweets: FC = () => {
         tweets.map((tweet) => {
           const profile = profiles[tweet.userId] || {
             displayName: 'Unknown User',
+            telegram: '',
             avatar: person,
           };
           return (
@@ -67,6 +104,7 @@ export const AllUsersTweets: FC = () => {
                 </div>
                 <div className={style.tweetInfo}>
                   <span className={style.userName}>{profile.displayName}</span>
+                  <span className={style.userNickname}>{profile.telegram}</span>
                   <span className={style.timestamp}>
                     {new Date(tweet.timestamp.seconds * 1000).toLocaleDateString()}
                   </span>
@@ -75,7 +113,13 @@ export const AllUsersTweets: FC = () => {
               <p>{tweet.text}</p>
               {tweet.imageUrl && <img src={tweet.imageUrl} alt="tweet" />}
               <div className={style.likes_container}>
-                <span>{tweet.likes || 0} Likes</span>
+                <img
+                  className={style.likeIcon}
+                  src={tweet.likedBy.includes(tweet.userId) ? activelike : like}
+                  alt="like"
+                  onClick={() => handleLike(tweet.id, tweet.userId)}
+                />
+                <span>{tweet.likes || 0} </span>
               </div>
             </div>
           );
