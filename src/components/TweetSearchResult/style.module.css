@@ -106,3 +106,6 @@
 [data-theme='dark'] .timestamp {
   color: rgb(179, 177, 177);
 }
+
+@media (max-width: 480px) {
+}

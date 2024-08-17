@@ -25,6 +25,9 @@ body {
 [data-theme='dark'] p {
   color: rgb(236, 234, 234);
 }
+[data-theme='dark'] span {
+  color: rgb(236, 234, 234);
+}
 
 [data-theme='light'] a {
   color: rgba(0, 0, 0, 1);

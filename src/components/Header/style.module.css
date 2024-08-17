@@ -24,3 +24,10 @@
   font-size: 24px;
   font-weight: 700;
 }
+
+@media (max-width: 480px) {
+  .wrapper {
+    margin-right: 15px;
+    margin-bottom: 15px;
+  }
+}

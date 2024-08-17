@@ -20,3 +20,16 @@
 .bigline {
   max-width: 830px;
 }
+
+@media (max-width: 480px) {
+  .container {
+    display: grid;
+    grid-template-columns: 0px 1fr 10px;
+    gap: 10px;
+    padding: 0px;
+  }
+  .search {
+    grid-column: 2;
+    margin-bottom: 150px;
+  }
+}

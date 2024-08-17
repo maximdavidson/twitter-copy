@@ -4,10 +4,10 @@ import style from './style.module.css';
 import { Navigation } from '@/components/Navigation';
 import { TweetSearchResult } from '@/components/TweetSearchResult';
 import { SearchTweets } from '@/components/Search';
-import { HomeHeader } from '@/components/HomeHeader';
+import { Header } from '@/components/Header';
 import { Tweet, UserProfile } from '@/types';
 
-export const HomeResult: FC = () => {
+export const Explore: FC = () => {
   const location = useLocation();
   const { profile, tweets }: { profile: UserProfile; tweets: Tweet[] } = location.state || {
     profile: null,
@@ -24,7 +24,7 @@ export const HomeResult: FC = () => {
         <Navigation />
       </div>
       <div className={style.profile}>
-        <HomeHeader />
+        <Header title="Explore" />
         {profile && tweets && (
           <TweetSearchResult tweets={tweets} profile={profile} onLikeTweet={handleLikeTweet} />
         )}

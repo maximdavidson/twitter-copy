@@ -9,7 +9,11 @@ import switchOn from '@/assets/switchOn.png';
 import { updateUserTheme } from '@/utils/updateUserTheme';
 import style from './style.module.css';
 
-export const HomeHeader: FC = () => {
+interface HeaderProps {
+  title: string;
+}
+
+export const Header: FC<HeaderProps> = ({ title }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -30,7 +34,7 @@ export const HomeHeader: FC = () => {
       <div className={style.wrapper}>
         <div className={style.wrap} onClick={handleArrowClick}>
           <img className={style.arrow} src={exit} alt="Exit Arrow" />
-          <p className={style.title}>Home</p>
+          <p className={style.title}>{title}</p>
         </div>
         <div className={style.switch} onClick={handleToggleTheme}>
           <img

@@ -1,4 +1,3 @@
-// components/SearchTweets.tsx
 import { FC, useState, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './style.module.css';
@@ -68,7 +67,7 @@ export const SearchTweets: FC = () => {
   };
 
   const handleResultClick = (profile: UserProfile, tweets: Tweet[]) => {
-    navigate('/homeresult', { state: { profile, tweets } });
+    navigate('/explore', { state: { profile, tweets } });
   };
 
   const checkNotFound = () => {

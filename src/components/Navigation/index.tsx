@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { Link, useLocation } from 'react-router-dom';
+import { TweetModal } from './components/Modal';
 import bird from '@/assets/twitter-logo.png';
 import bookmarks from '@/assets/bookmarks.png';
 import explore from '@/assets/explore.png';
@@ -12,8 +13,9 @@ import more from '@/assets/more.png';
 import notification from '@/assets/notification.png';
 import profile from '@/assets/profile.png';
 import person from '@/assets/person.png';
-import s from './style.module.css';
-import { TweetModal } from './components/Modal';
+import burgerblack from '@/assets/menuIcon-dark.png';
+import close from '@/assets/menuIcon-close.png';
+import style from './style.module.css';
 
 export const Navigation: FC = () => {
   const { userName, userTelegram, avatarUrl } = useSelector((state: RootState) => state.user);
@@ -24,61 +26,73 @@ export const Navigation: FC = () => {
   const closeTweetModal = () => setIsTweetModalOpen(false);
 
   return (
-    <div className={s.container}>
-      <img src={bird} alt="Twitter Bird" className={s.logo} />
-      <nav className={s.nav}>
-        <Link to="/homemain" className={`${s.navItem} ${location.pathname === '/homemain' ? s.active : ''}`}>
-          <img src={home} alt="Home" className={s.icon} />
-          Home
-        </Link>
-        <Link to="/explore" className={`${s.navItem} ${location.pathname === '/explore' ? s.active : ''}`}>
-          <img src={explore} alt="Explore" className={s.icon} />
-          Explore
+    <div className={style.container}>
+      <img src={bird} alt="Twitter Bird" className={style.logo} />
+      <nav className={style.nav}>
+        <Link to="/home" className={`${style.navItem} ${location.pathname === '/home' ? style.active : ''}`}>
+          <img src={home} alt="Home" className={style.icon} />
+          <span>Home</span>
         </Link>
         <Link
-          to="/notifications"
-          className={`${s.navItem} ${location.pathname === '/notifications' ? s.active : ''}`}
+          to="/explore"
+          className={`${style.navItem} ${location.pathname === '/explore' ? style.active : ''}`}
         >
-          <img src={notification} alt="Notification" className={s.icon} />
-          Notification
+          <img src={explore} alt="Explore" className={style.icon} />
+          <span>Explore</span>
         </Link>
-        <Link to="/messages" className={`${s.navItem} ${location.pathname === '/messages' ? s.active : ''}`}>
-          <img src={message} alt="Messages" className={s.icon} />
-          Messages
+        <Link to="#!" className={`${style.navItem} ${location.pathname === '#!' ? style.active : ''}`}>
+          <img src={notification} alt="Notification" className={style.icon} />
+          <span>Notification</span>
         </Link>
         <Link
-          to="/bookmarks"
-          className={`${s.navItem} ${location.pathname === '/bookmarks' ? s.active : ''}`}
+          to="#!"
+          className={`${style.navItem} ${style.not} ${location.pathname === '#!' ? style.active : ''}`}
         >
-          <img src={bookmarks} alt="Bookmarks" className={s.icon} />
-          Bookmarks
+          <img src={message} alt="Messages" className={style.icon} />
+          <span>Messages</span>
         </Link>
-        <Link to="/lists" className={`${s.navItem} ${location.pathname === '/lists' ? s.active : ''}`}>
-          <img src={list} alt="Lists" className={s.icon} />
-          Lists
+        <Link
+          to="#!"
+          className={`${style.navItem} ${style.not} ${location.pathname === '#!' ? style.active : ''}`}
+        >
+          <img src={bookmarks} alt="Bookmarks" className={style.icon} />
+          <span>Bookmarks</span>
         </Link>
-        <Link to="/profile" className={`${s.navItem} ${location.pathname === '/profile' ? s.active : ''}`}>
-          <img src={profile} alt="Profile" className={s.icon} />
-          Profile
+        <Link
+          to="#!"
+          className={`${style.navItem} ${style.not} ${location.pathname === '#!' ? style.active : ''}`}
+        >
+          <img src={list} alt="Lists" className={style.icon} />
+          <span>Lists</span>
         </Link>
-        <Link to="/more" className={`${s.navItem} ${location.pathname === '/more' ? s.active : ''}`}>
-          <img src={more} alt="More" className={s.icon} />
-          More
+        <Link
+          to="/profile"
+          className={`${style.navItem} ${location.pathname === '/profile' ? style.active : ''}`}
+        >
+          <img src={profile} alt="Profile" className={style.icon} />
+          <span>Profile</span>
+        </Link>
+        <Link
+          to="#!"
+          className={`${style.navItem} ${style.not} ${location.pathname === '#!' ? style.active : ''}`}
+        >
+          <img src={more} alt="More" className={style.icon} />
+          <span>More</span>
         </Link>
       </nav>
-      <button className={s.btn} onClick={openTweetModal}>
+      <button className={`${style.tweet_btn} ${style.btn}`} onClick={openTweetModal}>
         Tweet
       </button>
       <TweetModal isOpen={isTweetModalOpen} onClose={closeTweetModal} />
-      <div className={s.wrapper}>
-        <div className={s.profile}>
-          <img src={avatarUrl || person} alt="Avatar" className={s.avatar} />
+      <div className={style.wrapper}>
+        <div className={style.profile}>
+          <img src={avatarUrl || person} alt="Avatar" className={style.avatar} />
           <div>
-            <p className={s.userName}>{userName}</p>
-            <p className={s.userTelega}>{userTelegram}</p>
+            <p className={style.userName}>{userName}</p>
+            <p className={style.userTelega}>{userTelegram}</p>
           </div>
         </div>
-        <Link to="/" className={`${s.logout} ${s.btn}`}>
+        <Link to="/" className={`${style.logout} ${style.btn}`}>
           Log out
         </Link>
       </div>

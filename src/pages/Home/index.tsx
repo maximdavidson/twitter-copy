@@ -2,12 +2,12 @@ import { FC, useState } from 'react';
 import bigline from '@/assets/BigLine.png';
 import { Navigation } from '@/components/Navigation';
 import { SearchTweets } from '@/components/Search';
-import { HomeHeader } from '@/components/HomeHeader';
+import { Header } from '@/components/Header';
 import { NewTweetInput } from '@/components/NewTweetInput';
 import { AllUsersTweets } from '@/components/AllUsersTweets';
 import style from './style.module.css';
 
-export const HomeMain: FC = () => {
+export const Home: FC = () => {
   const [refreshTweets, setRefreshTweets] = useState(false);
 
   const handleTweetAdded = () => {
@@ -20,7 +20,7 @@ export const HomeMain: FC = () => {
         <Navigation />
       </div>
       <div className={style.profile}>
-        <HomeHeader />
+        <Header title="Home" />
         <NewTweetInput onTweetAdded={handleTweetAdded} />
         <img className={style.bigline} src={bigline} alt="bigline" />
         <div className={style.main}>
