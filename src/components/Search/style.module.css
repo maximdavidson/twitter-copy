@@ -44,6 +44,12 @@
   justify-content: center;
 }
 
+.searching {
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
 .title {
   font-size: 20px;
   font-weight: 700;

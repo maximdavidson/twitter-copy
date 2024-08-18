@@ -13,14 +13,13 @@ import more from '@/assets/more.png';
 import notification from '@/assets/notification.png';
 import profile from '@/assets/profile.png';
 import person from '@/assets/person.png';
-import burgerblack from '@/assets/menuIcon-dark.png';
-import close from '@/assets/menuIcon-close.png';
 import style from './style.module.css';
 
 export const Navigation: FC = () => {
   const { userName, userTelegram, avatarUrl } = useSelector((state: RootState) => state.user);
   const [isTweetModalOpen, setIsTweetModalOpen] = useState(false);
   const location = useLocation();
+  console.log(avatarUrl);
 
   const openTweetModal = () => setIsTweetModalOpen(true);
   const closeTweetModal = () => setIsTweetModalOpen(false);

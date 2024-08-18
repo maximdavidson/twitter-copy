@@ -27,6 +27,7 @@
 
 .background_label {
   cursor: pointer;
+  position: relative;
 }
 
 .background_input {
@@ -55,6 +56,7 @@
 
 .avatar_label {
   cursor: pointer;
+  position: relative;
 }
 
 .avatar_input {
@@ -80,6 +82,24 @@
   object-position: center;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.replacement_icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px;
+  height: 54px;
+  background-image: url('@assets/replacement.png');
+  background-size: cover;
+  background-position: center;
+  display: none;
+}
+
+.background_label:hover .replacement_icon,
+.avatar_label:hover .replacement_icon {
+  display: block;
 }
 
 .background_label:hover .background,

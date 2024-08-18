@@ -14,6 +14,7 @@ import { updateBackground } from '@/utils/updateBackground';
 import { getUserTweetCount } from '@/utils/getUserTweetCount';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
+
 import style from './style.module.css';
 
 interface LocationState {
@@ -135,12 +136,14 @@ export const UserSpace: FC = () => {
             <input type="file" onChange={handleBackgroundChange} className={style.background_input} />
             <div className={style.background_container}>
               <img className={style.background} src={backgroundUrl} alt="Background" />
+              <div className={style.replacement_icon} />
             </div>
           </label>
           <label className={style.avatar_label}>
             <input type="file" onChange={handleAvatarChange} className={style.avatar_input} />
             <div className={style.avatar_container}>
               <img className={style.avatar} src={localAvatarUrl} alt="Avatar" />
+              <div className={style.replacement_icon} />
             </div>
           </label>
         </div>

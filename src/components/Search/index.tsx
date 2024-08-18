@@ -1,10 +1,11 @@
-import { FC, useState, ChangeEvent, MouseEvent } from 'react';
+import { FC, useState, ChangeEvent, MouseEvent, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './style.module.css';
 import search from '@assets/search.png';
 import { db } from '@/database';
 import { collection, getDocs } from 'firebase/firestore';
 import { Tweet, UserProfile } from '@/types';
+import { debounce } from '@/utils/debounceSearch';
 
 interface SearchResult {
   profile: UserProfile;
@@ -15,6 +16,7 @@ export const SearchTweets: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -22,14 +24,15 @@ export const SearchTweets: FC = () => {
 
     if (event.target.value === '') {
       setResults([]);
+      setSearchPerformed(false);
     }
   };
 
-  const handleSearch = async (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const performSearch = async () => {
     if (searchTerm.trim() === '') {
       setResults([]);
-      setSearchPerformed(true);
+      setSearchPerformed(false);
+      setIsSearching(false);
       return;
     }
     try {
@@ -63,7 +66,17 @@ export const SearchTweets: FC = () => {
       setSearchPerformed(true);
     } catch (error) {
       console.error('Error searching tweets:', error);
+    } finally {
+      setIsSearching(false);
     }
+  };
+
+  const debouncedSearch = useCallback(debounce(performSearch, 500), [searchTerm]);
+
+  const handleSearch = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setIsSearching(true);
+    debouncedSearch();
   };
 
   const handleResultClick = (profile: UserProfile, tweets: Tweet[]) => {
@@ -71,7 +84,7 @@ export const SearchTweets: FC = () => {
   };
 
   const checkNotFound = () => {
-    return searchPerformed && searchTerm.trim() !== '' && results.length === 0;
+    return searchPerformed && results.length === 0;
   };
 
   return (
@@ -88,6 +101,7 @@ export const SearchTweets: FC = () => {
           onChange={handleInputChange}
         />
       </div>
+      {isSearching && <div className={style.searching}>Searching...</div>}
       {results.length > 0 && (
         <div className={style.resultsContainer}>
           <h3 className={style.title}>Search results</h3>
