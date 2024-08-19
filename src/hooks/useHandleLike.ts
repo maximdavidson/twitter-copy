@@ -10,7 +10,7 @@ export const useHandleLike = (initialTweets: Tweet[], userId: string | null) => 
     if (!userId) return;
 
     const tweet = tweets[index];
-    const userRef = doc(db, 'users', tweet.userId); // Ссылка на документ пользователя
+    const userRef = doc(db, 'users', tweet.userId);
     const likedBy = Array.isArray(tweet.likedBy) ? tweet.likedBy : [];
 
     const alreadyLiked = likedBy.includes(userId);
@@ -26,10 +26,8 @@ export const useHandleLike = (initialTweets: Tweet[], userId: string | null) => 
         const userTweets = userDoc.data()?.tweets || [];
         const updatedTweets = userTweets.map((t: Tweet) => (t.id === tweet.id ? updatedTweet : t));
 
-        // Обновляем документ пользователя с новыми твитами
         await updateDoc(userRef, { tweets: updatedTweets });
 
-        // Обновляем состояние локально
         setTweets((prevTweets) => prevTweets.map((t, i) => (i === index ? updatedTweet : t)));
       } else {
         console.error('User document does not exist.');

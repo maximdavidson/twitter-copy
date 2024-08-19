@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { db } from '@/database';
 import { collection, getDocs } from 'firebase/firestore';
 import { Tweet, UserProfile } from '@/types';
+// import { FixedSizeList as List } from 'react-window';
 import person from '@assets/person.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';

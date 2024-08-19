@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import style from './style.module.css';
 import person from '@assets/person.png';
-import more from '@assets/moreintweet.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
 import { useNavigate } from 'react-router-dom';
@@ -33,9 +32,6 @@ export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets, profile,
                     ? tweet.timestamp.toLocaleDateString()
                     : new Date(tweet.timestamp.seconds * 1000).toLocaleDateString()}
                 </span>
-              </div>
-              <div className={style.more_container}>
-                <img className={style.more} src={more} alt="more" />
               </div>
             </div>
             <p>{tweet.text}</p>
