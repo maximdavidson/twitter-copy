@@ -161,8 +161,20 @@
   top: 3px;
 }
 
+.error {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
 [data-theme='dark'] .btn_edit {
   background-color: rgb(197, 196, 196);
+}
+[data-theme='light'] .error {
+  color: rgb(255, 0, 0);
+}
+[data-theme='dark'] .error {
+  color: rgb(255, 0, 0);
 }
 
 @media (max-width: 480px) {

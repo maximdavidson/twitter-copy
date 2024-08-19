@@ -2,9 +2,11 @@ import React, { useState, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { addTweetToFirestore } from '@/utils/addTweet';
-import style from './style.module.css';
+import { validateImage } from '@/validation';
+import { Loader } from '../Loader';
 import person from '@assets/person.png';
 import galary from '@assets/changePic.png';
+import style from './style.module.css';
 
 interface NewTweetInputProps {
   onTweetAdded?: () => void;
@@ -15,27 +17,42 @@ export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
   const [tweetText, setTweetText] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageSelected, setImageSelected] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTweet = async () => {
     if (tweetText.trim() && user?.uid) {
+      setIsLoading(true);
       try {
         await addTweetToFirestore(user.uid, tweetText, imageFile);
         setTweetText('');
         setImageFile(null);
         setImageSelected(false);
+        setError(null);
         if (onTweetAdded) {
           onTweetAdded();
         }
       } catch (error) {
         console.error('Error posting tweet:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const validationError = validateImage(file);
+      if (validationError) {
+        setError(validationError);
+        setImageSelected(false);
+        return;
+      }
+
+      setImageFile(file);
       setImageSelected(true);
+      setError(null);
     } else {
       setImageSelected(false);
     }
@@ -43,6 +60,7 @@ export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
 
   return (
     <div className={style.wrapper}>
+      {isLoading && <Loader />}
       <div className={style.container_input}>
         <img className={style.image} src={avatarUrl || person} alt="person" />
         <input
@@ -51,6 +69,7 @@ export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
           placeholder="What's happening?"
           value={tweetText}
           onChange={(e) => setTweetText(e.target.value)}
+          disabled={isLoading}
         />
       </div>
       <div className={style.container_change}>
@@ -63,11 +82,13 @@ export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
           accept="image/*"
           onChange={handleImageUpload}
           style={{ display: 'none' }}
+          disabled={isLoading}
         />
-        <button className={style.btn} onClick={handleTweet}>
+        <button className={style.btn} onClick={handleTweet} disabled={isLoading || !!error}>
           Tweet
         </button>
       </div>
+      {error && <p className={style.error}>{error}</p>}
     </div>
   );
 };

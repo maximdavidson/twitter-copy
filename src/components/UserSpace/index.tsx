@@ -12,6 +12,7 @@ import { updateProfile } from '@/utils/updateProfile';
 import { updateAvatar } from '@/utils/updateAvatar';
 import { updateBackground } from '@/utils/updateBackground';
 import { getUserTweetCount } from '@/utils/getUserTweetCount';
+import { validateImage } from '@/validation';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
 
@@ -34,6 +35,8 @@ export const UserSpace: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [errorTimeoutId, setErrorTimeoutId] = useState<NodeJS.Timeout | null>(null); // Состояние для хранения ID таймера
 
   const state = location.state as LocationState;
 
@@ -88,6 +91,21 @@ export const UserSpace: FC = () => {
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+
+      const validationError = validateImage(file);
+      if (validationError) {
+        setError(validationError);
+
+        if (errorTimeoutId) clearTimeout(errorTimeoutId);
+
+        const timeoutId = setTimeout(() => {
+          setError(null);
+        }, 3000);
+
+        setErrorTimeoutId(timeoutId);
+        return;
+      }
+
       setIsSaving(true);
       try {
         if (auth.currentUser) {
@@ -102,6 +120,21 @@ export const UserSpace: FC = () => {
   const handleBackgroundChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+
+      const validationError = validateImage(file);
+      if (validationError) {
+        setError(validationError);
+
+        if (errorTimeoutId) clearTimeout(errorTimeoutId);
+
+        const timeoutId = setTimeout(() => {
+          setError(null);
+        }, 3000);
+
+        setErrorTimeoutId(timeoutId);
+        return;
+      }
+
       setIsSaving(true);
       try {
         if (auth.currentUser) {
@@ -147,6 +180,7 @@ export const UserSpace: FC = () => {
             </div>
           </label>
         </div>
+        {error && <p className={style.error}>{error}</p>}
         <div className={style.main}>
           <div className={style.userInfo}>
             <h2 className={style.name}>{state?.name || userName}</h2>

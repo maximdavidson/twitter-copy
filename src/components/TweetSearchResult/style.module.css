@@ -11,18 +11,21 @@
   align-items: center;
   margin-bottom: 25px;
 }
+
 .avatar_container {
-  width: 49px;
-  height: 49px;
-}
-.avatar {
-  width: 49px;
-  height: 49px;
+  margin-top: 5px;
+  display: inline-block;
   border-radius: 50%;
-  margin-right: 10px;
-  object-fit: cover;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
 }
 
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .userName {
   font-weight: bold;
   margin-left: 10px;
@@ -38,7 +41,7 @@
   color: #888;
 }
 
-.tweet img {
+.post_image {
   max-width: 300px;
   width: 100%;
   height: auto;
@@ -48,16 +51,6 @@
 .tweet p {
   margin: 0;
   margin-bottom: 10px;
-}
-
-.more_container {
-  position: relative;
-  cursor: pointer;
-  margin-left: auto;
-  display: flex;
-  align-items: start;
-  width: 20px;
-  padding-right: 10px;
 }
 
 .menu {

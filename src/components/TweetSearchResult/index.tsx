@@ -21,9 +21,9 @@ export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets, profile,
         tweets.map((tweet, index) => (
           <div key={tweet.id} className={style.tweet}>
             <div className={style.tweetHeader}>
-              <div className={style.avatar_container} onClick={() => navigate('/profile')}>
+              <span className={style.avatar_container} onClick={() => navigate('/profile')}>
                 <img className={style.avatar} src={profile.avatar || person} alt="avatar" />
-              </div>
+              </span>
               <div className={style.tweetInfo}>
                 <span className={style.userName}>{profile.displayName}</span>
                 <span className={style.userNickname}>{profile.telegram}</span>
@@ -35,7 +35,7 @@ export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets, profile,
               </div>
             </div>
             <p>{tweet.text}</p>
-            {tweet.imageUrl && <img src={tweet.imageUrl} alt="tweet" className={style.tweetImage} />}
+            {tweet.imageUrl && <img className={style.post_image} src={tweet.imageUrl} alt="tweet" />}
             <div className={style.likes_container} onClick={() => onLikeTweet(index)}>
               <img
                 className={style.likeIcon}

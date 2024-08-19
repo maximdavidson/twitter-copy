@@ -45,7 +45,6 @@ export const validateProfile = (name: string, value: string): string | undefined
       if (!value) return 'Name is required';
       break;
     case 'telegram':
-      if (!value) return 'telegram is required';
       if (!/^[a-zA-Z0-9_@]+$/.test(value)) return 'telegram must be in English';
       if (!value.startsWith('@')) return 'telegram must start with @';
       break;
@@ -53,5 +52,32 @@ export const validateProfile = (name: string, value: string): string | undefined
       if (value.length > 300) return 'Info must be at least 300 characters long';
       break;
   }
+  return undefined;
+};
+
+export const validateImage = (file: File): string | undefined => {
+  const validFormats = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/bmp',
+    'image/webp',
+    'image/svg+xml',
+    'image/tiff',
+    'image/vnd.microsoft.icon',
+    'image/heic',
+    'image/heif',
+  ];
+  const maxSizeInMB = 2;
+  const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+  if (!validFormats.includes(file.type)) {
+    return 'Only JPEG and PNG formats are allowed.';
+  }
+
+  if (file.size > maxSizeInBytes) {
+    return `File size should not exceed ${maxSizeInMB}MB.`;
+  }
+
   return undefined;
 };
