@@ -6,17 +6,16 @@ import { TweetSearchResult } from '@/components/TweetSearchResult';
 import { SearchTweets } from '@/components/Search';
 import { Header } from '@/components/Header';
 import { Tweet, UserProfile } from '@/types';
+import { useHandleLike } from '@/hooks/useHandleLike';
 
 export const Explore: FC = () => {
   const location = useLocation();
-  const { profile, tweets }: { profile: UserProfile; tweets: Tweet[] } = location.state || {
+  const { profile, tweets: initialTweets }: { profile: UserProfile; tweets: Tweet[] } = location.state || {
     profile: null,
     tweets: [],
   };
 
-  const handleLikeTweet = () => {
-    // Логика лайка твита
-  };
+  const { tweets, handleLike } = useHandleLike(initialTweets, profile?.telegram || null);
 
   return (
     <div className={style.container}>
@@ -25,8 +24,8 @@ export const Explore: FC = () => {
       </div>
       <div className={style.profile}>
         <Header title="Explore" />
-        {profile && tweets && (
-          <TweetSearchResult tweets={tweets} profile={profile} onLikeTweet={handleLikeTweet} />
+        {profile && tweets.length > 0 && (
+          <TweetSearchResult tweets={tweets} profile={profile} onLikeTweet={handleLike} />
         )}
       </div>
       <div className={style.search}>

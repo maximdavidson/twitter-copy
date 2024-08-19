@@ -8,15 +8,16 @@ import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
 import { Loader } from '@/components/Loader';
 import { db } from '@/database';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { deleteTweetFromFirestore } from '@/utils/addTweet';
 import { convertToDate } from '@/utils/convertToDate';
+import { useHandleLike } from '@/hooks/useHandleLike';
 import { Tweet, UserProfile } from '@/types';
 import style from './style.module.css';
 
 export const TweetList: FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
-  const [tweets, setTweets] = useState<Tweet[]>([]);
+  const { tweets, setTweets, handleLike } = useHandleLike([], user?.uid || null);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [showMenu, setShowMenu] = useState<number | null>(null);
@@ -34,32 +35,6 @@ export const TweetList: FC = () => {
       } catch (error) {
         console.error('Error deleting tweet:', error);
       }
-    }
-  };
-
-  const handleLike = async (index: number) => {
-    if (user?.uid) {
-      const tweet = tweets[index];
-      const userRef = doc(db, 'users', user.uid);
-      const likedBy = Array.isArray(tweet.likedBy) ? tweet.likedBy : [];
-
-      const alreadyLiked = likedBy.includes(user.uid);
-      const updatedLikes = alreadyLiked ? tweet.likes - 1 : tweet.likes + 1;
-      const updatedLikedBy = alreadyLiked
-        ? likedBy.filter((uid) => uid !== user.uid)
-        : [...likedBy, user.uid];
-
-      const updatedTweet = { ...tweet, likes: updatedLikes, likedBy: updatedLikedBy };
-
-      try {
-        await updateDoc(userRef, {
-          tweets: tweets.map((t, i) => (i === index ? updatedTweet : t)),
-        });
-      } catch (error) {
-        console.error('Error liking/unliking tweet:', error);
-      }
-    } else {
-      console.error('User ID is undefined');
     }
   };
 
@@ -89,7 +64,7 @@ export const TweetList: FC = () => {
 
       return () => unsubscribe();
     }
-  }, [user]);
+  }, [user, setTweets]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
