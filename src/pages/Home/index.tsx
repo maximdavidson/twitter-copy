@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import bigline from '@/assets/BigLine.png';
 import { Navigation } from '@/components/Navigation';
-import { SearchTweets } from '@/components/Search';
+import { SearchUsers } from '@/components/SearchUsers';
 import { Header } from '@/components/Header';
 import { NewTweetInput } from '@/components/NewTweetInput';
 import { AllUsersTweets } from '@/components/AllUsersTweets';
@@ -28,7 +28,7 @@ export const Home: FC = () => {
         </div>
       </div>
       <div className={style.search}>
-        <SearchTweets />
+        <SearchUsers />
       </div>
     </div>
   );

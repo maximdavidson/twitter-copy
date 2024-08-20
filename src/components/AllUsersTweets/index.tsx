@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react';
 import { db } from '@/database';
 import { collection, getDocs } from 'firebase/firestore';
 import { Tweet, UserProfile } from '@/types';
-// import { FixedSizeList as List } from 'react-window';
 import person from '@assets/person.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
@@ -36,7 +35,7 @@ export const AllUsersTweets: FC = () => {
             avatar,
           };
 
-          tweets.forEach((tweet) => {
+          tweets.forEach((tweet: Tweet) => {
             allTweets.push({ ...tweet, userId: doc.id });
           });
         });
@@ -62,8 +61,8 @@ export const AllUsersTweets: FC = () => {
   return (
     <div className={style.tweetList}>
       {tweets.length > 0 ? (
-        tweets.map((tweet, index) => {
-          const profile = profiles[tweet.userId] || {
+        tweets.map((tweet: Tweet, index: number) => {
+          const profile = profiles[tweet.userId || ''] || {
             displayName: 'Unknown User',
             telegram: 'No Telegram Info',
             avatar: person,

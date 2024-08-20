@@ -36,7 +36,7 @@ export const UserSpace: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [errorTimeoutId, setErrorTimeoutId] = useState<NodeJS.Timeout | null>(null); // Состояние для хранения ID таймера
+  const [errorTimeoutId, setErrorTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const state = location.state as LocationState;
 

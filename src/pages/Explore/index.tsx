@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import style from './style.module.css';
 import { Navigation } from '@/components/Navigation';
 import { TweetSearchResult } from '@/components/TweetSearchResult';
-import { SearchTweets } from '@/components/Search';
+import { SearchTweets } from '@/components/SearchTweets';
 import { Header } from '@/components/Header';
 import { Tweet, UserProfile } from '@/types';
 import { useHandleLike } from '@/hooks/useHandleLike';
@@ -23,7 +23,7 @@ export const Explore: FC = () => {
         <Navigation />
       </div>
       <div className={style.profile}>
-        <Header title="Explore" />
+        <Header title="Posts" />
         {profile && tweets.length > 0 && (
           <TweetSearchResult tweets={tweets} profile={profile} onLikeTweet={handleLike} />
         )}

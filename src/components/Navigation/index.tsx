@@ -32,10 +32,7 @@ export const Navigation: FC = () => {
           <img src={home} alt="Home" className={style.icon} />
           <span>Home</span>
         </Link>
-        <Link
-          to="/explore"
-          className={`${style.navItem} ${location.pathname === '/explore' ? style.active : ''}`}
-        >
+        <Link to="#!" className={`${style.navItem} ${location.pathname === '#!' ? style.active : ''}`}>
           <img src={explore} alt="Explore" className={style.icon} />
           <span>Explore</span>
         </Link>

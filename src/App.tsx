@@ -9,6 +9,7 @@ import { Login } from './pages/Login';
 import { Profile } from './pages/Profile';
 import { Explore } from './pages/Explore';
 import { Home } from './pages/Home';
+import { Users } from './pages/Users';
 import { fetchUserTheme } from './utils/updateUserTheme';
 import './App.css';
 
@@ -48,6 +49,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </Router>
   );

@@ -4,17 +4,12 @@ import style from './style.module.css';
 import search from '@assets/search.png';
 import { db } from '@/database';
 import { collection, getDocs } from 'firebase/firestore';
-import { Tweet, UserProfile } from '@/types';
+import { UserProfile } from '@/types';
 import { debounce } from '@/utils/debounceSearch';
 
-interface SearchResult {
-  profile: UserProfile;
-  tweets: Tweet[];
-}
-
-export const SearchTweets: FC = () => {
+export const SearchUsers: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<UserProfile[]>([]);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -39,33 +34,24 @@ export const SearchTweets: FC = () => {
       const usersCollection = collection(db, 'users');
       const usersSnapshot = await getDocs(usersCollection);
 
-      const searchResults: SearchResult[] = [];
+      const searchResults: UserProfile[] = [];
 
       usersSnapshot.forEach((doc) => {
-        const userData = doc.data();
-        const tweets = userData.tweets || [];
+        const userData = doc.data() as UserProfile;
 
-        const matchingTweets = tweets.filter((tweet: any) =>
-          tweet.text.toLowerCase().includes(searchTerm.toLowerCase()),
-        );
+        const matchesSearchTerm =
+          userData.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          userData.telegram.toLowerCase().includes(searchTerm.toLowerCase());
 
-        if (matchingTweets.length > 0) {
-          searchResults.push({
-            profile: {
-              displayName: userData.displayName || '',
-              telegram: userData.telegram || '',
-              avatar: userData.avatar || '',
-              gender: '',
-            },
-            tweets: matchingTweets,
-          });
+        if (matchesSearchTerm) {
+          searchResults.push(userData);
         }
       });
 
       setResults(searchResults);
       setSearchPerformed(true);
     } catch (error) {
-      console.error('Error searching tweets:', error);
+      console.error('Error searching users:', error);
     } finally {
       setIsSearching(false);
     }
@@ -79,8 +65,11 @@ export const SearchTweets: FC = () => {
     debouncedSearch();
   };
 
-  const handleResultClick = (profile: UserProfile, tweets: Tweet[]) => {
-    navigate('/explore', { state: { profile, tweets } });
+  const handleResultClick = (profile: UserProfile) => {
+    setResults([]);
+    setSearchPerformed(false);
+    setSearchTerm('');
+    navigate('/users', { state: { profile, tweets: profile.tweets } });
   };
 
   const checkNotFound = () => {
@@ -96,7 +85,7 @@ export const SearchTweets: FC = () => {
         <input
           className={style.input}
           type="text"
-          placeholder="Search Tweets"
+          placeholder="Search Users"
           value={searchTerm}
           onChange={handleInputChange}
         />
@@ -105,16 +94,12 @@ export const SearchTweets: FC = () => {
       {results.length > 0 && (
         <div className={style.resultsContainer}>
           <h3 className={style.title}>Search results</h3>
-          {results.map((result, index) => (
-            <div
-              key={index}
-              className={style.resultItem}
-              onClick={() => handleResultClick(result.profile, result.tweets)}
-            >
-              <img src={result.profile.avatar} alt="avatar" className={style.avatar} />
+          {results.map((profile, index) => (
+            <div key={index} className={style.resultItem} onClick={() => handleResultClick(profile)}>
+              <img src={profile.avatar} alt="avatar" className={style.avatar} />
               <div className={style.userInfo}>
-                <span className={style.displayName}>{result.profile.displayName}</span>
-                <span className={style.nickname}>{result.profile.telegram}</span>
+                <span className={style.displayName}>{profile.displayName}</span>
+                <span className={style.nickname}>{profile.telegram}</span>
               </div>
             </div>
           ))}

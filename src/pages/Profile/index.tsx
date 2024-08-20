@@ -4,7 +4,7 @@ import { UserSpace } from '@/components/UserSpace';
 import style from './style.module.css';
 import { NewTweetInput } from '@/components/NewTweetInput';
 import { TweetList } from '@/components/TweetList';
-import { SearchTweets } from '@/components/Search';
+import { SearchTweets } from '@/components/SearchTweets';
 
 export const Profile: FC = () => {
   return (
