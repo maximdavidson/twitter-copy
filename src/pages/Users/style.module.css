@@ -25,12 +25,26 @@
   .container {
     display: grid;
     grid-template-columns: 0px 1fr 10px;
-    gap: 10px;
+    gap: 0px;
     padding: 0px;
   }
+
   .search {
     grid-column: 2;
-    margin-bottom: 150px;
+    order: 1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .profile {
+    margin-left: 10px;
+    grid-column: 2;
+    order: 2;
+  }
+
+  .navigation {
+    grid-column: 2;
+    order: 3;
   }
 }
 
@@ -38,11 +52,25 @@
   .container {
     display: grid;
     grid-template-columns: 0px 1fr 10px;
-    gap: 10px;
+    gap: 0px;
     padding: 0px;
   }
+
   .search {
     grid-column: 2;
-    margin-bottom: 150px;
+    order: 1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .profile {
+    margin-left: 10px;
+    grid-column: 2;
+    order: 2;
+  }
+
+  .navigation {
+    grid-column: 2;
+    order: 3;
   }
 }

@@ -1,19 +1,27 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import style from './style.module.css';
 import person from '@assets/person.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
 import { useNavigate } from 'react-router-dom';
 import { Tweet, UserProfile } from '@/types';
+import { useHandleLike } from '@/hooks/useHandleLike';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 interface TweetSearchResultProps {
   tweets: Tweet[];
   profile: UserProfile;
-  onLikeTweet: (index: number) => void;
 }
 
-export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets, profile, onLikeTweet }) => {
+export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets: initialTweets, profile }) => {
   const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.user);
+  const { tweets, setTweets, handleLike } = useHandleLike(initialTweets, user?.uid || null);
+
+  useEffect(() => {
+    setTweets(initialTweets);
+  }, [initialTweets, setTweets]);
 
   return (
     <div className={style.tweetList}>
@@ -36,11 +44,11 @@ export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets, profile,
             </div>
             <p>{tweet.text}</p>
             {tweet.imageUrl && <img className={style.post_image} src={tweet.imageUrl} alt="tweet" />}
-            <div className={style.likes_container} onClick={() => onLikeTweet(index)}>
+            <div className={style.likes_container} onClick={() => handleLike(index)}>
               <img
                 className={style.likeIcon}
                 src={
-                  Array.isArray(tweet.likedBy) && tweet.likedBy.includes(profile.telegram) ? activelike : like
+                  Array.isArray(tweet.likedBy) && tweet.likedBy.includes(user?.uid || '') ? activelike : like
                 }
                 alt="like"
               />
