@@ -31,7 +31,6 @@ module.exports = {
           ['@hooks', './src/hooks'],
           ['@utils', './src/utils'],
           ['@types', './src/types'],
-          ['@services', './src/services'],
           ['@database', './src/database'],
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx'],

@@ -18,7 +18,6 @@
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
       "@types/*": ["./src/types/*"],
-      "@services/*": ["./src/services/*"],
       "@database/*": ["./src/database/*"]
     }
   },

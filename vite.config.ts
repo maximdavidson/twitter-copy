@@ -1,7 +1,6 @@
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import { config } from 'dotenv';
 
 export default defineConfig({
   plugins: [react()],
@@ -15,7 +14,6 @@ export default defineConfig({
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@utils': path.resolve(__dirname, './src/utils'),
       '@types': path.resolve(__dirname, './src/types'),
-      '@services': path.resolve(__dirname, './src/services'),
       '@database': path.resolve(__dirname, './src/database'),
     },
   },
