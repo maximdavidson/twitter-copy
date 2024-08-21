@@ -102,6 +102,7 @@ export const TweetList: FC = () => {
                 <span className={style.timestamp}>{convertToDate(tweet.timestamp).toLocaleDateString()}</span>
               </div>
               <div
+                data-testid="more"
                 className={style.more_container}
                 onClick={() => toggleMenu(index)}
                 ref={index === showMenu ? menuRef : null}
@@ -109,7 +110,11 @@ export const TweetList: FC = () => {
                 <img className={style.more} src={more} alt="more" />
                 {showMenu === index && (
                   <div className={style.menu}>
-                    <span className={style.menuItem} onClick={() => handleDeleteTweet(tweet.id)}>
+                    <span
+                      className={style.menuItem}
+                      data-testid="delete"
+                      onClick={() => handleDeleteTweet(tweet.id)}
+                    >
                       Delete
                     </span>
                   </div>

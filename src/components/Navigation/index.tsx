@@ -79,7 +79,7 @@ export const Navigation: FC = () => {
       <button className={`${style.tweet_btn} ${style.btn}`} onClick={openTweetModal}>
         Tweet
       </button>
-      <TweetModal isOpen={isTweetModalOpen} onClose={closeTweetModal} />
+      <TweetModal data-testid="modal" isOpen={isTweetModalOpen} onClose={closeTweetModal} />
       <div className={style.wrapper}>
         <div className={style.profile}>
           <img src={avatarUrl || person} alt="Avatar" className={style.avatar} />

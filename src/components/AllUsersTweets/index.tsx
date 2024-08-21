@@ -68,7 +68,7 @@ export const AllUsersTweets: FC = () => {
             avatar: person,
           };
           return (
-            <div key={tweet.id} className={style.tweet}>
+            <div key={tweet.id} className={style.tweet} data-testid="tweet">
               <div className={style.tweetHeader}>
                 <span className={style.avatar_container}>
                   <img className={style.avatar} src={profile.avatar} alt="avatar" />
@@ -83,8 +83,9 @@ export const AllUsersTweets: FC = () => {
               </div>
               <p>{tweet.text}</p>
               {tweet.imageUrl && <img className={style.post_image} src={tweet.imageUrl} alt="tweet" />}
-              <div className={style.likes_container}>
+              <div data-testid="likes_container" className={style.likes_container}>
                 <img
+                  data-testid="like"
                   className={style.likeIcon}
                   src={
                     Array.isArray(tweet.likedBy) && tweet.likedBy.includes(user?.uid || '')

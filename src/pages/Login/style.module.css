@@ -79,6 +79,14 @@
   margin-top: -1px;
 }
 
+[data-theme='light'] .error {
+  color: rgb(255, 0, 0);
+}
+
+[data-theme='dark'] .error {
+  color: rgb(255, 0, 0);
+}
+
 @media (max-width: 480px) {
   .container {
     padding: 10px;

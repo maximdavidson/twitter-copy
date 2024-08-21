@@ -32,11 +32,11 @@ export const Header: FC<HeaderProps> = ({ title }) => {
   return (
     <header className={style.container}>
       <div className={style.wrapper}>
-        <div className={style.wrap} onClick={handleArrowClick}>
-          <img className={style.arrow} src={exit} alt="Exit Arrow" />
+        <div className={style.wrap}>
+          <img className={style.arrow} src={exit} onClick={handleArrowClick} alt="Exit Arrow" />
           <p className={style.title}>{title}</p>
         </div>
-        <div className={style.switch} onClick={handleToggleTheme}>
+        <div data-testid="switch" className={style.switch} onClick={handleToggleTheme}>
           <img
             src={theme === 'light' ? switchOff : switchOn}
             alt={`Switch ${theme === 'light' ? 'Off' : 'On'}`}

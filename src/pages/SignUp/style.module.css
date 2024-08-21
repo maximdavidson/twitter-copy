@@ -97,7 +97,6 @@
 }
 
 .error {
-  color: red;
   font-size: 12px;
   margin-top: -1px;
 }
@@ -113,6 +112,14 @@
 
 [data-theme='dark'] .link {
   color: rgba(29, 161, 242);
+}
+
+[data-theme='light'] .error {
+  color: rgb(255, 0, 0);
+}
+
+[data-theme='dark'] .error {
+  color: rgb(255, 0, 0);
 }
 
 .link:hover {

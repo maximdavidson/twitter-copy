@@ -38,13 +38,3 @@ export {
   db,
   storage,
 };
-
-// const firebaseConfig = {
-//   apiKey: 'AIzaSyAU3xiBKNKJh-HX23YKgEL8HytUDc225tE',
-//   authDomain: 'modsentwitter.firebaseapp.com',
-//   databaseURL: 'https://modsentwitter-default-rtdb.firebaseio.com',
-//   projectId: 'modsentwitter',
-//   storageBucket: 'modsentwitter.appspot.com',
-//   messagingSenderId: '357057773191',
-//   appId: '1:357057773191:web:212dc61b163865b3170222',
-// };

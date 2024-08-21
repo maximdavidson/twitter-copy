@@ -84,7 +84,12 @@ export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
           style={{ display: 'none' }}
           disabled={isLoading}
         />
-        <button className={style.btn} onClick={handleTweet} disabled={isLoading || !!error}>
+        <button
+          data-testid="tweet-button"
+          className={style.btn}
+          onClick={handleTweet}
+          disabled={isLoading || !!error}
+        >
           Tweet
         </button>
       </div>

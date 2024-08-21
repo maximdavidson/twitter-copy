@@ -94,7 +94,7 @@ export const SearchTweets: FC = () => {
     <div className={style.container}>
       <div className={style.inputContainer}>
         <button className={style.searchButton} onClick={handleSearch}>
-          <img src={search} alt="search" className={style.searchIcon} />
+          <img data-testid="search" src={search} alt="search" className={style.searchIcon} />
         </button>
         <input
           className={style.input}
@@ -110,6 +110,7 @@ export const SearchTweets: FC = () => {
           <h3 className={style.title}>Search results</h3>
           {results.map((result, index) => (
             <div
+              data-testid="result"
               key={index}
               className={style.resultItem}
               onClick={() => handleResultClick(result.profile, result.tweets)}

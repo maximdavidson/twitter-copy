@@ -79,7 +79,7 @@ export const SearchUsers: FC = () => {
   return (
     <div className={style.container}>
       <div className={style.inputContainer}>
-        <button className={style.searchButton} onClick={handleSearch}>
+        <button data-testid="search" className={style.searchButton} onClick={handleSearch}>
           <img src={search} alt="search" className={style.searchIcon} />
         </button>
         <input
@@ -95,7 +95,12 @@ export const SearchUsers: FC = () => {
         <div className={style.resultsContainer}>
           <h3 className={style.title}>Search results</h3>
           {results.map((profile, index) => (
-            <div key={index} className={style.resultItem} onClick={() => handleResultClick(profile)}>
+            <div
+              data-testid="result"
+              key={index}
+              className={style.resultItem}
+              onClick={() => handleResultClick(profile)}
+            >
               <img src={profile.avatar} alt="avatar" className={style.avatar} />
               <div className={style.userInfo}>
                 <span className={style.displayName}>{profile.displayName}</span>
