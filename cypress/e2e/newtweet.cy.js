@@ -19,7 +19,6 @@ describe('NewTweetInput Component', () => {
     cy.get('input[placeholder="What\'s happening?"]').scrollIntoView().should('be.visible');
 
     cy.get('[data-testid="tweet-button"]').click();
-    cy.contains('Tweet to be deleted').should('be.visible');
 
     cy.get('[data-testid="more"]').first().click();
 

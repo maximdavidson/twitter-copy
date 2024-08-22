@@ -24,6 +24,6 @@ describe('SearchTweets Component', () => {
     cy.get('[data-testid="search"]').click();
     cy.get('[data-testid="result"]').should('exist');
     cy.get('[data-testid="result"]').first().click();
-    cy.url().should('include', '/explore');
+    cy.url().should('include', '/postlist');
   });
 });
