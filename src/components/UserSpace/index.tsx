@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { User } from 'firebase/auth';
@@ -8,15 +8,15 @@ import { Loader } from '@/components/Loader';
 import { ProfileEditModal } from '@/components/ProfileEditModal';
 import { RootState } from '@/store';
 import { setAvatarUrl, setUser, setUserName, setUserTelegram, setGender } from '@/store/userSlice';
-import { updateProfile } from '@/utils/updateProfile';
-import { updateAvatar } from '@/utils/updateAvatar';
-import { updateBackground } from '@/utils/updateBackground';
-import { getUserTweetCount } from '@/utils/getUserTweetCount';
-import { validateImage } from '@/validation';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
 
+import { useProfileHandler } from '@/hooks/useProfileHandler';
+import { useAvatarHandler } from '@/hooks/useAvatarHandler';
+import { useBackgroundHandler } from '@/hooks/useBackgroundHandler';
+
 import style from './style.module.css';
+import { getUserTweetCount } from '@/utils/getUserTweetCount';
 
 interface LocationState {
   name?: string;
@@ -34,11 +34,20 @@ export const UserSpace: FC = () => {
   const [tweetCount, setTweetCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [errorTimeoutId, setErrorTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const state = location.state as LocationState;
+
+  const { handleSaveProfile, isSaving: isSavingProfile } = useProfileHandler();
+  const {
+    handleAvatarChange,
+    isSaving: isSavingAvatar,
+    error: avatarError,
+  } = useAvatarHandler(setLocalAvatarUrl);
+  const {
+    handleBackgroundChange,
+    isSaving: isSavingBackground,
+    error: backgroundError,
+  } = useBackgroundHandler(setBackgroundUrl);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
@@ -67,86 +76,7 @@ export const UserSpace: FC = () => {
     return () => unsubscribe();
   }, [dispatch, navigate]);
 
-  const handleEditProfile = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleSaveProfile = async (name: string, telegram: string, gender: string, info: string) => {
-    setIsSaving(true);
-    try {
-      if (auth.currentUser) {
-        await updateProfile(auth.currentUser, name, telegram, gender, info, dispatch);
-
-        dispatch(setUserName(name));
-        dispatch(setUserTelegram(telegram));
-        dispatch(setGender(gender));
-        setUserInfo(info);
-      }
-    } finally {
-      setIsSaving(false);
-      setIsModalOpen(false);
-    }
-  };
-
-  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-
-      const validationError = validateImage(file);
-      if (validationError) {
-        setError(validationError);
-
-        if (errorTimeoutId) clearTimeout(errorTimeoutId);
-
-        const timeoutId = setTimeout(() => {
-          setError(null);
-        }, 3000);
-
-        setErrorTimeoutId(timeoutId);
-        return;
-      }
-
-      setIsSaving(true);
-      try {
-        if (auth.currentUser) {
-          await updateAvatar(auth.currentUser, file, setLocalAvatarUrl);
-        }
-      } finally {
-        setIsSaving(false);
-      }
-    }
-  };
-
-  const handleBackgroundChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-
-      const validationError = validateImage(file);
-      if (validationError) {
-        setError(validationError);
-
-        if (errorTimeoutId) clearTimeout(errorTimeoutId);
-
-        const timeoutId = setTimeout(() => {
-          setError(null);
-        }, 3000);
-
-        setErrorTimeoutId(timeoutId);
-        return;
-      }
-
-      setIsSaving(true);
-      try {
-        if (auth.currentUser) {
-          await updateBackground(auth.currentUser, file, setBackgroundUrl);
-        }
-      } finally {
-        setIsSaving(false);
-      }
-    }
-  };
-
-  if (isLoading || isSaving) {
+  if (isLoading || isSavingProfile || isSavingAvatar || isSavingBackground) {
     return <Loader />;
   }
 
@@ -155,7 +85,9 @@ export const UserSpace: FC = () => {
       <ProfileEditModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveProfile}
+        onSave={(name, telegram, gender, info) =>
+          handleSaveProfile(name, telegram, gender, info, setUserInfo, setIsModalOpen)
+        }
         currentName={userName || ''}
         currentTelegram={userTelegram}
         currentGender={gender || ''}
@@ -180,7 +112,7 @@ export const UserSpace: FC = () => {
             </div>
           </label>
         </div>
-        {error && <p className={style.error}>{error}</p>}
+        {(avatarError || backgroundError) && <p className={style.error}>{avatarError || backgroundError}</p>}
         <div className={style.main}>
           <div className={style.userInfo}>
             <h2 className={style.name}>{state?.name || userName}</h2>
@@ -191,7 +123,7 @@ export const UserSpace: FC = () => {
             </div>
           </div>
           <div>
-            <button className={style.btn_edit} onClick={handleEditProfile}>
+            <button className={style.btn_edit} onClick={() => setIsModalOpen(true)}>
               Edit Profile
             </button>
           </div>
