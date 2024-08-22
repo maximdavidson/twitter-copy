@@ -19,14 +19,14 @@ export const Home: FC = () => {
       <div className={style.navigation}>
         <Navigation />
       </div>
-      <div className={style.profile}>
+      <main className={style.profile}>
         <Header title="Home" />
         <NewTweetInput onTweetAdded={handleTweetAdded} />
         <img className={style.bigline} src={bigline} alt="bigline" />
         <div className={style.main}>
           <AllUsersTweets key={refreshTweets.toString()} />
         </div>
-      </div>
+      </main>
       <div className={style.search}>
         <SearchUsers />
       </div>

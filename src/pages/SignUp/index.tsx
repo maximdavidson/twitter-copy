@@ -1,15 +1,15 @@
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import s from './style.module.css';
-import bird from '@assets/twitter-logo.png';
 import { useNavigate, Link } from 'react-router-dom';
-import { validateSignUp } from '@/validation';
-import { auth, createUserWithEmailAndPassword } from '@/database';
 import { updateProfile } from 'firebase/auth';
+import { auth, createUserWithEmailAndPassword } from '@/database';
+import { validateSignUp } from '@/validation';
+import { createUserProfile } from '@/utils/createUserProfile';
 import { InfoText } from './components/InfoText';
 import { DateSelect } from './components/DateSelect';
 import { Loader } from '@/components/Loader';
-import { createUserProfile } from '@/utils/createUserProfile';
+import bird from '@assets/twitter-logo.png';
+import s from './style.module.css';
 
 interface FormData {
   name: string;

@@ -29,3 +29,10 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 480px) {
+  .loader {
+    width: 100px;
+    height: 100px;
+  }
+}

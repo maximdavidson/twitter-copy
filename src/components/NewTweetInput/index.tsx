@@ -5,7 +5,7 @@ import { addTweetToFirestore } from '@/utils/addTweet';
 import { validateImage } from '@/validation';
 import { Loader } from '../Loader';
 import person from '@assets/person.png';
-import galary from '@assets/changePic.png';
+import gallare from '@assets/changePic.png';
 import style from './style.module.css';
 
 interface NewTweetInputProps {
@@ -58,6 +58,10 @@ export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
     }
   };
 
+  const handleTweetTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTweetText(e.target.value);
+  };
+
   return (
     <div className={style.wrapper}>
       {isLoading && <Loader />}
@@ -68,13 +72,13 @@ export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
           type="text"
           placeholder="What's happening?"
           value={tweetText}
-          onChange={(e) => setTweetText(e.target.value)}
+          onChange={handleTweetTextChange}
           disabled={isLoading}
         />
       </div>
       <div className={style.container_change}>
         <label htmlFor="imageUpload" className={style.imageLabel}>
-          <img src={galary} alt="gallery" className={imageSelected ? style.imageSelected : ''} />
+          <img src={gallare} alt="gallery" className={imageSelected ? style.imageSelected : ''} />
         </label>
         <input
           id="imageUpload"
@@ -83,6 +87,7 @@ export const NewTweetInput: FC<NewTweetInputProps> = ({ onTweetAdded }) => {
           onChange={handleImageUpload}
           style={{ display: 'none' }}
           disabled={isLoading}
+          className={style.gallare_change}
         />
         <button
           data-testid="tweet-button"

@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Controller } from 'react-hook-form';
-import s from '@/pages/SignUp/style.module.css';
 import { validateSignUp } from '@/validation';
+import { MONTHS } from '@/constants/month';
+import style from '@/pages/SignUp/style.module.css';
 
 interface DateSelectProps {
   control: any;
@@ -9,28 +10,15 @@ interface DateSelectProps {
 }
 
 export const DateSelect: FC<DateSelectProps> = ({ control, errors }) => (
-  <div className={s.dateWrapper}>
-    <div className={s.selectContainer}>
+  <div className={style.dateWrapper}>
+    <div className={style.selectContainer}>
       <Controller
         name="month"
         control={control}
         render={({ field }) => (
-          <select className={s.select} {...field}>
+          <select className={style.select} {...field}>
             <option value="">Select Month</option>
-            {[
-              'January',
-              'February',
-              'March',
-              'April',
-              'May',
-              'June',
-              'July',
-              'August',
-              'September',
-              'October',
-              'November',
-              'December',
-            ].map((month) => (
+            {MONTHS.map((month) => (
               <option key={month} value={month}>
                 {month}
               </option>
@@ -39,14 +27,14 @@ export const DateSelect: FC<DateSelectProps> = ({ control, errors }) => (
         )}
         rules={{ validate: (value) => validateSignUp('month', value) }}
       />
-      {errors.month && <p className={s.error}>{errors.month.message}</p>}
+      {errors.month && <p className={style.error}>{errors.month.message}</p>}
     </div>
-    <div className={s.selectContainer}>
+    <div className={style.selectContainer}>
       <Controller
         name="day"
         control={control}
         render={({ field }) => (
-          <select className={s.select} {...field}>
+          <select className={style.select} {...field}>
             <option value="">Day</option>
             {Array.from({ length: 31 }, (_, i) => (
               <option key={i + 1} value={i + 1}>
@@ -57,14 +45,14 @@ export const DateSelect: FC<DateSelectProps> = ({ control, errors }) => (
         )}
         rules={{ validate: (value) => validateSignUp('day', value) }}
       />
-      {errors.day && <p className={s.error}>{errors.day.message}</p>}
+      {errors.day && <p className={style.error}>{errors.day.message}</p>}
     </div>
-    <div className={s.selectContainer}>
+    <div className={style.selectContainer}>
       <Controller
         name="year"
         control={control}
         render={({ field }) => (
-          <select className={s.select} {...field}>
+          <select className={style.select} {...field}>
             <option value="">Year</option>
             {Array.from({ length: 100 }, (_, i) => {
               const year = new Date().getFullYear() - i;
@@ -78,7 +66,7 @@ export const DateSelect: FC<DateSelectProps> = ({ control, errors }) => (
         )}
         rules={{ validate: (value) => validateSignUp('year', value) }}
       />
-      {errors.year && <p className={s.error}>{errors.year.message}</p>}
+      {errors.year && <p className={style.error}>{errors.year.message}</p>}
     </div>
   </div>
 );

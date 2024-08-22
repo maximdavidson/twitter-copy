@@ -1,11 +1,11 @@
 import { FC, useState, ChangeEvent, MouseEvent, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import style from './style.module.css';
-import search from '@assets/search.png';
 import { db } from '@/database';
 import { collection, getDocs } from 'firebase/firestore';
 import { UserProfile } from '@/types';
 import { debounce } from '@/utils/debounceSearch';
+import search from '@assets/search.png';
+import style from './style.module.css';
 
 export const SearchUsers: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -72,6 +72,10 @@ export const SearchUsers: FC = () => {
     navigate('/users', { state: { profile, tweets: profile.tweets } });
   };
 
+  const handleResultClickWrapper = (profile: UserProfile) => () => {
+    handleResultClick(profile);
+  };
+
   const checkNotFound = () => {
     return searchPerformed && results.length === 0;
   };
@@ -99,7 +103,7 @@ export const SearchUsers: FC = () => {
               data-testid="result"
               key={index}
               className={style.resultItem}
-              onClick={() => handleResultClick(profile)}
+              onClick={handleResultClickWrapper(profile)}
             >
               <img src={profile.avatar} alt="avatar" className={style.avatar} />
               <div className={style.userInfo}>

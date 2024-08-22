@@ -1,18 +1,18 @@
 import { useEffect, useState, FC, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { RootState } from '@/store';
+import { db } from '@/database';
+import { deleteTweetFromFirestore } from '@/utils/addTweet';
+import { convertToDate } from '@/utils/convertToDate';
+import { useHandleLike } from '@/hooks/useHandleLike';
+import { Tweet, UserProfile } from '@/types';
 import person from '@assets/person.png';
 import more from '@assets/moreintweet.png';
 import line from '@assets/line.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
 import { Loader } from '@/components/Loader';
-import { db } from '@/database';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { deleteTweetFromFirestore } from '@/utils/addTweet';
-import { convertToDate } from '@/utils/convertToDate';
-import { useHandleLike } from '@/hooks/useHandleLike';
-import { Tweet, UserProfile } from '@/types';
 import style from './style.module.css';
 
 export const TweetList: FC = () => {
@@ -79,6 +79,18 @@ export const TweetList: FC = () => {
     };
   }, []);
 
+  const handleToggleMenu = (index: number) => () => {
+    toggleMenu(index);
+  };
+
+  const handleDeleteClick = (tweetId: string) => () => {
+    handleDeleteTweet(tweetId);
+  };
+
+  const handleLikeClick = (index: number) => () => {
+    handleLike(index);
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -104,7 +116,7 @@ export const TweetList: FC = () => {
               <div
                 data-testid="more"
                 className={style.more_container}
-                onClick={() => toggleMenu(index)}
+                onClick={handleToggleMenu(index)}
                 ref={index === showMenu ? menuRef : null}
               >
                 <img className={style.more} src={more} alt="more" />
@@ -113,7 +125,7 @@ export const TweetList: FC = () => {
                     <span
                       className={style.menuItem}
                       data-testid="delete"
-                      onClick={() => handleDeleteTweet(tweet.id)}
+                      onClick={handleDeleteClick(tweet.id)}
                     >
                       Delete
                     </span>
@@ -130,7 +142,7 @@ export const TweetList: FC = () => {
                   Array.isArray(tweet.likedBy) && tweet.likedBy.includes(user?.uid || '') ? activelike : like
                 }
                 alt="like"
-                onClick={() => handleLike(index)}
+                onClick={handleLikeClick(index)}
               />
               <span>{tweet.likes || 0}</span>
             </div>

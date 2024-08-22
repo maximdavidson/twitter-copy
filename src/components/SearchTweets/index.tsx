@@ -1,11 +1,11 @@
 import { FC, useState, ChangeEvent, MouseEvent, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import style from './style.module.css';
-import search from '@assets/search.png';
 import { db } from '@/database';
 import { collection, getDocs } from 'firebase/firestore';
 import { Tweet, UserProfile } from '@/types';
 import { debounce } from '@/utils/debounceSearch';
+import search from '@assets/search.png';
+import style from './style.module.css';
 
 interface SearchResult {
   profile: UserProfile;
@@ -83,7 +83,11 @@ export const SearchTweets: FC = () => {
     setResults([]);
     setSearchPerformed(false);
     setSearchTerm('');
-    navigate('/explore', { state: { profile, tweets } });
+    navigate('/postlist', { state: { profile, tweets } });
+  };
+
+  const handleResultClickWrapper = (profile: UserProfile, tweets: Tweet[]) => () => {
+    handleResultClick(profile, tweets);
   };
 
   const checkNotFound = () => {
@@ -113,7 +117,7 @@ export const SearchTweets: FC = () => {
               data-testid="result"
               key={index}
               className={style.resultItem}
-              onClick={() => handleResultClick(result.profile, result.tweets)}
+              onClick={handleResultClickWrapper(result.profile, result.tweets)}
             >
               <img src={result.profile.avatar} alt="avatar" className={style.avatar} />
               <div className={style.userInfo}>

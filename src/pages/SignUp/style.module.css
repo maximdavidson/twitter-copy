@@ -203,7 +203,6 @@
   }
 }
 
-/* Стили для экранов от 481px до 768px */
 @media (min-width: 481px) and (max-width: 768px) {
   .container {
     padding: 20px;

@@ -36,6 +36,10 @@
   color: rgba(101, 119, 134, 1);
 }
 
+.gallare_change {
+  display: none;
+}
+
 .container_change {
   display: flex;
   align-items: center;

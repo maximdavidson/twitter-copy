@@ -4,8 +4,8 @@ import { Navigation } from '@/components/Navigation';
 import { SearchUsers } from '@/components/SearchUsers';
 import { Header } from '@/components/Header';
 import { AnotherUserProfile } from '@/components/AnotherUserProfile';
-import style from './style.module.css';
 import { UserProfile as UserProfileType, Tweet } from '@/types';
+import style from './style.module.css';
 
 export const Users: FC = () => {
   const location = useLocation();
@@ -14,18 +14,20 @@ export const Users: FC = () => {
 
   return (
     <div className={style.container}>
-      <div className={style.navigation}>
+      <nav className={style.navigation}>
         <Navigation />
-      </div>
+      </nav>
       <div className={style.profile}>
-        <Header title="User Profile" />
-        <div className={style.main}>
+        <header>
+          <Header title="User Profile" />
+        </header>
+        <section className={style.main}>
           <AnotherUserProfile profile={profile} tweets={tweets} />
-        </div>
+        </section>
       </div>
-      <div className={style.search}>
+      <aside className={style.search}>
         <SearchUsers />
-      </div>
+      </aside>
     </div>
   );
 };

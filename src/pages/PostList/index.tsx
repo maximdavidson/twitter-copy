@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
-import style from './style.module.css';
 import { Navigation } from '@/components/Navigation';
 import { TweetSearchResult } from '@/components/TweetSearchResult';
 import { SearchTweets } from '@/components/SearchTweets';
 import { Header } from '@/components/Header';
 import { Tweet, UserProfile } from '@/types';
+import style from './style.module.css';
 
-export const Explore: FC = () => {
+export const PostList: FC = () => {
   const location = useLocation();
   const { profile, tweets: initialTweets }: { profile: UserProfile; tweets: Tweet[] } = location.state || {
     profile: null,
@@ -19,12 +19,12 @@ export const Explore: FC = () => {
       <div className={style.navigation}>
         <Navigation />
       </div>
-      <div className={style.profile}>
+      <main className={style.profile}>
         <Header title="Posts" />
         {profile && initialTweets.length > 0 && (
           <TweetSearchResult tweets={initialTweets} profile={profile} />
         )}
-      </div>
+      </main>
       <div className={style.search}>
         <SearchTweets />
       </div>

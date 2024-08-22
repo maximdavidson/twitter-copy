@@ -1,22 +1,20 @@
 import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import { db, auth, onAuthStateChanged } from '@/database';
-import { doc, getDoc } from 'firebase/firestore';
-import { Loader } from '@/components/Loader';
+import { useProfileHandler } from '@/hooks/useProfileHandler';
+import { useAvatarHandler } from '@/hooks/useAvatarHandler';
+import { useBackgroundHandler } from '@/hooks/useBackgroundHandler';
+import { getUserTweetCount } from '@/utils/getUserTweetCount';
 import { ProfileEditModal } from '@/components/ProfileEditModal';
+import { Loader } from '@/components/Loader';
 import { RootState } from '@/store';
 import { setAvatarUrl, setUser, setUserName, setUserTelegram, setGender } from '@/store/userSlice';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
-
-import { useProfileHandler } from '@/hooks/useProfileHandler';
-import { useAvatarHandler } from '@/hooks/useAvatarHandler';
-import { useBackgroundHandler } from '@/hooks/useBackgroundHandler';
-
 import style from './style.module.css';
-import { getUserTweetCount } from '@/utils/getUserTweetCount';
 
 interface LocationState {
   name?: string;
@@ -80,14 +78,24 @@ export const UserSpace: FC = () => {
     return <Loader />;
   }
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSaveProfileClick = (name: string, telegram: string, gender: string, info: string) => {
+    handleSaveProfile(name, telegram, gender, info, setUserInfo, setIsModalOpen);
+  };
+
+  const handleEditProfileClick = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <div className={style.container}>
       <ProfileEditModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={(name, telegram, gender, info) =>
-          handleSaveProfile(name, telegram, gender, info, setUserInfo, setIsModalOpen)
-        }
+        onClose={handleCloseModal}
+        onSave={handleSaveProfileClick}
         currentName={userName || ''}
         currentTelegram={userTelegram}
         currentGender={gender || ''}
@@ -123,7 +131,7 @@ export const UserSpace: FC = () => {
             </div>
           </div>
           <div>
-            <button className={style.btn_edit} onClick={() => setIsModalOpen(true)}>
+            <button className={style.btn_edit} onClick={handleEditProfileClick}>
               Edit Profile
             </button>
           </div>

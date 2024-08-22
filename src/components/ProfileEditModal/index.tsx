@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
-import style from './style.module.css';
 import { validateProfile } from '@/validation';
+import style from './style.module.css';
 
 interface ProfileEditModalProps {
   isOpen: boolean;

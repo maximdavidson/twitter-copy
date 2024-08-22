@@ -2,10 +2,10 @@ import React, { useState, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { addTweetToFirestore } from '@/utils/addTweet';
-import style from './style.module.css';
+import { Loader } from '@/components/Loader';
 import person from '@assets/person.png';
 import galary from '@assets/changePic.png';
-import { Loader } from '@/components/Loader';
+import style from './style.module.css';
 
 interface TweetModalProps {
   isOpen: boolean;
@@ -45,11 +45,15 @@ export const TweetModal: FC<TweetModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className={style.modalOverlay} onClick={onClose}>
-      <div className={style.modalContent} onClick={(e) => e.stopPropagation()}>
+      <div className={style.modalContent} onClick={handleModalClick}>
         <div className={style.container_input}>
           <img className={style.avatar} src={avatarUrl || person} alt="person" />
           <input

@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateUserTheme } from '@/utils/updateUserTheme';
 import { RootState } from '@/store';
 import { toggleTheme } from '@/store/themeSlice';
 import exit from '@/assets/exit-arrow.png';
 import switchOff from '@/assets/switchOff.png';
 import switchOn from '@/assets/switchOn.png';
-import { updateUserTheme } from '@/utils/updateUserTheme';
 import style from './style.module.css';
 
 interface HeaderProps {

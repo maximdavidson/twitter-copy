@@ -1,36 +1,14 @@
-import { useNavigate } from 'react-router-dom';
-import style from './style.module.css';
+import { Link } from 'react-router-dom';
+import { Footer } from './components/Footer';
+import { PolicyText } from './components/PolicyText';
+import { useGoogleSignIn } from '@/hooks/useGoogleSignIn';
 import logo from '@/assets/back-twitter.webp';
 import bird from '@/assets/twitter-logo.png';
 import google from '@/assets/google-icon.png';
-import { Link } from 'react-router-dom';
-import { auth, signInWithPopup, googleProvider } from '@/database';
-import { Footer } from './components/Footer';
-import { PolicyText } from './components/PolicyText';
-import { createUserProfile } from '@/utils/createUserProfile';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/database';
+import style from './style.module.css';
 
 export const SignUpStart = () => {
-  const navigate = useNavigate();
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await createUserProfile(user);
-      }
-
-      navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
-    } catch (error) {
-      console.error('Error signing in with Google', error);
-    }
-  };
+  const { signInWithGoogle } = useGoogleSignIn();
 
   return (
     <>
@@ -38,12 +16,12 @@ export const SignUpStart = () => {
         <div className={style.image_wrapper}>
           <img src={logo} alt="Back Twitter logo" loading="lazy" />
         </div>
-        <div className={style.text_wrapper}>
+        <section className={style.text_wrapper}>
           <img className={style.image} src={bird} alt="Twitter Bird" />
           <h1 className={style.title}>Happening now</h1>
           <h3 className={style.subtitle}>Join Twitter today</h3>
           <div className={style.btn_wrapper}>
-            <button className={style.button} onClick={handleGoogleSignIn}>
+            <button className={style.button} onClick={signInWithGoogle}>
               <img src={google} alt="Google icon" className={style.icon} /> Sign up with Google
             </button>
             <Link to="/signup" className={style.button}>
@@ -51,7 +29,7 @@ export const SignUpStart = () => {
             </Link>
           </div>
           <PolicyText />
-        </div>
+        </section>
       </div>
       <Footer />
     </>

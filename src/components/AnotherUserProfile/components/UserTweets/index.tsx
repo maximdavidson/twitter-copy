@@ -1,13 +1,13 @@
 import { FC, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Tweet, UserProfile } from '@/types';
+import { RootState } from '@/store';
+import { useHandleLike } from '@/hooks/useHandleLike';
 import line from '@assets/line.png';
 import person from '@assets/person.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
-import { useHandleLike } from '@/hooks/useHandleLike';
 import style from './style.module.css';
-import { RootState } from '@/store';
-import { useSelector } from 'react-redux';
 
 interface UserTweetsProps {
   tweets: Tweet[];
@@ -23,6 +23,10 @@ export const UserTweets: FC<UserTweetsProps> = ({ tweets: initialTweets, profile
   }, [initialTweets, profile, setTweets]);
 
   const sortedTweets = [...tweets].sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
+
+  const handleLikeClick = (index: number) => () => {
+    handleLike(index);
+  };
 
   return (
     <div className={style.container}>
@@ -57,7 +61,7 @@ export const UserTweets: FC<UserTweetsProps> = ({ tweets: initialTweets, profile
                       : like
                   }
                   alt="like"
-                  onClick={() => handleLike(index)}
+                  onClick={handleLikeClick(index)}
                 />
                 <span>{tweet.likes || 0}</span>
               </div>

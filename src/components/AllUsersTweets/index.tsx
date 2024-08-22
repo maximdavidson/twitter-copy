@@ -1,15 +1,15 @@
 import { FC, useEffect, useState } from 'react';
-import { db } from '@/database';
+import { useSelector } from 'react-redux';
 import { collection, getDocs } from 'firebase/firestore';
+import { RootState } from '@/store';
+import { db } from '@/database';
 import { Tweet, UserProfile } from '@/types';
+import { Loader } from '../Loader';
+import { useHandleLike } from '@/hooks/useHandleLike';
 import person from '@assets/person.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
-import { Loader } from '../Loader';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
 import style from './style.module.css';
-import { useHandleLike } from '@/hooks/useHandleLike';
 
 export const AllUsersTweets: FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -54,6 +54,10 @@ export const AllUsersTweets: FC = () => {
     fetchTweets();
   }, [setTweets]);
 
+  const handleLikeClick = (index: number) => () => {
+    handleLike(index);
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -93,7 +97,7 @@ export const AllUsersTweets: FC = () => {
                       : like
                   }
                   alt="like"
-                  onClick={() => handleLike(index)}
+                  onClick={handleLikeClick(index)}
                 />
                 <span>{tweet.likes || 0}</span>
               </div>
