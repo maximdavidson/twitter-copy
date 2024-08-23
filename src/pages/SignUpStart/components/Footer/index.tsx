@@ -1,7 +1,7 @@
-import s from '@/pages/SignUpStart/style.module.css';
+import style from '@/pages/SignUpStart/style.module.css';
 
 export const Footer = () => (
-  <footer className={s.footer}>
+  <footer className={style.footer}>
     <a href="#!">About</a>
     <a href="#!">Help Center</a>
     <a href="#!">Terms of Service</a>

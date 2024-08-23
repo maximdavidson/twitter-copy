@@ -125,3 +125,10 @@
 [data-theme='dark'] .resultItem:hover {
   background-color: rgb(188, 188, 188);
 }
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 260px;
+    margin-left: 10px;
+  }
+}

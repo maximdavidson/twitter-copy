@@ -183,7 +183,24 @@
   }
 
   .background_container {
-    width: 790px;
+    width: 478px;
     height: 240px;
+  }
+
+  .user_input {
+    max-width: 380px;
+    padding-top: 10px;
+    overflow: hidden;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .avatar_container {
+    width: 130px;
+    height: 130px;
+    left: 15%;
   }
 }

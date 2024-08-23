@@ -73,6 +73,13 @@
 [data-theme='dark'] .link {
   color: rgba(29, 161, 242);
 }
+[data-theme='light'] .login {
+  color: rgba(29, 161, 242);
+}
+
+[data-theme='dark'] .login {
+  color: rgba(29, 161, 242);
+}
 
 .button:active {
   position: relative;
@@ -97,6 +104,12 @@
 }
 
 .link {
+  color: rgba(29, 161, 242);
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.login {
   color: rgba(29, 161, 242);
   padding-left: 4px;
   padding-right: 4px;
@@ -166,11 +179,15 @@
   }
 
   .log_text {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .link {
     font-size: 12px;
+  }
+
+  .login {
+    font-size: 16px;
   }
 
   .footer {

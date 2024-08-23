@@ -92,3 +92,15 @@
 [data-theme='dark'] .btn {
   background-color: rgb(11, 92, 146);
 }
+
+@media (max-width: 480px) {
+  .container_input {
+    width: 100%;
+    max-width: 430px;
+  }
+
+  .container_change {
+    max-width: 430px;
+    justify-content: space-between;
+  }
+}

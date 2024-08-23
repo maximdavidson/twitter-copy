@@ -1,13 +1,13 @@
-import { debounce } from '@utils/debounceSearch';
+import { debounce } from '@/utils/debounceSearch';
 
 describe('debounce', () => {
   jest.useFakeTimers();
 
   it('should call the function after the specified delay', () => {
     const mockFunc = jest.fn();
-    const debouncedFunc = debounce(mockFunc, 1000);
+    const ouncedFunc = debounce(mockFunc, 1000);
 
-    debouncedFunc('test');
+    ouncedFunc('test');
 
     expect(mockFunc).not.toHaveBeenCalled();
 

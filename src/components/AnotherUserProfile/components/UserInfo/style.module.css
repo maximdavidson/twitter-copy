@@ -77,3 +77,31 @@
   white-space: pre-wrap;
   box-sizing: border-box;
 }
+
+@media (max-width: 480px) {
+  .container {
+    margin-right: 10px;
+  }
+
+  .background_container {
+    width: 478px;
+    height: 240px;
+  }
+
+  .user_input {
+    max-width: 380px;
+    padding-top: 10px;
+    overflow: hidden;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .avatar_container {
+    width: 130px;
+    height: 130px;
+    left: 15%;
+  }
+}
