@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { validateImage } from '@/validation';
 import { updateAvatar } from '@/utils/updateAvatar';
-import { auth } from '@/database';
 
 export const useAvatarHandler = (setLocalAvatarUrl: (url: string) => void) => {
+  const dispatch = useDispatch();
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [errorTimeoutId, setErrorTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -28,8 +29,9 @@ export const useAvatarHandler = (setLocalAvatarUrl: (url: string) => void) => {
 
       setIsSaving(true);
       try {
-        if (auth.currentUser) {
-          await updateAvatar(auth.currentUser, file, setLocalAvatarUrl);
+        const user = (await import('@/database')).auth.currentUser;
+        if (user) {
+          await updateAvatar(user, file, setLocalAvatarUrl, dispatch);
         }
       } finally {
         setIsSaving(false);

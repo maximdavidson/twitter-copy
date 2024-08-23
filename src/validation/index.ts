@@ -68,7 +68,7 @@ export const validateImage = (file: File): string | undefined => {
     'image/heic',
     'image/heif',
   ];
-  const maxSizeInMB = 2;
+  const maxSizeInMB = 20;
   const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
   if (!validFormats.includes(file.type)) {
