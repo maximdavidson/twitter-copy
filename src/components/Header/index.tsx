@@ -7,6 +7,7 @@ import { toggleTheme } from '@/store/themeSlice';
 import exit from '@/assets/exit-arrow.png';
 import switchOff from '@/assets/switchOff.png';
 import switchOn from '@/assets/switchOn.png';
+import { ROUTES } from '@/constants/routes';
 import style from './style.module.css';
 
 interface HeaderProps {
@@ -26,7 +27,7 @@ export const Header: FC<HeaderProps> = ({ title }) => {
   };
 
   const handleArrowClick = () => {
-    navigate('/profile');
+    navigate(ROUTES.PROFILE);
   };
 
   return (

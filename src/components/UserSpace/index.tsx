@@ -14,6 +14,7 @@ import { RootState } from '@/store';
 import { setAvatarUrl, setUser, setUserName, setUserTelegram, setGender } from '@/store/userSlice';
 import background from '@assets/profile-back.webp';
 import person from '@assets/person.png';
+import { ROUTES } from '@/constants/routes';
 import style from './style.module.css';
 
 interface LocationState {
@@ -66,7 +67,7 @@ export const UserSpace: FC = () => {
 
         await getUserTweetCount(user.uid, setTweetCount);
       } else {
-        navigate('/login');
+        navigate(ROUTES.LOGIN);
       }
       setIsLoading(false);
     });

@@ -5,6 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { Tweet, UserProfile } from '@/types';
 import { debounce } from '@/utils/debounceSearch';
 import search from '@assets/search.png';
+import { ROUTES } from '@/constants/routes';
 import style from './style.module.css';
 
 interface SearchResult {
@@ -83,7 +84,7 @@ export const SearchTweets: FC = () => {
     setResults([]);
     setSearchPerformed(false);
     setSearchTerm('');
-    navigate('/postlist', { state: { profile, tweets } });
+    navigate(ROUTES.POSTLIST, { state: { profile, tweets } });
   };
 
   const handleResultClickWrapper = (profile: UserProfile, tweets: Tweet[]) => () => {

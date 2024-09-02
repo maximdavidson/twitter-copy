@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { collection, getDocs } from 'firebase/firestore';
 import { RootState } from '@/store';
-import { db } from '@/database';
 import { Tweet, UserProfile } from '@/types';
 import { Loader } from '../Loader';
 import { useHandleLike } from '@/hooks/useHandleLike';
@@ -10,6 +8,7 @@ import person from '@assets/person.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
 import style from './style.module.css';
+import { fetchAllUsersTweets } from '@/api/fetchAllUsersTweets';
 
 export const AllUsersTweets: FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -18,40 +17,7 @@ export const AllUsersTweets: FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTweets = async () => {
-      try {
-        const usersCollection = collection(db, 'users');
-        const usersSnapshot = await getDocs(usersCollection);
-        const allTweets: Tweet[] = [];
-        const profilesData: Record<string, UserProfile> = {};
-
-        usersSnapshot.forEach((doc) => {
-          const userData = doc.data() as UserProfile & { tweets: Tweet[] };
-          const { displayName, telegram = 'No Telegram Info', avatar = person, tweets = [] } = userData;
-
-          profilesData[doc.id] = {
-            displayName,
-            telegram,
-            avatar,
-          };
-
-          tweets.forEach((tweet: Tweet) => {
-            allTweets.push({ ...tweet, userId: doc.id });
-          });
-        });
-
-        allTweets.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
-
-        setTweets(allTweets);
-        setProfiles(profilesData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching tweets or profiles:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchTweets();
+    fetchAllUsersTweets(setTweets, setProfiles, setLoading);
   }, [setTweets]);
 
   const handleLikeClick = (index: number) => () => {

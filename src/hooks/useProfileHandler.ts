@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateProfile } from '@/utils/updateProfile';
+import { updateProfile } from '@/api/updateProfile';
 import { setUserName, setUserTelegram, setGender } from '@/store/userSlice';
 import { auth } from '@/database';
 

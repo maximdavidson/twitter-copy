@@ -5,7 +5,8 @@ import { Loader } from '@/components/Loader';
 import { validateLogin } from '@/validation';
 import { auth, signInWithEmailAndPassword } from '@/database';
 import bird from '@assets/twitter-logo.png';
-import s from './style.module.css';
+import { ROUTES } from '@/constants/routes';
+import style from './style.module.css';
 
 interface FormData {
   phoneOrEmail: string;
@@ -36,7 +37,7 @@ export const Login: FC = () => {
       const userCredential = await signInWithEmailAndPassword(auth, data.phoneOrEmail, data.password);
       const user = userCredential.user;
       localStorage.setItem('user', JSON.stringify(user));
-      navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
+      navigate(ROUTES.PROFILE, { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error logging in user', error);
       setErrorMessage('Invalid email or password. Please try again.');
@@ -46,32 +47,32 @@ export const Login: FC = () => {
   };
 
   return (
-    <div className={s.container}>
+    <div className={style.container}>
       {loading && <Loader />}
-      <form className={s.wrapper} onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <img src={bird} alt="Twitter Bird" className={s.image} />
-        <p className={s.title}>Log in to Twitter</p>
+      <form className={style.wrapper} onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+        <img src={bird} alt="Twitter Bird" className={style.image} />
+        <p className={style.title}>Log in to Twitter</p>
         <input
           type="text"
           placeholder="Email address"
-          className={s.input}
+          className={style.input}
           {...register('phoneOrEmail', { validate: validatePhoneOrEmail })}
           autoComplete="off"
         />
-        {errors.phoneOrEmail && <p className={s.error}>{errors.phoneOrEmail.message}</p>}
+        {errors.phoneOrEmail && <p className={style.error}>{errors.phoneOrEmail.message}</p>}
         <input
           type="password"
           placeholder="Password"
-          className={s.input}
+          className={style.input}
           {...register('password', { validate: validatePassword })}
           autoComplete="current-password"
         />
-        {errors.password && <p className={s.error}>{errors.password.message}</p>}
-        {errorMessage && <p className={s.error}>{errorMessage}</p>}
-        <button type="submit" className={s.button} disabled={loading}>
+        {errors.password && <p className={style.error}>{errors.password.message}</p>}
+        {errorMessage && <p className={style.error}>{errorMessage}</p>}
+        <button type="submit" className={style.button} disabled={loading}>
           Log In
         </button>
-        <Link to="/signup" className={s.link}>
+        <Link to="/signup" className={style.link}>
           Sign up to Twitter
         </Link>
       </form>

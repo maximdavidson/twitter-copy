@@ -1,7 +1,7 @@
 import React, { useState, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { addTweetToFirestore } from '@/utils/addTweet';
+import { addTweetToFirestore } from '@/utils/addTweetToFirestore';
 import { validateImage } from '@/validation';
 import { Loader } from '../Loader';
 import person from '@assets/person.png';

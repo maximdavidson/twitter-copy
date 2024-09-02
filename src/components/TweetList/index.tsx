@@ -1,12 +1,10 @@
 import { useEffect, useState, FC, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { doc, onSnapshot } from 'firebase/firestore';
 import { RootState } from '@/store';
-import { db } from '@/database';
-import { deleteTweetFromFirestore } from '@/utils/addTweet';
+import { deleteTweetFromFirestore } from '@/utils/deleteTweetFromFirestore';
 import { convertToDate } from '@/utils/convertToDate';
 import { useHandleLike } from '@/hooks/useHandleLike';
-import { Tweet, UserProfile } from '@/types';
+import { UserProfile } from '@/types';
 import person from '@assets/person.png';
 import more from '@assets/moreintweet.png';
 import line from '@assets/line.png';
@@ -14,6 +12,7 @@ import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
 import { Loader } from '@/components/Loader';
 import style from './style.module.css';
+import { fetchUserData } from '@/api/fetchUserData';
 
 export const TweetList: FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -39,31 +38,14 @@ export const TweetList: FC = () => {
   };
 
   useEffect(() => {
-    if (user?.uid) {
-      const userRef = doc(db, 'users', user.uid);
+    const fetchData = async () => {
+      if (user?.uid) {
+        const unsubscribe = await fetchUserData(user.uid, setTweets, setProfile, setLoading);
+        return () => unsubscribe();
+      }
+    };
 
-      const unsubscribe = onSnapshot(userRef, (doc) => {
-        if (doc.exists()) {
-          const data = doc.data();
-          const sortedTweets = (data.tweets || []).sort(
-            (a: Tweet, b: Tweet) =>
-              new Date(b.timestamp.seconds * 1000).getTime() - new Date(a.timestamp.seconds * 1000).getTime(),
-          );
-          setTweets(sortedTweets);
-          setProfile({
-            displayName: data.displayName || '',
-            telegram: data.telegram || '',
-            avatar: data.avatar || '',
-            gender: '',
-          });
-        } else {
-          setTweets([]);
-        }
-        setLoading(false);
-      });
-
-      return () => unsubscribe();
-    }
+    fetchData();
   }, [user, setTweets]);
 
   useEffect(() => {

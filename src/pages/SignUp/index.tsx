@@ -9,16 +9,9 @@ import { InfoText } from './components/InfoText';
 import { DateSelect } from './components/DateSelect';
 import { Loader } from '@/components/Loader';
 import bird from '@assets/twitter-logo.png';
-import s from './style.module.css';
-
-interface FormData {
-  name: string;
-  email: string;
-  password: string;
-  month: string;
-  day: string;
-  year: string;
-}
+import { ROUTES } from '@/constants/routes';
+import { FormData } from './types';
+import style from './style.module.css';
 
 export const SignUp: FC = () => {
   const {
@@ -46,7 +39,7 @@ export const SignUp: FC = () => {
       await updateProfile(user, { displayName: data.name });
       await createUserProfile(user);
       localStorage.setItem('user', JSON.stringify(user));
-      navigate('/login', { replace: true, state: { name: user.displayName || 'User' } });
+      navigate(ROUTES.LOGIN, { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error registering user:', error);
     } finally {
@@ -55,44 +48,44 @@ export const SignUp: FC = () => {
   };
 
   return (
-    <div className={s.container}>
+    <div className={style.container}>
       {loading && <Loader />}
-      <form className={s.wrapper} onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-        <div className={s.imageContainer}>
-          <img src={bird} alt="Twitter Bird" className={s.image} />
+      <form className={style.wrapper} onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+        <div className={style.imageContainer}>
+          <img src={bird} alt="Twitter Bird" className={style.image} />
         </div>
-        <p className={s.title}>Create an account</p>
+        <p className={style.title}>Create an account</p>
         <input
           type="text"
           placeholder="Name"
-          className={s.input}
+          className={style.input}
           {...register('name', { validate: validateName })}
           autoComplete="off"
         />
-        {errors.name && <p className={s.error}>{errors.name.message}</p>}
+        {errors.name && <p className={style.error}>{errors.name.message}</p>}
         <input
           type="email"
           placeholder="Email"
-          className={s.input}
+          className={style.input}
           {...register('email', { validate: validateEmail })}
           autoComplete="off"
         />
-        {errors.email && <p className={s.error}>{errors.email.message}</p>}
+        {errors.email && <p className={style.error}>{errors.email.message}</p>}
         <input
           type="password"
           placeholder="Password"
-          className={s.input}
+          className={style.input}
           {...register('password', { validate: validatePassword })}
           autoComplete="new-password"
         />
-        {errors.password && <p className={s.error}>{errors.password.message}</p>}
-        <Link to="/" className={s.link}>
+        {errors.password && <p className={style.error}>{errors.password.message}</p>}
+        <Link to="/" className={style.link}>
           Use email
         </Link>
-        <p className={s.subtitle}>Date of birth</p>
+        <p className={style.subtitle}>Date of birth</p>
         <InfoText />
         <DateSelect control={control} errors={errors} />
-        <button type="submit" className={s.button} disabled={loading}>
+        <button type="submit" className={style.button} disabled={loading}>
           Next
         </button>
       </form>

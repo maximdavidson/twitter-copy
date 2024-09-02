@@ -7,6 +7,7 @@ import { RootState } from '@/store';
 import person from '@assets/person.png';
 import like from '@assets/like.png';
 import activelike from '@assets/ActiveLike.png';
+import { ROUTES } from '@/constants/routes';
 import style from './style.module.css';
 
 interface TweetSearchResultProps {
@@ -28,7 +29,7 @@ export const TweetSearchResult: FC<TweetSearchResultProps> = ({ tweets: initialT
   };
 
   const handleAvatarClick = () => {
-    navigate('/profile');
+    navigate(ROUTES.PROFILE);
   };
 
   return (

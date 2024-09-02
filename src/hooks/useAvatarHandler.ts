@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { validateImage } from '@/validation';
-import { updateAvatar } from '@/utils/updateAvatar';
+import { updateAvatar } from '@/api/updateAvatar';
 
 export const useAvatarHandler = (setLocalAvatarUrl: (url: string) => void) => {
   const dispatch = useDispatch();

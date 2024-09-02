@@ -5,6 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { UserProfile } from '@/types';
 import { debounce } from '@/utils/debounceSearch';
 import search from '@assets/search.png';
+import { ROUTES } from '@/constants/routes';
 import style from './style.module.css';
 
 export const SearchUsers: FC = () => {
@@ -69,7 +70,7 @@ export const SearchUsers: FC = () => {
     setResults([]);
     setSearchPerformed(false);
     setSearchTerm('');
-    navigate('/users', { state: { profile, tweets: profile.tweets } });
+    navigate(ROUTES.USERS, { state: { profile, tweets: profile.tweets } });
   };
 
   const handleResultClickWrapper = (profile: UserProfile) => () => {

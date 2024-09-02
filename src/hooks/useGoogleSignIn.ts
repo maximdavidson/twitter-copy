@@ -3,6 +3,7 @@ import { auth, signInWithPopup, googleProvider } from '@/database';
 import { db } from '@/database';
 import { doc, getDoc } from 'firebase/firestore';
 import { createUserProfile } from '@/utils/createUserProfile';
+import { ROUTES } from '@/constants/routes';
 
 export const useGoogleSignIn = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export const useGoogleSignIn = () => {
         await createUserProfile(user);
       }
 
-      navigate('/profile', { replace: true, state: { name: user.displayName || 'User' } });
+      navigate(ROUTES.PROFILE, { replace: true, state: { name: user.displayName || 'User' } });
     } catch (error) {
       console.error('Error signing in with Google', error);
     }
