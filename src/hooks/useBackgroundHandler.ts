@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { validateImage } from '@/validation';
-import { updateBackground } from '@/utils/updateBackground';
+import { updateBackground } from '@/api/updateBackground';
 import { auth } from '@/database';
 
 export const useBackgroundHandler = (setBackgroundUrl: (url: string) => void) => {

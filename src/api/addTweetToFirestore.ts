@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Timestamp, arrayUnion } from 'firebase/firestore';
 import { Tweet } from '@/types';
-import { uploadImage } from './upLoadImage';
-import { updateUserTweets } from './updateUsersTweets';
+import { uploadImage } from '@/utils/upLoadImage';
+import { updateUserTweets } from '@/utils/updateUsersTweets';
 
 export const addTweetToFirestore = async (userId: string, text: string, imageFile: File | null) => {
   try {

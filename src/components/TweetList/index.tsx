@@ -1,7 +1,7 @@
 import { useEffect, useState, FC, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { deleteTweetFromFirestore } from '@/utils/deleteTweetFromFirestore';
+import { deleteTweetFromFirestore } from '@/api/deleteTweetFromFirestore';
 import { convertToDate } from '@/utils/convertToDate';
 import { useHandleLike } from '@/hooks/useHandleLike';
 import { UserProfile } from '@/types';

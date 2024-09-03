@@ -1,6 +1,6 @@
 import { doc, getDoc, arrayRemove } from 'firebase/firestore';
 import { db } from '@/database';
-import { updateUserTweets } from './updateUsersTweets';
+import { updateUserTweets } from '@/utils/updateUsersTweets';
 import { Tweet } from '@/types';
 
 export const deleteTweetFromFirestore = async (userId: string, tweetId: string) => {

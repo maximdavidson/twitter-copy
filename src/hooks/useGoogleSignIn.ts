@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth, signInWithPopup, googleProvider } from '@/database';
 import { db } from '@/database';
 import { doc, getDoc } from 'firebase/firestore';
-import { createUserProfile } from '@/utils/createUserProfile';
+import { createUserProfile } from '@/api/createUserProfile';
 import { ROUTES } from '@/constants/routes';
 
 export const useGoogleSignIn = () => {

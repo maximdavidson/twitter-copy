@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { updateProfile } from 'firebase/auth';
 import { auth, createUserWithEmailAndPassword } from '@/database';
 import { validateSignUp } from '@/validation';
-import { createUserProfile } from '@/utils/createUserProfile';
+import { createUserProfile } from '@/api/createUserProfile';
 import { InfoText } from './components/InfoText';
 import { DateSelect } from './components/DateSelect';
 import { Loader } from '@/components/Loader';
