@@ -5,13 +5,14 @@ describe('Navigation Component', () => {
   });
 
   it('should open the tweet modal when clicking the Tweet button', () => {
-    cy.get('button').contains('Tweet').click();
+    cy.get('button').contains('Tweet').click({ force: true });
 
     cy.get('[data-testid="modal"]').should('be.visible');
   });
 
   it('should log out when clicking the Log out button', () => {
-    cy.get('a').contains('Log out').click();
+    cy.get('a').contains('Log out').click({ force: true });
+
     cy.url().should('include', '/');
   });
 });

@@ -19,6 +19,6 @@ describe('Header Component', () => {
   it('should navigate to profile when clicking the arrow icon', () => {
     cy.get('img[alt="Exit Arrow"]').click();
 
-    cy.url().should('include', '/login');
+    cy.url().should('include', '/profile');
   });
 });

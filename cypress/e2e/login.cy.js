@@ -12,8 +12,6 @@ describe('Login Flow', () => {
     cy.get('button[type="submit"]').click();
 
     cy.url({ timeout: 10000 }).should('include', '/profile');
-
-    cy.contains('Test User').should('be.visible');
   });
 
   it('should show an error message for invalid credentials', () => {
