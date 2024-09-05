@@ -19,7 +19,7 @@ describe('Sign Up Flow', () => {
     cy.intercept('POST', '**/databases/*/documents/users**', {
       statusCode: 200,
       body: {
-        name: 'projects/your-project-id/databases/(default)/documents/users/test-uid',
+        name: 'projects/1:357057773191:web:212dc61b163865b3170222/databases/(default)/documents/users/test-uid',
         fields: {
           displayName: { stringValue: 'Test User' },
           email: { stringValue: 'testuser@example.com' },
