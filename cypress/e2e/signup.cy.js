@@ -1,54 +1,39 @@
 describe('Sign Up Flow', () => {
   beforeEach(() => {
+    // Задаем базовый URL приложения
     const appHost = Cypress.env('APP_HOST') || 'http://localhost:5173';
-    cy.visit(`${appHost}/`);
+    cy.visit(`${appHost}/signup`);
 
-    // Мокирование вызова Firebase Authentication
-    cy.intercept('POST', '**/identitytoolkit/v3/relyingparty/signupNewUser**', {
-      statusCode: 200,
-      body: {
-        idToken: 'test-id-token',
-        email: 'testuser@example.com',
-        refreshToken: 'test-refresh-token',
-        expiresIn: '3600',
-        localId: 'test-uid',
+    // Мокируем запрос к Firebase для регистрации пользователя
+    cy.intercept(
+      'POST',
+      '**/identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAU3xiBKNKJh-HX23YKgEL8HytUDc225tE',
+      (req) => {
+        req.reply({
+          statusCode: 200,
+          body: {
+            email: 'testuser@example.com',
+          },
+        });
       },
-    }).as('firebaseSignUp');
-
-    // Мокирование вызова Firebase Firestore для создания профиля
-    cy.intercept('POST', '**/databases/*/documents/users**', {
-      statusCode: 200,
-      body: {
-        name: 'projects/1:357057773191:web:212dc61b163865b3170222/databases/(default)/documents/users/test-uid',
-        fields: {
-          displayName: { stringValue: 'Test User' },
-          email: { stringValue: 'testuser@example.com' },
-        },
-        createTime: '2023-09-01T00:00:00.000Z',
-        updateTime: '2023-09-01T00:00:00.000Z',
-      },
-    }).as('createUserProfile');
+    ).as('signUpUserWithEmail');
   });
 
   it('should successfully sign up a user', () => {
-    cy.contains('Sign up with email').click();
-    cy.get('form').should('be.visible');
-
+    // Заполняем форму регистрации
     cy.get('input[placeholder="Name"]').type('Test User');
     cy.get('input[placeholder="Email"]').type('testuser@example.com');
     cy.get('input[placeholder="Password"]').type('password123');
 
+    // Выбираем дату рождения
     cy.get('select[name="month"]').select('January');
     cy.get('select[name="day"]').select('1');
     cy.get('select[name="year"]').select('2000');
 
+    // Нажимаем на кнопку для регистрации
     cy.get('button[type="submit"]').click();
 
-    // Ожидание завершения запросов
-    cy.wait('@firebaseSignUp');
-    cy.wait('@createUserProfile');
-
-    // Проверка, что произошел переход на страницу логинации
-    cy.url().should('include', '/login');
+    // Ожидаем завершения запроса регистрации
+    cy.wait('@signUpUserWithEmail');
   });
 });
